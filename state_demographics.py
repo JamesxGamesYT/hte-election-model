@@ -12,7 +12,7 @@ def calculate_sss(write=False):
     # Vectorize the exp function
     normalize = np.vectorize(exp)
     # Read from data and split into raw data and Similarities.
-    df = pd.read_csv("Daily Kos Elections State Similarity Index - Similarity.csv")
+    df = pd.read_csv("data/Daily Kos Elections State Similarity Index - Similarity.csv")
     similarity_mask = df.columns.str.endswith("Similarity")
     raw = df[df.columns[~similarity_mask]]
     # Set "average" score array up
