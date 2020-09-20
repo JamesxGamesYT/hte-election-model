@@ -1,51 +1,58 @@
-state,lean towards Dems
-Alabama,-14
-Alaska,-9
-Arizona,-5
-Arkansas,-15
-California,12
-Colorado,1
-Connecticut,6
-Delaware,6
-Florida,-2
-Georgia,-5
-Hawaii,18
-Idaho,-19
-Illinois,7
-Indiana,-9
-Iowa,-3
-Kansas,-13
-Kentucky,-15
-Louisiana,-11
-Maine,3
-Maryland,12
-Massachusetts,12
-Michigan,1
-Minnesota,1
-Mississippi,-9
-Missouri,-9
-Montana,-11
-Nebraska,-14
-Nevada,1
-New Hampshire,0
-New Jersey,7
-New Mexico,3
-New York,12
-North Carolina,-3
-North Dakota,-17
-Ohio,-3
-Oklahoma,-20
-Oregon,5
-Pennsylvania,0
-Rhode Island,10
-South Carolina,-8
-South Dakota,-14
-Tennessee,-14
-Texas,-8
-Utah,-20
-Vermont,15
-Virginia,1
-Washington,7
-West Virginia,-19
-Wisconsin,0
-Wyoming,-25
+territories,pvi
+National,0.0
+Alabama,-27.96
+Alaska,-17.36
+Arizona,-9.26
+Arkansas,-28.3
+California,23.62
+Colorado,2.13
+Connecticut,12.49
+Delaware,12.0
+District of Columbia,82.2
+Florida,-3.16
+Georgia,-9.45
+Hawaii,34.61
+Idaho,-34.73
+Illinois,13.97
+Indiana,-17.6
+Iowa,-4.8
+Kansas,-24.01
+Kentucky,-29.27
+Louisiana,-21.42
+Maine,6.13
+Maine-1,15.13
+Maine-2,-1.54
+Maryland,23.24
+Massachusetts,22.39
+Michigan,1.64
+Minnesota,1.6
+Mississippi,-17.65
+Missouri,-16.94
+Montana,-20.04
+Nebraska,-26.41
+Nebraska-1,-21.3
+Nebraska-2,-7.58
+Nebraska-3,-51.21
+Nevada,1.55
+New Hampshire,-0.03
+New Jersey,12.94
+New Mexico,6.18
+New York,22.33
+North Carolina,-5.85
+North Dakota,-30.68
+Ohio,-5.57
+Oklahoma,-37.96
+Oregon,8.54
+Pennsylvania,-0.67
+Rhode Island,18.48
+South Carolina,-15.37
+South Dakota,-26.9
+Tennessee,-26.2
+Texas,-15.39
+Utah,-36.01
+Vermont,27.78
+Virginia,1.6
+Washington,12.55
+West Virginia,-37.42
+Wisconsin,0.09
+Wyoming,-46.3
