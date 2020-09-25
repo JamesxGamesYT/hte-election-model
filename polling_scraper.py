@@ -114,6 +114,7 @@ def scrape_raw_average():
             continue
         territory_averages.iat[num,0] = territory_average
         territory_averages.iat[num,1] = len(territory_margins)/max(dates)
+
     # print(np.cbrt(territory_averages["poll_num"]))
     territory_averages["percentage"] = np.cbrt(territory_averages["poll_num"])
     # territory_averages["percentage"] /= sum(territory_averages["percentage"])
