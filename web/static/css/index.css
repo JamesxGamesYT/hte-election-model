@@ -14,20 +14,13 @@ h1 {
 body {
     min-height: 100vh;
     text-align: center;
-}
-
-#navbar {
-    height: 50px;
-    text-align: left;
-    z-index: 1;
-    position: relative;
+    font-family: "Fira Code";
 }
 
 #landing {
     /* background-color: rgba(78, 105, 255, 0.466); */
     color: white;
-    font-family: "Fira Code";
-    padding: 80px 0 100px 0;
+    padding: 40px 0 80px 0;
     z-index: 1;
     position: relative;
 }
@@ -66,7 +59,7 @@ body {
 
 #candidates #trump {
     float: right;
-    text-align: right;;
+    text-align: right;
 }
 
 #candidates {
