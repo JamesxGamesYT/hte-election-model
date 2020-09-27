@@ -34,8 +34,6 @@ def setup():
     global date, election_date, score_matrix, territories
     date = np.datetime64('today')
     election_date = np.datetime64('2020-11-03')
-    coeffs = polling_error_coeffs()
-    poll_error = poly.polyval((election_date-date).astype(int), coeffs)
     score_data = pd.read_csv("data/state_similarities.csv", index_col="Geography")
     score_matrix = score_data.to_numpy()
     territories = np.asarray(score_data.index)
@@ -116,10 +114,11 @@ def scrape_raw_average():
             continue
         territory_averages.iat[num,0] = territory_average
         territory_averages.iat[num,1] = len(territory_margins)/max(dates)
-    print(np.cbrt(territory_averages["poll_num"]))
+
+    # print(np.cbrt(territory_averages["poll_num"]))
     territory_averages["percentage"] = np.cbrt(territory_averages["poll_num"])
     # territory_averages["percentage"] /= sum(territory_averages["percentage"])
-    print(territory_averages["percentage"])
+    # print(territory_averages["percentage"])
     return territory_averages 
 
 def refine_polling():
@@ -138,25 +137,31 @@ def refine_polling():
     lean_data["dem difference"] = lean_data["margin"]-lean_data["predicted_margin"]
     lean_data.drop(["pvi","poll_num"],axis=1,inplace=True)
     deviation_vector = lean_data["dem difference"].to_numpy()
-    print(deviation_vector)
+    # print(deviation_vector)
     for num, weight in enumerate(lean_data["percentage"]):
         score_matrix[num,num] = (weight+2) ** 5
         score_matrix[num] *= lean_data["percentage"]
         score_matrix[num] /= sum(score_matrix[num])
-        # print(lean_data["territories"][num], score_matrix[num,num])
+    with open("data/state_weights.csv", "w") as f:
+        modified_score_data = pd.DataFrame(np.around(score_matrix,3))
+        modified_score_data.columns = territories
+        modified_score_data.index = territories
+        modified_score_data.index.name = "Geography"
+        f.write(modified_score_data.to_csv())
     for num,x in enumerate(score_matrix):
         diff_sum = 0
         for n, y in enumerate(x):
             diff_sum += y * deviation_vector[n]
             # print(lean_data["territories"][num], lean_data["territories"][n], diff_sum, score_matrix[num][n])
     new_deviation_vector = np.dot(score_matrix, deviation_vector)
-    print(new_deviation_vector)
+    # print(new_deviation_vector)
     new_margin = new_deviation_vector.reshape(len(new_deviation_vector)) + lean_data["predicted_margin"]
     lean_data["new_margin"] = new_margin
     with open("data/polling_averages.csv", "w") as f:
-        poll_data = lean_data[["territories", "new_margin"]]
+        poll_data = lean_data["new_margin"]
+        poll_data.index = lean_data["territories"]
         f.write(poll_data.to_csv())
-    print(lean_data.sort_values("new_margin"))
+    # print(lean_data.sort_values("new_margin"))
 
 
 if __name__ == "__main__":
