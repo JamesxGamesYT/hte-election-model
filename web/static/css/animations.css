@@ -1,0 +1,13 @@
+.fadeOn {
+    animation: fadeOn 0.2s;
+}
+
+@keyframes fadeOn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
