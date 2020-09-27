@@ -1,0 +1,59 @@
+#navbar {
+    padding: 20px;
+    padding-left: 90px;
+    height: 40px;
+    text-align: left;
+    z-index: 1;
+    position: relative;
+}
+
+#navbar div {
+    display :inline-block;
+    vertical-align: top;
+}
+
+#hamburger {
+    padding-right: 15px;
+    cursor: pointer;
+    position: absolute;
+    right: 0px;
+    top: 22px;
+}
+
+#logo {
+    position: relative;
+    top: -2px;
+}
+
+#menu {
+    width: 200px;
+    position: absolute;
+    z-index: 10;
+    left: -140px;
+    top: 0px;
+    height: 100vh;
+    color: white;
+}
+
+#menu.opened {
+    animation: openMenu 0.2s ease both;
+}
+
+#menu.closed {
+    animation: closeMenu 0.2s ease both;
+}
+
+#menu-content {
+    width: calc(100% - 60px);
+    height: calc(100% - 10px);
+    position: absolute;
+    top: 0px;
+    padding-top: 10px;
+}
+
+.menu-item {
+    cursor: pointer;
+    text-align: left;
+    padding: 10px;
+    padding-left: 25px;
+}

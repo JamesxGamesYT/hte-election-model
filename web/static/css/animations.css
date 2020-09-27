@@ -11,3 +11,25 @@
         opacity: 1;
     }
 }
+
+@keyframes closeMenu {
+    from {
+        left: 0px;
+        background-color: black;
+    }
+    to {
+        left: -140px;
+        background-color: transparent;
+    }
+}
+
+@keyframes openMenu {
+    from {
+        background-color: transparent;
+        left: -140px;
+    }
+    to {
+        background-color: black;
+        left: 0px;
+    }
+}
