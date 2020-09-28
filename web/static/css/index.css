@@ -42,7 +42,7 @@ body {
 
 #mainstats {
     display: inline-block;
-    width: 400px;
+    width: 800px;
     z-index: 1;
     position: relative;
     border-radius: 4px;

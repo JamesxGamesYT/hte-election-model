@@ -91,6 +91,8 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
     ev_histogram_tuple = list(zip([category.right for category in ev_histogram.index], ev_histogram.to_list()))
     ev_histogram_dict = {int(lists[0]) : lists[1] for lists in ev_histogram_tuple}
 
+    time = np.datetime64(np.datetime64('now'), 'h')
+    time_string = np.datetime_as_string(time, unit='h')
 
     state_chances = json.loads(pd.Series(state_chances, index=simulations.columns).to_json())
     tipping_point_state_data = json.loads(pd.Series(tipping_point_state_data).to_json())
@@ -99,32 +101,54 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
     percentile_state_margins = json.loads(pd.Series(percentile_state_margins, index=simulations.columns).to_json())
     ev_histogram = json.loads(pd.Series(ev_histogram_dict).to_json())
 
-    time = np.datetime64(np.datetime64('today'), 'h')
-    time_string = np.datetime_as_string(time, unit='h')
-    print(time_string)
-    try:
-        os.mkdir('results/'+time_string)
-    except OSError:
-        pass
-    state_chances_string = "results/" + time_string + "/state_chances.json"
-    tipping_point_state_data_string = "results/" + time_string + "/tipping_point_state_data.json"
-    tipping_point_data_string = "results/" + time_string + "/tipping_point_data.json"
-    percentile_ev_string = "results/" + time_string + "/percentile_ev.json"
-    percentile_state_margins_string = "results/" + time_string + "/percentile_state_margins.json"
-    ev_histogram_string = "results/" + time_string + "/ev_histogram.json"
+    # try:
+    #     os.mkdir('results/'+time_string)
+    # except OSError:
+    #     pass
+    state_chances_string = "results/state_chances.json"
+    tipping_point_state_data_string = "results/tipping_point_state_data.json"
+    tipping_point_data_string = "results/tipping_point_data.json"
+    percentile_ev_string = "results/percentile_ev.json"
+    percentile_state_margins_string = "results/percentile_state_margins.json"
+    ev_histogram_string = "results/ev_histogram.json"
+
     if write == True:
-        with open(state_chances_string, "w") as f:
-            f.write(json.dumps(state_chances, indent=4))
-        with open(tipping_point_state_data_string, "w") as f:
-            f.write(json.dumps(tipping_point_state_data, indent=4))
-        with open(tipping_point_data_string, "w") as f:
-            f.write(json.dumps(tipping_point_data, indent=4))
-        with open(percentile_ev_string, "w") as f:
-            f.write(json.dumps(percentile_ev, indent=4))
-        with open(percentile_state_margins_string, "w") as f:
-            f.write(json.dumps(percentile_state_margins, indent=4))
-        with open(ev_histogram_string, "w") as f:
-            f.write(json.dumps(ev_histogram, indent=4))
+        with open(state_chances_string, "r") as f:
+            current = json.loads(f.read())
+        if list(current.keys())[-1] != time_string:
+            current[time_string] = state_chances
+            with open(state_chances_string, "w") as f:
+                f.write(json.dumps(current, indent=4))
+        with open(tipping_point_state_data_string, "r") as f:
+            current = json.loads(f.read())
+        if list(current.keys())[-1] != time_string:
+            current[time_string] = tipping_point_state_data
+            with open(tipping_point_state_data_string, "w") as f:
+                f.write(json.dumps(current, indent=4))
+        with open(tipping_point_data_string, "r") as f:
+            current = json.loads(f.read())
+        if list(current.keys())[-1] != time_string:
+            current[time_string] = tipping_point_data
+            with open(tipping_point_data_string, "w") as f:
+                f.write(json.dumps(current, indent=4))
+        with open(percentile_ev_string, "r") as f:
+            current = json.loads(f.read())
+        if list(current.keys())[-1] != time_string:
+            current[time_string] = percentile_ev
+            with open(percentile_ev_string, "w") as f:
+                f.write(json.dumps(current, indent=4))
+        with open(percentile_state_margins_string, "r") as f:
+            current = json.loads(f.read())
+        if list(current.keys())[-1] != time_string:
+            current[time_string] = percentile_state_margins
+            with open(percentile_state_margins_string, "w") as f:
+                f.write(json.dumps(current, indent=4))
+        with open(ev_histogram_string, "r") as f:
+            current = json.loads(f.read())
+        if list(current.keys())[-1] != time_string:
+            current[time_string] = ev_histogram
+            with open(ev_histogram_string, "w") as f:
+                f.write(json.dumps(current, indent=4))
 
     else:
         return state_chances, tipping_point_state_data, tipping_point_data, percentile_ev, percentile_state_margins, ev_histogram
