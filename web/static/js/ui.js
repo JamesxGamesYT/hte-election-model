@@ -10,6 +10,12 @@ document.getElementById("hamburger").addEventListener("click", function() {
     }
 })
 
+// document.getElementById("heading").addEventListener("click", function() {
+//     var headings = document.get
+// }
+
+// )
+
 
 var Menu = document.getElementById("menu");
 
