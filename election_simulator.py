@@ -19,7 +19,7 @@ def run_simulations(num=10000, write=False):
     score_matrix = pd.read_csv("data/state_weights.csv", index_col="Geography").to_numpy()
     score_matrix = np.apply_along_axis(lambda x : np.sqrt(x), 1, score_matrix)
     simulations = []
-    for x in range(num):
+    for _ in range(num):
         variations = np.random.normal(scale=poll_error, size=[57])
         # for num,x in enumerate(score_matrix):
         #     diff_sum = 0
