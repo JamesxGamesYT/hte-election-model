@@ -77,11 +77,12 @@ body {
     font-size: 50px;
     font-weight: 200;
     top: 150px;
+    right: 175px;
     color:  rgb(255,255,255);
 }
 
 #biden #win_prob {
-    left: 150px;
+    left: 175px;
     color:  rgb(255,255,255);
 }
 
