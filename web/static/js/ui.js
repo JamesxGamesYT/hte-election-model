@@ -10,11 +10,33 @@ document.getElementById("hamburger").addEventListener("click", function() {
     }
 })
 
-// document.getElementById("heading").addEventListener("click", function() {
-//     var headings = document.get
+
+// function header_selection(headers, heading){
+//     console.log(heading)
+//     for (var event_index=0; event_index < 3; event_index++){
+//         // console.log(event_index)
+//         if (headers[event_index].classList.contains("non-active")){
+//             // console.log(heading)
+//             // console.log(headers[event_index])
+//             if (heading == headers[event_index]){
+//                 headers[event_index].classList.remove("non-active")
+//             }
+//         }
+//         else {
+//             if (heading != headers[event_index]){
+//                 headers[event_index].classList.add("non-active")
+//             }
+//         }
+//     }
 // }
 
-// )
+// console.log(document.getElementById("hamburger"))
+// console.log(document.getElementsByClassName("heading"))
+// for (var index=0; index < 3; index++){
+//     headers = document.getElementsByClassName("heading");
+//     var heading = headers[index];
+//     heading.onclick = header_selection(headers, heading);
+// }
 
 
 var Menu = document.getElementById("menu");
