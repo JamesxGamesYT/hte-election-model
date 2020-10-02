@@ -49,91 +49,11 @@ body {
     text-shadow: 2px 2px 0px rgba(0,0,0,.2);
 }
 
-
-#mainstats {
-    display: inline-block;
-    width: 800px;
-    z-index: 1;
-    position: relative;
-    border-radius: 8px;
-    /* border: 2px solid rgba(0, 0, 0, 0.6); */
-    background: linear-gradient(90deg, rgb(110, 144, 255) 0%, rgb(253, 133, 133) 100%);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
-               -2px -2px 6px rgba(255,255,255,0.4);
-    margin-bottom: 75px;
-}
-
-#candidates #biden {
-    float: left;
-    text-align: left;
-}
-
-#image {
-    margin: 0;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.8);
-}
-
-#win-prob {
-    position: absolute;
-    font-size: 50px;
-    font-weight: 200;
-    top: 150px;
-    color:  rgb(255,255,255);
-}
-
-#trump #win-prob {
-    right: 175px;
-}
-
-#biden #win-prob {
-    left: 175px;
-}
-
-#candidates #trump {
-    float: right;
-    text-align: right;
-}
-
-#candidates {
-    font-family: "Fira Code";
-    height: 230px;
-    padding: 18px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.507);
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-}
-
-#candidates h3 {
-    font-weight: 500;
-    font-size: 40px;
-}
-
-#candidates #party {
-    font-weight: 100;
-    font-size: 20px;
-}
-
-.stats-section h3 {
-    font-family: "Fira Code";
-    font-style: italic;
-    font-weight: 600;
-    padding: 18px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.507);
-}
-
-#updated {
-    padding: 10px;
-    font-family: "Fira Code";
-    font-size: 15px;
-    font-style: italic;
-}
-
 #electoral-map {
     display: inline-block;
     width: 1000px;
     height: 750px;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
     -2px -2px 6px rgba(255,255,255,0.4);
     margin-bottom: 50px;
@@ -180,14 +100,9 @@ body {
     background-color: white;
 }
 
-#headings #middle {
-    /* border-left: 3px solid rgb(255, 255, 255);
-    border-right: 3px solid rgba(255, 255, 255); */
-}
-
 #headings .non-active {
     cursor: pointer;
-    border-bottom: 6px solid rgba(0, 0, 0, 0.623);
+    border-bottom: 6px solid rgba(129, 129, 129, 0.623);
     border-top: 10px solid rgba(255, 255, 255);
 }
 

@@ -6,6 +6,7 @@
     <title>Predictions | sss_election_model</title>
     
     <link rel='stylesheet' href='/static/css/index.css'>
+    <link rel="stylesheet" href='static/css/main-stats.css'>
     <link rel='stylesheet' href='/static/css/animations.css'>
     <link rel='stylesheet' href='/static/css/hamburgers.min.css'>
     <link rel='stylesheet' href='/static/css/navbar.css'>
@@ -63,12 +64,27 @@
                 <img src="static/media/trump.jpg" id="image" width=125px height=125px>
                 <p id="win-prob">49.9%</p>
             </div>
+            <div id='chances-container'>
+                <div id='chances' class='stats-bar biden'></div>
+                <div id='chances' class="spaces"></div>
+                <div id='chances' class='stats-bar trump'></div>
+            </div>
         </div>
         <div id='electoral' class='stats-section'>
             <h3>Electoral College</h3>
+            <div id="electoral" class='stats-bar biden'></div>
+            <div id="electoral" class="spaces"></div>
+            <div id="electoral" class='stats-bar trump'></div>
+            <p class="biden-nums">289</p>
+            <p class="trump-nums">249</p>
         </div>
         <div id='popular' class='stats-section'>
             <h3>Popular Vote</h3>
+            <div id="popular" class='stats-bar biden'></div>
+            <div id="popular" class="spaces"></div>
+            <div id="popular" class='stats-bar trump'></div>
+            <p class="biden-nums">57.7%</p>
+            <p class="trump-nums">42.3%</p>
         </div>
         <div id='updated'>
             <p>Updated 9/12 2pm EST</p>

@@ -1,0 +1,197 @@
+#mainstats {
+    display: inline-block;
+    width: 800px;
+    z-index: 1;
+    position: relative;
+    border-radius: 8px;
+    /* border: 2px solid rgba(0, 0, 0, 0.6); */
+    background: linear-gradient(90deg, rgb(110, 144, 255) 0%, rgb(253, 133, 133) 100%);
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
+               -2px -2px 6px rgba(255,255,255,0.4);
+    margin-bottom: 75px;
+}
+
+#candidates #biden {
+    float: left;
+    text-align: left;
+}
+
+#candidates #trump {
+    float: right;
+    text-align: right;
+}
+
+#image {
+    margin: 0;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.8);
+}
+
+#win-prob {
+    position: absolute;
+    font-size: 50px;
+    font-weight: 200;
+    top: 150px;
+    color:  black;
+}
+
+#trump #win-prob {
+    right: 175px;
+}
+
+#biden #win-prob {
+    left: 175px;
+}
+
+
+#candidates {
+    font-family: "Fira Code";
+    height: 230px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.507);
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+#candidates h3 {
+    font-weight: 500;
+    font-size: 40px;
+}
+
+#candidates #party {
+    font-weight: 100;
+    font-size: 20px;
+}
+
+.stats-bar {
+    position: relative;
+    height: 28px;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+    margin-top: 20px;
+}
+
+#mainstats .spaces {
+    float: left;
+    width: 2px;
+    height: 32px;
+    background-color: black;
+}
+
+
+.stats-bar.biden {
+    float: left;
+    background-color: rgb(110, 144, 255);
+    border-left: 2px solid white;
+}
+
+.stats-bar.trump {
+    float: right;
+    background-color: rgb(253, 133, 133);
+    border-right: 2px solid white;
+}
+
+#chances-container {
+    position: absolute;
+    left: 175px;
+    top: 200px;
+    width: 450px;
+    height: 100px;
+}
+
+#chances.biden {
+    position: relative;
+    width: 50%;
+}
+
+#chances.trump {
+    position: relative;
+    width: 48.5%;
+}
+
+#chances.spaces {
+    margin-top: 20px;
+}
+
+#electoral {
+    margin-top: 0px;
+}
+
+#electoral h3 {
+    display: block;
+    margin-bottom: 3px;
+}
+
+#electoral.biden {
+    margin-left: 17px;
+    text-align: left;
+    width: 55%;
+    
+}
+#electoral.trump {
+    margin-right: 17px;
+    width: 40%;
+    text-align: right;
+}
+
+#electoral.stats-section {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.507);
+    height: 150px;
+}
+
+.biden-nums {
+    float: left;
+    margin-left: 17px;
+    text-align: left;
+    font-size: 35px;
+}
+
+.trump-nums {
+    float: right;
+    margin-right: 17px;
+    text-align: right;
+    font-size: 35px;
+}
+
+#popular {
+    margin-top: 0px;
+}
+
+#popular h3 {
+    display: block;
+    margin-bottom: 3px;
+}
+
+#popular.spaces {
+    margin-top: 0px;
+}
+#popular.biden {
+    margin-left: 17px;
+    width: 60%;
+}
+
+#popular.trump {
+    margin-right: 17px;
+    width: 35%;
+}
+
+#popular.stats-section {
+    height: 155px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.507);
+}
+
+.stats-section h3 {
+    display: inline;
+    font-family: "Fira Code";
+    font-style: italic;
+    font-weight: 600;
+    font-size: 25px;
+    padding: 12px;
+}
+
+#updated {
+    padding: 15px;
+    font-family: "Fira Code";
+    font-size: 18px;
+    font-style: italic;
+}
