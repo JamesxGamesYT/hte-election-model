@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predictions | sss_election_model</title>
     
+    <link rel='stylesheet' href='/static/css/theme.css'>
     <link rel='stylesheet' href='/static/css/index.css'>
-    <link rel="stylesheet" href='static/css/main-stats.css'>
     <link rel='stylesheet' href='/static/css/animations.css'>
     <link rel='stylesheet' href='/static/css/hamburgers.min.css'>
     <link rel='stylesheet' href='/static/css/navbar.css'>
+
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -39,6 +40,8 @@
         </div>
     </div>
 
+    <div id='menu-overlay'></div>
+
     <div id='landing'>
         <h1 id='candidate'><span class='w-400'>Joe Biden</span></h1>
         <h2><span class='w-200'>is</span></h2>
@@ -50,41 +53,49 @@
 
     <div id='mainstats'>
         <div id='candidates'>
-            <div id='biden'>
-                <h3>Joe Biden</h3>
-                <p id="party">(D)</p>
-                <br>
-                <img src="static/media/biden.jpg" id="image" width=125px height=125px>
-                <p id="win-prob">50.1%</p>
+            <div id='headers'>
+                <div id='biden'>
+                    <span class='name'>Joe Biden</span>
+                    <span class='party'>(D)</span>
+                </div>
+                <div id='trump'>
+                    <span class='name'>Donald Trump</span>
+                    <span class='party'>(R)</span>
+                </div>
             </div>
-            <div id='trump'>
-                <h3>Donald Trump</h3>
-                <p id="party">(R)</p>
-                <br>
-                <img src="static/media/trump.jpg" id="image" width=125px height=125px>
-                <p id="win-prob">49.9%</p>
-            </div>
-            <div id='chances-container'>
-                <div id='chances' class='stats-bar biden'></div>
-                <div id='chances' class="spaces"></div>
-                <div id='chances' class='stats-bar trump'></div>
+
+            <div id='img-stats-wrapper'>
+                <img class='biden' src="/static/media/biden.jpg">
+                <div id='chances-bar-wrap'>
+                    <div class="win-prob biden">50.1%</div>
+                    <div class="win-prob trump">49.9%</div>
+                    <div class='stats-bar'>
+                        <div class='stats-segment biden'>
+                        </div><div class='stats-segment trump'></div>
+                    </div>
+                </div>
+                <img class='trump' src="/static/media/trump.jpg">
             </div>
         </div>
+
         <div id='electoral' class='stats-section'>
-            <h3>Electoral College</h3>
-            <div id="electoral" class='stats-bar biden'></div>
-            <div id="electoral" class="spaces"></div>
-            <div id="electoral" class='stats-bar trump'></div>
-            <p class="biden-nums">289</p>
-            <p class="trump-nums">249</p>
+            <h4>Electoral College</h4>
+            <div class='stats-bar'>
+                <div class='stats-segment biden'>
+                </div><div class='stats-segment trump'></div>
+            </div>
+            <span class="biden">50%</span>
+            <span class="trump">50%</span>
         </div>
+
         <div id='popular' class='stats-section'>
-            <h3>Popular Vote</h3>
-            <div id="popular" class='stats-bar biden'></div>
-            <div id="popular" class="spaces"></div>
-            <div id="popular" class='stats-bar trump'></div>
-            <p class="biden-nums">57.7%</p>
-            <p class="trump-nums">42.3%</p>
+            <h4>Popular Vote</h4>
+            <div class='stats-bar'>
+                <div class='stats-segment biden'>
+                </div><div class='stats-segment trump'></div>
+            </div>
+            <span class='biden'>50%</span>
+            <span class='trump'>50%</span>
         </div>
         <div id='updated'>
             <p>Updated 9/12 2pm EST</p>
@@ -106,25 +117,5 @@
 
     <script type='text/javascript' src='/static/js/load_data.js'></script>
     <script type='text/javascript' src='/static/js/ui.js'></script>
-    <script type='text/javascript'>
-        function header_selection(heading){
-        headers = document.getElementsByClassName("heading")
-        for (var event_index=0; event_index < 3; event_index++){
-            // console.log(event_index)
-            if (headers[event_index].classList.contains("non-active")){
-                // console.log(heading)
-                // console.log(headers[event_index])
-                if (heading == headers[event_index]){
-                    headers[event_index].classList.remove("non-active")
-                }
-            }
-            else {
-                if (heading != headers[event_index]){
-                    headers[event_index].classList.add("non-active")
-                }
-            }
-        }
-    }
-    </script>
 </body>
 </html>
