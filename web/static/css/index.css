@@ -8,18 +8,27 @@
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 70px;
+}
+
+h2 {
+    font-size: 45px;
+}
+
+#degree {
+    font-size: 55px;
+    color: white;
 }
 
 body {
+    position: relative;
     min-height: 100vh;
     text-align: center;
     font-family: "Fira Code";
 }
 
 #landing {
-    /* background-color: rgba(78, 105, 255, 0.466); */
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 40px 0 80px 0;
     z-index: 1;
     position: relative;
@@ -30,7 +39,7 @@ body {
     top: 0;
     z-index: 0;
     width: 100%;
-    height: 600px;
+    height: 800px;
     position: absolute;
     background: linear-gradient(180deg, rgba(78, 105, 255, 0.692) 0%, rgba(78, 105, 255, 0.596) 20%, rgba(0,0,0,0) 100%);
 }
@@ -86,7 +95,6 @@ body {
 
 #headings .heading {
     padding-top: 30px;
-    /* padding-left: 10px; */
     text-align: center;
     display: table-cell;
     width: 800px;
@@ -110,4 +118,159 @@ body {
     background-color: rgba(0, 0, 255, 0.37);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
     -2px -2px 20px rgba(255,255,255,0.4);
+}
+
+
+
+
+
+/*******************************
+    Mainstats section css
+********************************/
+
+#mainstats {
+    display: inline-block;
+    width: 620px;
+    z-index: 1;
+    position: relative;
+    border-radius: 8px;
+    background: var(--card-bg);
+    box-shadow: 2px 2px 7px rgba(0,0,0,0.4);
+    margin-bottom: 75px;
+    padding: 40px;
+    padding-bottom: 30px;
+    color: white;
+}
+
+#headers {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#candidates #biden {
+    text-align: left;
+}
+
+#candidates #trump {
+    text-align: right;
+}
+
+#img-stats-wrapper {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#img-stats-wrapper img {
+    margin-top: 20px;
+    width: 100px;
+    border-radius: 5px;
+    vertical-align: middle;
+    border: 6px solid;
+    border-radius: 50%;
+}
+
+#img-stats-wrapper img.biden {
+    border-color: var(--dem-bg);
+}
+
+#img-stats-wrapper img.trump {
+    border-color: var(--rep-bg);
+}
+
+.win-prob {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 35px;
+    font-weight: 400;
+}
+
+.win-prob.biden {
+    /*Can probably devise better spacing method, i.e. setting bar width*/
+    margin-right: 100px;
+}
+
+#candidates {
+    height: 230px;
+    /* padding: 25px; */
+    padding-bottom: 0px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    height: -moz-fit-content;
+}
+
+#candidates .name {
+    font-weight: 600;
+    font-size: 30px;
+    display: block;
+}
+
+#candidates .party {
+    font-weight: 100;
+    font-size: 20px;
+}
+
+#chances-bar-wrap {
+    margin: 0 auto;
+}
+
+.stats-bar {
+    display: block;
+    height: 36px;
+    border-radius: 100px;
+    margin-top: 18px;
+    overflow: hidden;
+}
+
+.stats-segment {
+    display: inline-block;
+    width: calc(50% - 2px);
+    height: 100%
+}
+
+.stats-segment.biden {
+    background-color: var(--dem-bg);
+    border-right: 2px solid var(--card-bg);
+}
+
+.stats-segment.trump {
+    background-color: var(--rep-bg);
+    border-left: 2px solid var(--card-bg);
+}
+
+.stats-section h4 {
+    display: inline;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
+    margin: 12px;
+}
+
+.stats-section {
+    margin-top: 50px;
+}
+
+.stats-section span {
+    font-size: 25px;
+    padding: 10px;
+}
+
+.stats-section span.biden {
+    float: left;
+}
+
+.stats-section span.trump {
+    float: right;
+}
+
+#electoral {
+    margin-top: 10px;
+}
+
+#updated {
+    padding: 15px;
+    padding-top: 50px;
+    font-size: 18px;
+    font-style: italic;
 }
