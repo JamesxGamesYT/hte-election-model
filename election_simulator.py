@@ -6,7 +6,7 @@ import os
 import numpy.polynomial.polynomial as poly
 from polling_error import polling_error_coeffs
 
-def run_simulations(num=10000, write=False):
+def run_simulations(num=40000, write=False):
     date = np.datetime64('today')
     election_date = np.datetime64('2020-11-03')
     coeffs = polling_error_coeffs()
@@ -44,21 +44,24 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
         simulations - pd.DataFrame with rows being simulations,
             columns being states, and values being margins for Biden
         state_conditionals - dict with keys being states and values being
-            ints -1, 0, or 1, where -1 denotes model prediction, 0 
-            indicates Trump wins that state, and 1 indicates Joe Biden 
-            wins that state. If applicable, calculates results based on
-            the conditional wins in this argument.
+            ints 0, or 1, where 0 indicates Trump wins that state, 
+            and 1 indicates Joe Biden wins that state. If applicable, 
+            calculates results based on the conditional wins in this argument.
     """
     electoral_votes = pd.read_csv("data/electoral_votes.csv", header=0)["ev"]
-    binary_matrix = (simulations > 0).astype(int)
+    modified_simulations = simulations
+    binary_matrix = (modified_simulations > 0).astype(int)
     if state_conditionals:
+        for state, win in state_conditionals.items():
+            modified_simulations = modified_simulations[binary_matrix[state] == win]
+            binary_matrix = (modified_simulations > 0).astype(int)
         pass
     sim_ev = np.dot(binary_matrix, electoral_votes)
+    dem_win_chance = len(sim_ev[sim_ev > 270])/len(modified_simulations)
     state_chances = [sum(binary_matrix.iloc[:,x])/len(binary_matrix) for x in range(57)]
-    # print(len(sim_ev[sim_ev < 270])/len(simulations))
-    twentytiles = [pd.qcut(simulations.iloc[:,x], 20).value_counts().index.to_list() for x in range(57)]
+    twentytiles = [pd.qcut(modified_simulations.iloc[:,x], 20).value_counts().index.to_list() for x in range(57)]
     five_percentile = [min([twentytiles[y][x].right for x in range(len(twentytiles[0]))]) for y in range(len(twentytiles))]
-    medians = simulations.median().to_list()
+    medians = modified_simulations.median().to_list()
     ninety_five_percentile = [max([twentytiles[y][x].left for x in range(len(twentytiles[-1]))]) for y in range(len(twentytiles))]
     percentile_state_margins = list(zip(five_percentile, medians, ninety_five_percentile))
     ev_percentile_array = pd.qcut(sim_ev, 20, duplicates="drop").value_counts().index.to_list()
@@ -66,8 +69,8 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
     median_ev = np.median(sim_ev)
     ninety_five_ev = ev_percentile_array[-1].left
     percentile_ev = (five_ev, median_ev, ninety_five_ev)
-    sorted_margins = pd.Series([simulations.iloc[x].sort_values() for x in range(len(simulations))])
-    sorted_index = pd.Series([simulations.iloc[x].argsort() for x in range(len(simulations))])
+    sorted_margins = pd.Series([modified_simulations.iloc[x].sort_values() for x in range(len(modified_simulations))])
+    sorted_index = pd.Series([modified_simulations.iloc[x].argsort() for x in range(len(modified_simulations))])
     tipping_point_margins = []
     tipping_point_states = []
     for sim_num, sim in enumerate(sorted_margins):
@@ -85,8 +88,8 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
     state_tipping_points = []
     for state in tipping_point_states.value_counts().index:
         state_tipping_points.append(tipping_point_margins[tipping_point_states == state].median()) 
-    tipping_point_state_data = list(zip(tipping_point_states.value_counts().index.to_list(), (tipping_point_states.value_counts()/len(simulations)).to_list(), state_tipping_points))
-    tipping_point_data = (average_tipping_point, round((tipping_point_margins - simulations.iloc[:, 0]).median(),3))
+    tipping_point_state_data = list(zip(tipping_point_states.value_counts().index.to_list(), (tipping_point_states.value_counts()/len(modified_simulations)).to_list(), state_tipping_points))
+    tipping_point_data = (average_tipping_point, round((tipping_point_margins - modified_simulations.iloc[:, 0]).median(),3))
     ev_histogram = pd.cut(sim_ev, np.linspace(min(sim_ev)-6, max(sim_ev)+5, num=max(sim_ev)-min(sim_ev)+12)).value_counts()
     ev_histogram_tuple = list(zip([category.right for category in ev_histogram.index], ev_histogram.to_list()))
     ev_histogram_dict = {int(lists[0]) : lists[1] for lists in ev_histogram_tuple}
@@ -94,60 +97,39 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
     time = np.datetime64(np.datetime64('now'), 'h')
     time_string = np.datetime_as_string(time, unit='h')
 
-    state_chances = json.loads(pd.Series(state_chances, index=simulations.columns).to_json())
+    dem_win_chance = json.loads(pd.Series(dem_win_chance, index=["dem"]).to_json())
+    state_chances = json.loads(pd.Series(state_chances, index=modified_simulations.columns).to_json())
     tipping_point_state_data = json.loads(pd.Series(tipping_point_state_data).to_json())
     tipping_point_data = json.loads(pd.Series(tipping_point_data, index=["average tipping point", "pop-ev split"]).to_json())
     percentile_ev = json.loads(pd.Series(percentile_ev, index=["5 percentile", "median", "95 percentile"]).to_json())
-    percentile_state_margins = json.loads(pd.Series(percentile_state_margins, index=simulations.columns).to_json())
+    percentile_state_margins = json.loads(pd.Series(percentile_state_margins, index=modified_simulations.columns).to_json())
     ev_histogram = json.loads(pd.Series(ev_histogram_dict).to_json())
 
     # try:
     #     os.mkdir('results/'+time_string)
     # except OSError:
     #     pass
-    state_chances_string = "results/state_chances.json"
-    tipping_point_state_data_string = "results/tipping_point_state_data.json"
-    tipping_point_data_string = "results/tipping_point_data.json"
-    percentile_ev_string = "results/percentile_ev.json"
-    percentile_state_margins_string = "results/percentile_state_margins.json"
-    ev_histogram_string = "results/ev_histogram.json"
+    json_files = {}
+    json_files["web/results/dem_win_chance.json"] = dem_win_chance
+    json_files["web/results/state_chances.json"] = state_chances
+    json_files["web/results/tipping_point_state_data.json"] = tipping_point_state_data
+    json_files["web/results/tipping_point_data.json"] = tipping_point_data
+    json_files["web/results/percentile_ev.json"] = percentile_ev
+    json_files["web/results/percentile_state_margins.json"] = percentile_state_margins
+    json_files["web/results/ev_histogram.json"] = ev_histogram
 
     if write == True:
-        with open(state_chances_string, "r") as f:
-            current = json.loads(f.read())
-        if list(current.keys())[-1] != time_string:
-            current[time_string] = state_chances
-            with open(state_chances_string, "w") as f:
-                f.write(json.dumps(current, indent=4))
-        with open(tipping_point_state_data_string, "r") as f:
-            current = json.loads(f.read())
-        if list(current.keys())[-1] != time_string:
-            current[time_string] = tipping_point_state_data
-            with open(tipping_point_state_data_string, "w") as f:
-                f.write(json.dumps(current, indent=4))
-        with open(tipping_point_data_string, "r") as f:
-            current = json.loads(f.read())
-        if list(current.keys())[-1] != time_string:
-            current[time_string] = tipping_point_data
-            with open(tipping_point_data_string, "w") as f:
-                f.write(json.dumps(current, indent=4))
-        with open(percentile_ev_string, "r") as f:
-            current = json.loads(f.read())
-        if list(current.keys())[-1] != time_string:
-            current[time_string] = percentile_ev
-            with open(percentile_ev_string, "w") as f:
-                f.write(json.dumps(current, indent=4))
-        with open(percentile_state_margins_string, "r") as f:
-            current = json.loads(f.read())
-        if list(current.keys())[-1] != time_string:
-            current[time_string] = percentile_state_margins
-            with open(percentile_state_margins_string, "w") as f:
-                f.write(json.dumps(current, indent=4))
-        with open(ev_histogram_string, "r") as f:
-            current = json.loads(f.read())
-        if list(current.keys())[-1] != time_string:
-            current[time_string] = ev_histogram
-            with open(ev_histogram_string, "w") as f:
+        for path, data in json_files.items():
+            try:
+                with open(path, "r") as f:
+                    current = json.loads(f.read())
+                _ = list(current.keys())[0]
+                if list(current.keys())[-1] != time_string:
+                    current[time_string] = data
+            except:
+                current = {}
+                current[time_string] = data
+            with open(path, "w") as f:
                 f.write(json.dumps(current, indent=4))
 
     else:
