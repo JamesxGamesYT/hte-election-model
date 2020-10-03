@@ -2,6 +2,10 @@
     animation: fadeOn 0.2s;
 }
 
+.fadeIn {
+    animation: fadeIn 0.3s both;
+}
+
 @keyframes fadeOn {
     from {
         opacity: 0;
@@ -11,6 +15,21 @@
         opacity: 1;
     }
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        cursor: auto;
+        pointer-events: none;
+    }
+
+    to {
+        pointer-events: all;
+        cursor: pointer;
+        opacity: 0.4;
+    }
+}
+
 
 @keyframes closeMenu {
     from {

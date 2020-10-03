@@ -57,3 +57,15 @@
     padding: 10px;
     padding-left: 25px;
 }
+
+#menu-overlay {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--card-bg);
+    z-index: 4;
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+}

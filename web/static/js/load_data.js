@@ -1,6 +1,7 @@
 function loadData() {
     // read from file, fill
     // global json
+    
     openPage();
 }
 
@@ -9,6 +10,5 @@ function openPage() {
     var h1 = Landing.querySelectorAll("h1, h2")
     console.log(h1);
 }
-
 
 loadData();
