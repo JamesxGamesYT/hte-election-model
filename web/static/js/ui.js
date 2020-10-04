@@ -50,3 +50,8 @@ function header_selection(heading){
         }
     }
 }
+
+function setStatsBarSize(statsBar, width, dVal, rVal) {
+    statsBar.getElementsByClassName("biden")[0].style.width = "calc(" + width + "% - 1.5px)"
+    statsBar.getElementsByClassName("trump")[0].style.width = "calc(" + (100 - width) + "% - 1.5px";
+}
