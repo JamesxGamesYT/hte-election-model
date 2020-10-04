@@ -1,6 +1,10 @@
+web/results/*
+
 
 data/polling_averages.csv
 data/simulations.csv
 
 .vscode
 
+update_data.sh
+log.txt

@@ -14,6 +14,9 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 def home_page():
     return render_template('index.html')
 
+@app.route('/about.html', methods=["GET", "POST"])
+def about_page():
+    return render_template("about.html")
 
 @app.route('/get_simulations', methods=['POST'])
 def get_simulations():

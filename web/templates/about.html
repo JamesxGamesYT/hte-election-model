@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predictions | sss_election_model</title>
+    <title>About | sss_election_model</title>
     
     <link rel='stylesheet' href='/static/css/index.css'>
+    <link rel='stylesheet' href='/static/css/theme.css'>
     <link rel="stylesheet" href='static/css/about.css'>
     <link rel='stylesheet' href='/static/css/animations.css'>
     <link rel='stylesheet' href='/static/css/hamburgers.min.css'>
     <link rel='stylesheet' href='/static/css/navbar.css'>
+
+    <link rel='icon' href='/static/media/favicon.ico'>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -28,10 +31,10 @@
         </div>
         <div id='menu-content'>
             <div class='menu-item'>
-                <p>Home</p>
+                <a href="index.html">Home</a>
             </div>
             <div class='menu-item'>
-                <p>About</p>
+                <a href="about.html">About</a>
             </div>
             <div class='menu-item'>
                 <p>Methodology</p>
@@ -39,14 +42,47 @@
         </div>
     </div>
 
+    <div id='menu-overlay'></div>
+
     <div id='landing'>
-        <h1 id='candidate'><span class='w-400'>Joe Biden</span></h1>
-        <h2><span class='w-200'>is</span></h2>
-        <h2 id='degree'>likely</h2>
-        <h2 id='outcome' class='w-200'>to win.</h2>
+        <div id='about'>About</div>
+        <div id='description'>
+            <p>
+                sss_election_model is a sorta non-serious election model 
+                developed for the 2020 U.S. presidential election. You 
+                can read more about how our model works <a href="methodology.html">here.</a>
+            </p>
+        </div>
     </div>
 
     <div id='landingbg'></div>
 
+    <div id="group">
+        <img src="static/media/hacking-the-election.png">
+        <p>This was a project from the group hacking-the-election. Hacking The Election is a politics-centric
+            research group that works on engaging and groundbreaking programming projects. You can see other projects
+            from Hacking The Election on our <a href=https://github.com/hacking-the-election">github.</a>
+        </p>
+    </div>
+
+    <div id="creators">
+        <h2>Creators</h2>
+        <a id="k-vernooy" class="creators" href="https://github.com/k-vernooy">
+            <img src="static/media/k-vernooy.png">
+            <h3>k-vernooy</h3>
+            <p>Lorem Ipsum and stuff, but <b>b o l d</b>.
+            </p>
+        </a>
+        <a id="jamesxgamesyt" class="creators" href="https://github.com/jamesxgamesyt">
+            <img src="static/media/jamesxgamesyt.png">
+            <h3>jamesxgamesyt</h3>
+            <p>James is a programmer, politics nerd, and reader who likes to play violin and 
+                volleyball. He designed and built the model and part of the front-end for this 
+                website. You can contact him at the email <b>jamesanxinlian@gmail.com</b>.
+            </p>
+        </a>
+    </div>
+    <script type='text/javascript' src='/static/js/load_data.js'></script>
+    <script type='text/javascript' src='/static/js/ui.js'></script>
 </body>
 </html>

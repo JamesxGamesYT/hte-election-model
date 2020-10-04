@@ -58,6 +58,11 @@
     padding-left: 25px;
 }
 
+a {
+    color : white;
+    text-decoration: none;
+}
+
 #menu-overlay {
     top: 0;
     left: 0;

@@ -6,7 +6,7 @@ import os
 import numpy.polynomial.polynomial as poly
 from polling_error import polling_error_coeffs
 
-def run_simulations(num=40000, write=False):
+def run_simulations(num=50000, write=False):
     date = np.datetime64('today')
     election_date = np.datetime64('2020-11-03')
     coeffs = polling_error_coeffs()
