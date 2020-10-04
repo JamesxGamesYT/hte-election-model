@@ -44,15 +44,6 @@ body {
     background: linear-gradient(180deg, rgba(78, 105, 255, 0.692) 0%, rgba(78, 105, 255, 0.596) 20%, rgba(0,0,0,0) 100%);
 }
 
-.underline {
-    display: inline-block;
-    z-index: 1;
-    background-color: rgba(78, 105, 255, 0.692);
-    width: 150px;
-    height: 5px;
-    position: relative;
-}
-
 #degree {
     font-style: italic;
     text-shadow: 2px 2px 0px rgba(0,0,0,.2);
@@ -63,13 +54,14 @@ body {
     width: 1000px;
     height: 750px;
     border-radius: 10px;
+    background-color: var(--card-bg);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
     -2px -2px 6px rgba(255,255,255,0.4);
     margin-bottom: 50px;
 }
 
 #electoral-map #heading {
-    background-color: rgb(110, 144, 255);
+    background-color: var(--dem-bg);
     height: 80px;
     font-size: 40px;
     padding-top: 30px;
@@ -80,16 +72,26 @@ body {
     display: inline-block;
     width: 900px;
     height: 600px;
+    background-color: var(--card-bg);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
     -2px -2px 6px rgba(255,255,255,0.4);
     margin-bottom: 50px;
+}
+
+#headings-container {
+    display: inline-table;
+    width: 900px;
+    margin: 0px;
+    background-color: white;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
+    -2px -2px 6px rgba(255,255,255,0.4);
 }
 
 #headings {
     display: table-row;
     height: 100px;
     font-size: 25px;
-    background-color: rgba(110, 144, 255);
+    background-color: var(--rep-bg);
     color: white;
 }
 
@@ -104,18 +106,18 @@ body {
 
 #headings .spaces {
     display: table-cell;
-    width: 15px;
+    width: 30px;
     background-color: white;
 }
 
 #headings .non-active {
     cursor: pointer;
-    border-bottom: 6px solid rgba(129, 129, 129, 0.623);
-    border-top: 10px solid rgba(255, 255, 255);
+    border-bottom: 6px solid white;
+    border-top: 10px solid white;
 }
 
 #headings .non-active:hover {
-    background-color: rgba(0, 0, 255, 0.37);
+    background-color: rgba(131, 131, 131, 0.1);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
     -2px -2px 20px rgba(255,255,255,0.4);
 }

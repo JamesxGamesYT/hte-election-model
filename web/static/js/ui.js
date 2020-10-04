@@ -35,19 +35,17 @@ function closeMenu() {
 }
 
 
-
-Headers = document.getElementsByClassName("heading")
-
-function headerSelection(heading){
-    for (var eventIndex = 0; eventIndex < 3; eventIndex++){
-        if (Headers[eventIndex].classList.contains("non-active")){
-            if (heading == Headers[eventIndex]){
-                Headers[eventIndex].classList.remove("non-active")
+function header_selection(heading){
+    headers = document.getElementsByClassName("heading")
+    for (var event_index=0; event_index < 3; event_index++){
+        if (headers[event_index].classList.contains("non-active")){
+            if (heading == headers[event_index]){
+                headers[event_index].classList.remove("non-active")
             }
         }
         else {
-            if (heading != Headers[eventIndex]){
-                Headers[eventIndex].classList.add("non-active")
+            if (heading != headers[event_index]){
+                headers[event_index].classList.add("non-active")
             }
         }
     }
