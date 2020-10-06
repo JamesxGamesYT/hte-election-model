@@ -1,125 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predictions | sss_election_model</title>
-    
-    <link rel='stylesheet' href='/static/css/index.css'>
-    <link rel='stylesheet' href='/static/css/theme.css'>
-    <link rel='stylesheet' href='/static/css/animations.css'>
-    <link rel='stylesheet' href='/static/css/hamburgers.min.css'>
-    <link rel='stylesheet' href='/static/css/navbar.css'>
-
-    <link rel='icon' href='/static/media/favicon.ico'>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body>
-    <div id='navbar'>     
-        <div id='logo'>
-            <p>sss_election_model</p>
-        </div>
-    </div>
-
-    <div id='menu'>
-        <div id='hamburger' class="hamburger hamburger--slider" type="button">
-            <span class="hamburger-box">
-              <span class="hamburger-inner"></span>
-            </span>
-        </div>
-        <div id='menu-content'>
-            <div class='menu-item'>
-                <a href="index.html">Home</a>
-            </div>
-            <div class='menu-item'>
-                <a href="about.html">About</a>
-            </div>
-            <div class='menu-item'>
-                <a href="methodology.html">Methodology</a>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Predictions | sss_election_model</title>
+        
+        <link rel='stylesheet' href='/static/css/index.css'>
+        <link rel='stylesheet' href='/static/css/theme.css'>
+        <link rel='stylesheet' href='/static/css/animations.css'>
+        <link rel='stylesheet' href='/static/css/hamburgers.min.css'>
+        <link rel='stylesheet' href='/static/css/navbar.css'>
+        
+        <link rel='icon' href='/static/media/favicon.ico'>
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    </head>
+    <body>
+        <div id='navbar'>     
+            <div id='logo'>
+                <p>sss_election_model</p>
             </div>
         </div>
-    </div>
-
-    <div id='menu-overlay'></div>
-
-    <div id='landing'>
-        <h1 id='candidate'><span class='w-400'>Joe Biden</span></h1>
-        <h2><span class='w-200'>is</span></h2>
-        <h2 id='degree'>likely</h2>
-        <h2 id='outcome' class='w-200'>to win.</h2>
-    </div>
-
-    <div id='landingbg'></div>
-
-    <div id='mainstats'>
-        <div id='candidates'>
-            <div id='headers'>
-                <div id='biden'>
-                    <span class='name'>Joe Biden</span>
-                    <span class='party'>(D)</span>
+        
+        <div id='menu'>
+            <div id='hamburger' class="hamburger hamburger--slider" type="button">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </div>
+            <div id='menu-content'>
+                <div class='menu-item'>
+                    <a href="index.html">Home</a>
                 </div>
-                <div id='trump'>
-                    <span class='name'>Donald Trump</span>
-                    <span class='party'>(R)</span>
+                <div class='menu-item'>
+                    <a href="about.html">About</a>
+                </div>
+                <div class='menu-item'>
+                    <a href="methodology.html">Methodology</a>
                 </div>
             </div>
-
-            <div id='img-stats-wrapper'>
-                <img class='biden' src="/static/media/biden.jpg">
-                <div id='chances-bar-wrap'>
-                    <div class="win-prob biden">50.1%</div>
-                    <div class="win-prob trump">49.9%</div>
-                    <div class='stats-bar'>
-                        <div class='stats-segment biden'>
-                        </div><div class='stats-segment trump'></div>
+        </div>
+        
+        <div id='menu-overlay'></div>
+        
+        <div id='landing'>
+            <h1 id='candidate'><span class='w-400'>Joe Biden</span></h1>
+            <h2><span class='w-200'>is</span></h2>
+            <h2 id='degree'>likely</h2>
+            <h2 id='outcome' class='w-200'>to win.</h2>
+        </div>
+        
+        <div id='landingbg'></div>
+        
+        <div id='mainstats'>
+            <div id='candidates'>
+                <div id='headers'>
+                    <div id='biden'>
+                        <span class='name'>Joe Biden</span>
+                        <span class='party'>(D)</span>
+                    </div>
+                    <div id='trump'>
+                        <span class='name'>Donald Trump</span>
+                        <span class='party'>(R)</span>
                     </div>
                 </div>
-                <img class='trump' src="/static/media/trump.jpg">
+                
+                <div id='img-stats-wrapper'>
+                    <img class='biden' src="/static/media/biden.jpg">
+                    <div id='chances-bar-wrap'>
+                        <div class="win-prob biden">50.1%</div>
+                        <div class="win-prob trump">49.9%</div>
+                        <div class='stats-bar'>
+                            <div class='stats-segment biden'>
+                            </div><div class='stats-segment trump'></div>
+                        </div>
+                    </div>
+                    <img class='trump' src="/static/media/trump.jpg">
+                </div>
+            </div>
+            
+            <div id='electoral' class='stats-section'>
+                <h4>Electoral College</h4>
+                <div class='stats-bar'>
+                    <div class='stats-segment biden'>
+                    </div><div class='stats-segment trump'></div>
+                </div>
+                <span class="biden">50%</span>
+                <span class="trump">50%</span>
+            </div>
+            
+            <div id='popular' class='stats-section'>
+                <h4>2-Party Popular Vote</h4>
+                <div class='stats-bar'>
+                    <div class='stats-segment biden'>
+                    </div><div class='stats-segment trump'></div>
+                </div>
+                <span class='biden'>50%</span>
+                <span class='trump'>50%</span>
+            </div>
+            <div id='updated'>
+                <p>Updated 9/12 2pm EST</p>
             </div>
         </div>
-
-        <div id='electoral' class='stats-section'>
-            <h4>Electoral College</h4>
-            <div class='stats-bar'>
-                <div class='stats-segment biden'>
-                </div><div class='stats-segment trump'></div>
+        
+        <div id="electoral-map">
+            <div id="heading">Electoral Map</div>
+        </div>
+        <div id="headings-container">
+            <div id="headings">
+                <div class="heading" onClick="header_selection(this)">Chance of Winning</div>
+                <div class="spaces"></div>
+                <div class="heading non-active" onClick="header_selection(this)" id="middle">Electoral Votes</div>
+                <div class="spaces"></div>
+                <div class="heading non-active" onClick="header_selection(this)" >Popular Vote</div>
             </div>
-            <span class="biden">50%</span>
-            <span class="trump">50%</span>
         </div>
-
-        <div id='popular' class='stats-section'>
-            <h4>2-Party Popular Vote</h4>
-            <div class='stats-bar'>
-                <div class='stats-segment biden'>
-                </div><div class='stats-segment trump'></div>
+        <div id="time-change">
+            <div id="chart">
+                <canvas id="win_chance_chart" width="900" height="600"></canvas>
             </div>
-            <span class='biden'>50%</span>
-            <span class='trump'>50%</span>
         </div>
-        <div id='updated'>
-            <p>Updated 9/12 2pm EST</p>
-        </div>
-    </div>
-
-    <div id="electoral-map">
-        <div id="heading">Electoral Map</div>
-    </div>
-    <div id="headings-container">
-        <div id="headings">
-            <div class="heading" onClick="header_selection(this)">Chance of Winning</div>
-            <div class="spaces"></div>
-            <div class="heading non-active" onClick="header_selection(this)" id="middle">Electoral Votes</div>
-            <div class="spaces"></div>
-            <div class="heading non-active" onClick="header_selection(this)" >Popular Vote</div>
-        </div>
-    </div>
-    <div id="time-change">
-    </div>
-
-    <script type='text/javascript' src='/static/js/load_data.js'></script>
-    <script type='text/javascript' src='/static/js/ui.js'></script>
-
-</body>
-</html>
+        
+        <script type='text/javascript' src='/static/js/load_data.js'></script>
+        <script type='text/javascript' src='/static/js/ui.js'></script>
+        
+        
+    </body>
+    </html>

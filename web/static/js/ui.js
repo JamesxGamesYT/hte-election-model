@@ -67,9 +67,6 @@ function animateMethodology() {
 
     function checkPosition() {
         for (var i = 0; i < elements.length; i++) {
-            console.log(elements[i].getBoundingClientRect().top)
-            console.log(windowHeight)
-            console.log(elements[i].getBoundingClientRect().top - windowHeight)
             if (elements[i].getBoundingClientRect().bottom < 0){
                 elements[i].classList.remove('fade-in-element')
                 elements[i].classList.add('hidden')

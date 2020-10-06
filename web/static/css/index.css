@@ -55,7 +55,7 @@ body {
 
 #electoral-map {
     display: inline-block;
-    width: 1000px;
+    width: 900px;
     height: 750px;
     border-radius: 10px;
     background-color: var(--card-bg);
@@ -280,4 +280,11 @@ body {
     padding-top: 50px;
     font-size: 18px;
     font-style: italic;
+}
+
+
+#chart {
+    display: inline-block;
+    position: relative;
+    /* margin: 0px 20px 0px 20px; */
 }
