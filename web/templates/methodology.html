@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology | sss_election_model</title>
+    
+    <link rel='stylesheet' href='/static/css/index.css'>
+    <link rel='stylesheet' href='/static/css/theme.css'>
+    <link rel="stylesheet" href='static/css/methodology.css'>
+    <link rel='stylesheet' href='/static/css/animations.css'>
+    <link rel='stylesheet' href='/static/css/hamburgers.min.css'>
+    <link rel='stylesheet' href='/static/css/navbar.css'>
+
+    <link rel='icon' href='/static/media/favicon.ico'>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div id='navbar'>     
+        <div id='logo'>
+            <p>sss_election_model</p>
+        </div>
+    </div>
+
+    <div id='menu'>
+        <div id='hamburger' class="hamburger hamburger--slider" type="button">
+            <span class="hamburger-box">
+              <span class="hamburger-inner"></span>
+            </span>
+        </div>
+        <div id='menu-content'>
+            <div class='menu-item'>
+                <a href="index.html">Home</a>
+            </div>
+            <div class='menu-item'>
+                <a href="about.html">About</a>
+            </div>
+            <div class='menu-item'>
+                <a href="methodology.html">Methodology</a>
+            </div>
+        </div>
+    </div>
+
+    <div id='menu-overlay'></div>
+    
+    <div class='landingbg' id='landing-0'></div>
+    <div class='landingbg' id='landing-1'></div>
+    <div class='landingbg' id='landing-2'></div>
+    <div class='landingbg' id='landing-3'></div>
+    <div class='landingbg' id='landing-4'></div>
+    <div class='landingbg' id='landing-5'></div>
+    <div class='landingbg' id='landing-6'></div>
+
+    <div id='landing'>
+        <div id='header'>Methodology</div>
+        <div id='disclaimer'>Disclaimer - This model is not a scientific model and should not 
+            be used to make election predictions. For actual models, please see 
+            FiveThirtyEight or The Economist.
+        </div>
+        <div id='subheader'>Here's how our model works:</div>
+    </div>
+    <img id='arrow' src="/static/media/down-arrow.png" onclick="window.scrollTo(0,750)">
+
+    <img id='connection' src="/static/media/connection_img.png">
+    
+    <div id='sss' class='card hidden'>
+        <div class="title-section">
+            <div class='text'>
+                <div class='number'><p>1</p></div>
+                <div class='gap'></div>
+                <h3>State Similarity Scores</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <p>We compare states to each other using their similarity on statistics like
+                race, income, education, and age and generate a score for each matchup. 
+                ME/NE's congressional districts are assumed to be the same as the state. 
+                Source data can be found <a href="https://www.dailykos.com/stories/2020/2/19/1917029/-How-similar-is-each-state-to-every-other-Daily-Kos-Elections-State-Similarity-Index-will-tell-you">here</a>,
+                 although we don't actually use their method but instead our own.
+            </p>
+        </div>
+    </div>
+    
+    <div id='polling-error' class='card hidden'>
+        <div class="title-section">
+            <div class='text'>
+                <div class='number'><p>2</p></div>
+                <div class='gap'></div>
+                <h3>Polling Error</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <p>Using a database of thousands of general election polls reaching back to
+                2004, we calculated the absolute average polling error based on time until election day. 
+                (Note: If the database we used is yours, please contact us). Once we fit a function
+                to the polling error, we get a different polling error every day until the election
+                which we use as a parameter for running our simulations. 
+            </p>
+            <br>
+            <img src="/static/media/polling_error_by_days_until_election.png" width=750px>
+            <br>
+            <br>
+            <p>We also found that polls tend to overestimate Republicans more often.</p>
+            <br>
+            <img src="/static/media/poll_bias.png" width=400px> 
+        </div>
+    </div>
+
+    <div id='polling-averages' class='card hidden'>
+        <div class="title-section">
+            <div class='text'>
+                <div class='number'><p>3</p></div>
+                <div class='gap'></div>
+                <h3>Polling Averages</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <p>Every three hours, our scripts regularly scrap polls from 
+                <a href="https://fivethirtyeight.com">FiveThirtyEight</a> for as many 
+                states as possible reaching as far back as January. Any poll with Biden 
+                and Trump is likely a poll we have included, and we average polls weighted
+                on time since the poll was conducted, though not on sample size or RV/LV. 
+            </p>
+        </div>
+    </div>
+
+    <div id='PVI' class='card hidden'>
+        <div class="title-section">
+            <div class='text'>
+                <div class='number'><p>4</p></div>
+                <div class='gap'></div>
+                <h3>PVI</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <p>We generated a file that measures a state's lean relative
+                to the national result (PVI) for the two past elections. (2012 and 2016)
+                (Since ME/NE congressional districts are included in our PVI file, this
+                reduces the problem of having the exact same similarity scores.)
+                Subtracting the PVIs from our polling averages shows where candidates are 
+                outperforming what they should be, and the dot product of this with our
+                state similarity score matrix gives modified PVI outperformances, based on
+                not just how the state itself is moving but also in regard to other states. 
+                This also helps us generate polling averages for states with no polls, by
+                adding the modified PVI outperformance to the PVI of the state.
+            </p>
+        </div>
+    </div>
+
+    <div id='simulations' class='card hidden'>
+        <div class="title-section">
+            <div class='text'>
+                <div class='number'><p>5</p></div>
+                <div class='gap'></div>
+                <h3>Simulations</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <p>Using the modified polling averages generated in the last 
+                step, every three hours our scripts run 400,000 simulations. For 
+                each state, we use a normal probability distribution with spread 
+                equal to the absolute polling error outputted by our function in step 2. 
+                This vector of polling errors is then dotted with a modified version of 
+                our state similarity matrix, and then added to the modified polling averages.
+                Each simulation represents a hypothetical election result.
+                We then analyze the results of those simulations to produce the neat numbers
+                shown on this website.
+            </p>
+        </div>
+    </div>
+
+    <div id="end" class="card hidden">So that's how our model works!</div>
+
+    <script type='text/javascript' src='/static/js/ui.js'></script>
+</body>
+</html>

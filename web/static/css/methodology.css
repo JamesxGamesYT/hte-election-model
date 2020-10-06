@@ -1,0 +1,193 @@
+#header {
+    font-size: 100px;
+    font-weight: 100;
+}
+
+#disclaimer {
+    display: inline-block;
+    width: 600px;
+    padding-top: 50px;
+}
+
+#subheader {
+    display: inline-block;
+    font-size: 30px;
+    padding-top: 200px;
+    width: 1000px;
+}
+
+#arrow {
+    display: block;
+    position: absolute;
+    left: 47.5%;
+    z-index: 1;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: 5px solid black;
+}
+
+#connection {
+    position: absolute;
+    top: 1200px;
+    right: 20%;
+    opacity: 0.5;
+}
+
+#landing {
+    padding-bottom: 30px;
+}
+
+.landingbg {
+    left: 0;
+    top: 0;
+    z-index: 0;
+    width: 100%;
+    height: 800px;
+    position: absolute;
+    background: linear-gradient(180deg, rgba(255, 184, 78, 0.685) 0%, rgba(149, 255, 202, 0.582) 100%);
+}
+
+#landing-1 {
+    background: linear-gradient(180deg, rgba(149, 255, 202, 0.582) 0%, rgba(0,0,0,0) 100%);
+    top: 800px;
+}
+
+#landing-2 {
+    background: linear-gradient(180deg,  rgba(0,0,0,0) 0%, rgb(190, 87, 87) 100%);
+    top: 1600px;
+}
+
+#landing-3 {
+    background: linear-gradient(180deg,  rgb(190, 87, 87) 0%, rgb(157, 87, 190) 100%);
+    top: 2400px;
+}
+
+#landing-4 {
+    background: linear-gradient(180deg,  rgb(157, 87, 190) 0%, rgb(233, 66, 219) 100%);
+    top: 3200px;
+}
+
+#landing-5 {
+    background: linear-gradient(180deg,  rgb(233, 66, 219) 0%, rgba(91, 66, 233, 0.644) 100%);
+    top: 4000px;
+}
+
+#landing-6 {
+    background: linear-gradient(180deg,  rgba(91, 66, 233, 0.644) 0%, rgba(0, 0, 0, 0.644) 100%);
+    height: 580px;
+    top: 4800px;
+}
+
+@keyframes fade-in {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.fade-in-element {
+    animation: fade-in 1s;
+    box-shadow: 5px 5px 10px black;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.card {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin-top: 175px;
+    margin-bottom: 100px;
+    background: var(--card-bg);
+    width: 800px;
+    border-radius: 20px;
+    color: white;
+}
+
+.card:hover {
+}
+
+.title-section {
+    padding-top: 30px;
+    padding-bottom: 20px;
+    padding-left: 40px;
+    background-color: grey;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.text {
+    display: table-row;
+    color: white;
+}
+
+.title-section .number {
+    float: left;
+    font-size: 25px;
+    border-radius: 50%;
+    border: 5px solid white;
+    width: 40px;
+    height: 40px;
+    font-weight: 500;
+}
+
+.number p {
+    padding-top: 3px;
+}
+
+.title-section h3 {
+    float: right;
+    font-size: 30px;
+    font-weight: 100;
+    padding-top: 10px;
+}
+
+.card-body {
+    display: inline-block;
+    padding: 30px;
+    font-size: 18px;
+}
+
+.card a {
+    color: var(--dem-bg);
+}
+
+#sss {
+    height: 330px;
+    float: left;
+    left: 75px;
+    margin-top: 300px;
+    margin-bottom: 250px;
+}
+
+#polling-error {
+    height: 1200px;
+    float: right;
+    right: 75px;
+}
+
+#polling-averages {
+    float: left;
+    left: 75px;
+}
+
+#PVI {
+    height: 475px;
+    float: right;
+    right: 75px;
+}
+
+#simulations {
+    float: left;
+    left: 75px;
+}
+
+#end {
+    margin-top: 65px;
+    height: 75px;
+    float: center;
+    padding-top: 30px;
+    text-align: center;
+    font-size: 30px;
+}

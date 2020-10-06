@@ -16,15 +16,16 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 def home_page():
     return render_template('index.html')
 
-@app.route('/about.html', methods=["GET", "POST"])
-def about_page():
-    return render_template("about.html")
 
 @app.route("/about", methods=["GET", "POST"])
 @app.route("/about.html", methods=["GET", "POST"])
 def about_page():
     return render_template('about.html')
 
+@app.route("/methodology", methods=["GET", "POST"])
+@app.route("/methodology.html", methods=["GET", "POST"])
+def methodology_page():
+    return render_template('methodology.html')
 
 @app.route('/get_simulations', methods=['POST'])
 def get_simulations():
@@ -32,6 +33,7 @@ def get_simulations():
 
 
 @app.route('/load_data', methods=['GET'])
+@app.route('/load_data.js', methods=['GET'])
 def load_data():
     files = listdir("results")
     contents = {}

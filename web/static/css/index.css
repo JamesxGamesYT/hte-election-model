@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .w-200 {
     font-weight: 200;
 }
@@ -226,19 +230,20 @@ body {
 }
 
 .stats-segment {
-    display: inline-block;
     width: calc(50% - 2px);
     height: 100%
 }
 
 .stats-segment.biden {
+    float: left;
     background-color: var(--dem-bg);
-    border-right: 2px solid var(--card-bg);
+    border-right: 1px solid var(--card-bg);
 }
 
 .stats-segment.trump {
+    float: right;
     background-color: var(--rep-bg);
-    border-left: 2px solid var(--card-bg);
+    border-left: 1px solid var(--card-bg);
 }
 
 .stats-section h4 {
