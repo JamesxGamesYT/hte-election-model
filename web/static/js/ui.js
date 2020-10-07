@@ -55,3 +55,37 @@ function setStatsBarSize(statsBar, width, dVal, rVal) {
     statsBar.getElementsByClassName("biden")[0].style.width = "calc(" + width + "% - 2px)"
     statsBar.getElementsByClassName("trump")[0].style.width = "calc(" + (100 - width) + "% - 2px";
 }
+
+
+function animateMethodology() {
+    var elements;
+    var windowHeight;
+
+    function checkResize() {
+        windowHeight = window.innerHeight
+        elements = document.querySelectorAll('.hidden')
+    }
+
+    function checkPosition() {
+        for (var i = 0; i < elements.length; i++) {
+            if (elements[i].getBoundingClientRect().bottom < 0){
+                elements[i].classList.remove('fade-in-element')
+                elements[i].classList.add('hidden')
+            }
+            else if (elements[i].getBoundingClientRect().top - windowHeight > 0) {
+                elements[i].classList.remove('fade-in-element')
+                elements[i].classList.add('hidden')
+            }
+            else if (elements[i].getBoundingClientRect().top - windowHeight <= 0) {
+                elements[i].classList.remove('hidden')
+                elements[i].classList.add('fade-in-element')
+            }
+        }
+    }
+    
+    window.addEventListener('scroll', checkPosition)
+    window.addEventListener('resize', checkResize)
+
+    checkResize();
+    checkPosition();
+}

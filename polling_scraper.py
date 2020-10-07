@@ -51,6 +51,9 @@ def scrape_raw_average():
             for states with no data. 
     """
     setup()
+    time = np.datetime64(np.datetime64('now'), 'h')
+    time_string = np.datetime_as_string(time, unit='h')
+    print(time_string)
     to_fill = {"margin":np.zeros(len(territories)), "poll_num":np.zeros(len(territories))}
     territory_averages = pd.DataFrame(to_fill)
     for num, territory in enumerate(territories):
