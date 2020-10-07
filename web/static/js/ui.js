@@ -91,9 +91,11 @@ function animateMethodology() {
 }
 
 
-var MapTimeline = document.getElementById("map-timeline");
+function addMapEventListener() {
+    var mapTimeline = document.getElementById("map-timeline");
 
-MapTimeline.addEventListener("input", function() {
-    var mapStyle = document.getElementById("mapStyle");
-    mapStyle.innerHTML = getMapCss(GetNthEntry(GLOBAL_DATA["state_chances"], MapTimeline.value));
-})
+    mapTimeline.addEventListener("input", function() {
+        var mapStyle = document.getElementById("mapStyle");
+        mapStyle.innerHTML = getMapCss(GetNthEntry(GLOBAL_DATA["state_chances"], mapTimeline.value));
+    })
+}

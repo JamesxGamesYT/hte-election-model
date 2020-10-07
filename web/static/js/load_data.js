@@ -279,7 +279,8 @@ function openPage() {
     var mapStyle = document.getElementById("mapStyle");
     mapStyle.innerHTML = getMapCss(GetNthEntry(GLOBAL_DATA["state_chances"], TOTAL_ENTRIES - 1));
     
-
+    var MapTimeline = document.getElementById("map-timeline");
+    addMapEventListener();
     MapTimeline.max = TOTAL_ENTRIES - 1;
     MapTimeline.value = TOTAL_ENTRIES - 1;
 }
