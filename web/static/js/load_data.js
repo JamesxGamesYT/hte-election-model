@@ -197,22 +197,33 @@ function lerp(x, y, t) {
 function getMapCss(data) {
     var cssStr = "";
 
+    var demC = getCssVariable("--dem-bg").replace("rgb(", "").replace(")", "").split(",");
+    var repC = getCssVariable("--rep-bg").replace("rgb(", "").replace(")", "").split(",");
+
+
     Object.keys(data).forEach(key => {
         if (STATEABBR[key]) {
             cssStr += "#" + STATEABBR[key] + " { fill:"
+            var rgb = [];
             
             if (data[key] < 0.5) {
                 var datapoint = data[key] * 2;
-                var lightness = lerp(0, 255, data[key]);
-                cssStr += "rgb(255," + lightness + "," + lightness + ")";
+                rgb = [
+                    lerp(parseInt(repC[0]), 255, data[key]),
+                    lerp(parseInt(repC[1]), 255, data[key]),
+                    lerp(parseInt(repC[2]), 255, data[key])
+                ]
             }
             else {
                 var datapoint = (data[key] - 0.5) * 2;
-                var lightness = lerp(255, 0, datapoint);
-                cssStr += "rgb(" + lightness + "," + lightness + ",255)";
+                rgb = [
+                    lerp(255, parseInt(demC[0]), data[key]),
+                    lerp(255, parseInt(demC[1]), data[key]),
+                    lerp(255, parseInt(demC[2]), data[key])
+                ]
             }
-
-            cssStr += "}\n";
+            
+            cssStr += "rgb(" + rgb.join(", ") + ")}\n";
         }
     })
 
@@ -232,6 +243,20 @@ function loadData() {
     xhr.send(null);
 }
 
+
+function getCssVariable(variable) {
+    return getComputedStyle(document.body).getPropertyValue(variable);
+}
+
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+}
 
 
 function openPage() {

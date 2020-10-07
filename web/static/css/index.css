@@ -120,7 +120,7 @@ path {
     stroke-linecap: round;
     stroke-miterlimit: 1;
     z-index: 9;
-    transition: 0.1s;
+    transition: 0.3s;
 }
 
 path:hover {
@@ -145,6 +145,13 @@ path:hover {
 
 input[type="range"]::-webkit-slider-thumb {
     appearance: none;
+    width: 25px;
+    height: 25px;
+    background: white;
+    border: 3px solid white;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 input[type="range"]::-moz-range-thumb {
