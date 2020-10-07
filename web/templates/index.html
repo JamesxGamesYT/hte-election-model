@@ -104,26 +104,18 @@
                 <p>Updated 9/12 2pm EST</p>
             </div>
         </div>
-        
-        <div id="electoral-map">
-            <div id="heading">Electoral Map</div>
-        </div>
-        <div id="headings-container">
-            <div id="headings">
-                <div class="heading" onClick="header_selection(this)">Chance of Winning</div>
-                <div class="spaces"></div>
-                <div class="heading non-active" onClick="header_selection(this)" id="middle">Electoral Votes</div>
-                <div class="spaces"></div>
-                <div class="heading non-active" onClick="header_selection(this)" >Popular Vote</div>
-            </div>
-        </div>
     </div>
 
     <div id="electoral-map">
+        <style id='mapStyle'></style>
         <div class="heading">Electoral Map</div>
-        <svg class="svg" viewBox="50 0 1000 589">
-            <use xlink:href="/static/media/us.svg#us"></use>
-        </svg>
+
+        <div id='map-wrapper'>
+            <svg id="svg" viewBox="50 0 1000 589">
+                <use xlink:href="/static/media/us.svg#us"></use>
+            </svg>
+            <input id='map-timeline' type='range' step=1 value=1 min=0 max=1>
+        </div>
     </div>
 
     <div id="time-change">
