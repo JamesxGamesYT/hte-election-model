@@ -89,3 +89,11 @@ function animateMethodology() {
     checkResize();
     checkPosition();
 }
+
+
+var MapTimeline = document.getElementById("map-timeline");
+
+MapTimeline.addEventListener("input", function() {
+    var mapStyle = document.getElementById("mapStyle");
+    mapStyle.innerHTML = getMapCss(GetNthEntry(GLOBAL_DATA["state_chances"], MapTimeline.value));
+})
