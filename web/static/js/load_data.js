@@ -69,5 +69,4 @@ function openPage() {
 }
 
 
-
-DocReady(loadData);
+loadData();

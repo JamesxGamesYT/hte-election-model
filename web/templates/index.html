@@ -104,22 +104,22 @@
     </div>
 
     <div id="electoral-map">
-        <div id="heading">Electoral Map</div>
+        <div class="heading">Electoral Map</div>
+        <svg class="svg" viewBox="50 0 1000 589">
+            <use xlink:href="/static/media/us.svg#us"></use>
+        </svg>
     </div>
-    <div id="headings-container">
-        <div id="headings">
-            <div class="heading" onClick="header_selection(this)">Chance of Winning</div>
-            <div class="spaces"></div>
-            <div class="heading non-active" onClick="header_selection(this)" id="middle">Electoral Votes</div>
-            <div class="spaces"></div>
-            <div class="heading non-active" onClick="header_selection(this)" >Popular Vote</div>
-        </div>
-    </div>
+
     <div id="time-change">
+        <div class="tabs">
+            <div class="tab active" onClick="selectTab(this)">Chance of Winning</div>
+            <div class="tab" onClick="selectTab(this)">Electoral Votes</div>
+            <div class="tab" onClick="selectTab(this)" >Popular Vote</div>
+        </div>
+        <div id='graph'></div>
     </div>
 
     <script type='text/javascript' src='/static/js/load_data.js'></script>
     <script type='text/javascript' src='/static/js/ui.js'></script>
-
 </body>
 </html>
