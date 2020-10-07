@@ -34,7 +34,7 @@
 @keyframes closeMenu {
     from {
         left: 0px;
-        background-color: black;
+        background-color: var(--card-bg);
     }
     to {
         left: -140px;
@@ -48,7 +48,7 @@
         left: -140px;
     }
     to {
-        background-color: black;
+        background-color: var(--card-bg);
         left: 0px;
     }
 }

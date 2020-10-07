@@ -4,6 +4,7 @@
 }
 
 #landingbg {
+    z-index: 0;
     background: linear-gradient(180deg, rgba(226, 78, 255, 0.685) 0%, rgba(0,0,0,0) 100%);
 }
 
@@ -96,7 +97,7 @@
     height: 150px;
     margin-top: 30px;
     border-radius: 50%;
-    border: 6px solid black;
+    border: 6px solid rgb(255, 255, 255);
 }
 
 #creators h3 {

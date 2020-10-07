@@ -25,11 +25,12 @@ body {
     min-height: 100vh;
     text-align: center;
     font-family: "Fira Code";
+    background-color: #d7edff;
 }
 
 #landing {
     color: rgb(0, 0, 0);
-    padding: 40px 0 80px 0;
+    padding: 40px 0 130px 0;
     z-index: 1;
     position: relative;
 }
@@ -41,7 +42,7 @@ body {
     width: 100%;
     height: 800px;
     position: absolute;
-    background: linear-gradient(180deg, rgba(78, 105, 255, 0.692) 0%, rgba(78, 105, 255, 0.596) 20%, rgba(0,0,0,0) 100%);
+    background: linear-gradient(180deg, rgb(78, 105, 255) 0%, transparent 100%);
 }
 
 #degree {
@@ -50,17 +51,17 @@ body {
 }
 
 #electoral-map {
-    display: inline-block;
+    display: block;
     width: 1000px;
     height: 750px;
     border-radius: 10px;
     background-color: var(--card-bg);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
     -2px -2px 6px rgba(255,255,255,0.4);
-    margin-bottom: 50px;
+    margin: 50px auto;
 }
 
-#electoral-map #heading {
+#electoral-map .heading {
     background-color: var(--dem-bg);
     height: 80px;
     font-size: 40px;
@@ -70,31 +71,23 @@ body {
 
 #time-change {
     display: inline-block;
-    width: 900px;
+    width: 1000px;
     height: 600px;
-    background-color: var(--card-bg);
+    background-color: var(--section-bg);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
     -2px -2px 6px rgba(255,255,255,0.4);
-    margin-bottom: 50px;
+    margin: 50px auto;
 }
 
-#headings-container {
-    display: inline-table;
-    width: 900px;
-    margin: 0px;
+.tabs {
+    display: block;
+    width: 100%;
+    height: 100px;
     background-color: white;
     box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
     -2px -2px 6px rgba(255,255,255,0.4);
 }
-
-#headings {
-    display: table-row;
-    height: 100px;
-    font-size: 25px;
-    background-color: var(--rep-bg);
-    color: white;
-}
-
+/* 
 #headings .heading {
     padding-top: 30px;
     text-align: center;
@@ -123,7 +116,7 @@ body {
 }
 
 
-
+ */
 
 
 /*******************************
