@@ -116,10 +116,11 @@ h2 {
 
 path {
     stroke-width: 3;
-    stroke: black;
+    stroke: var(--card-bg);
     stroke-linecap: round;
     stroke-miterlimit: 1;
     z-index: 9;
+    transition: 0.1s;
 }
 
 path:hover {
@@ -142,10 +143,12 @@ path:hover {
     margin-top: 30px;
 }
 
-#map-timeline::-webkit-slider-thumb,
-#map-timeline::-moz-range-thumb {
-    -webkit-appearance: none;
+input[type="range"]::-webkit-slider-thumb {
     appearance: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
     width: 25px;
     height: 25px;
     background: white;
