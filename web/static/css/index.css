@@ -74,7 +74,27 @@ h2 {
     background-color: var(--section-bg);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
     -2px -2px 6px rgba(255,255,255,0.4);
+    margin: 100px auto;
+    margin-top: 0px;
+}
+
+#ev-histogram {
+    display: inline-block;
+    width: 1000px;
+    height: 1100px;
+    background-color: var(--card-bg);
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
+    -2px -2px 6px rgba(255,255,255,0.4);
     margin: 50px auto;
+    margin-top: 0px;
+}
+
+#ev-histogram .heading {
+    background-color: var(--dem-bg);
+    height: 80px;
+    font-size: 40px;
+    padding-top: 30px;
+    color: white;
 }
 
 .tabs {
@@ -86,6 +106,51 @@ h2 {
     -2px -2px 6px rgba(255,255,255,0.4);
 }
 
+#headings-container {
+    display: inline-table;
+    width: 1000px;
+    margin: 0px;
+    background-color: #d7edff;
+    border-radius: 10px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
+    -2px -2px 6px rgba(255,255,255,0.4);
+}
+
+#headings {
+    display: table-row;
+    height: 100px;
+    font-size: 25px;
+    border-color: #d7edff;
+    background-color: var(--rep-bg);
+    color: white;
+}
+
+#headings .heading {
+    padding-top: 30px;
+    text-align: center;
+    display: table-cell;
+    width: 800px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+#headings .spaces {
+    display: table-cell;
+    width: 30px;
+    background-color: #d7edff;
+}
+
+#headings .non-active {
+    cursor: pointer;
+    border-bottom: 6px solid #d7edff;
+    border-top: 10px solid #d7edff;
+}
+
+#headings .non-active:hover {
+    background-color: rgba(131, 131, 131, 0.1);
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
+    -2px -2px 20px rgba(255,255,255,0.4);
+}
 
 
 /******************************
@@ -141,6 +206,47 @@ path:hover {
     padding: 7px 0px;
     width: 80%;
     margin-top: 30px;
+}
+
+#bar-timeline {
+    -webkit-appearance: none;
+    margin-right: 10px;
+    height: 12px;
+    background: transparent;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: 20px;
+    background-color: var(--rep-bg);
+    padding: 7px 0px;
+    width: 80%;
+    margin-top: 30px;
+}
+
+.timeline {
+    color: white;
+    font-size:35px;
+}
+
+.today-container {
+    width: 80%;
+    height: 20px;
+}
+
+#line-timeline-today {
+    float: right;
+    color: white;
+    right: 7%;
+    font-size: 20px;
+    position: absolute;
+}
+
+#bar-timeline-today {
+    float: right;
+    color: white;
+    right: 5%;
+    font-size: 20px;
+    position: absolute;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -321,5 +427,4 @@ input[type="range"]::-moz-range-thumb {
 #chart {
     display: inline-block;
     position: relative;
-    /* margin: 0px 20px 0px 20px; */
 }

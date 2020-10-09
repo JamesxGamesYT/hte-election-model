@@ -1,5 +1,5 @@
-var Ham = document.getElementById("hamburger");
-var Overlay = document.getElementById("menu-overlay");
+let Ham = document.getElementById("hamburger");
+let Overlay = document.getElementById("menu-overlay");
 
 Ham.addEventListener("click", function() {
     if (Ham.classList.contains("is-active")) {
@@ -20,7 +20,7 @@ Overlay.addEventListener("mousedown", function() {
 })
 
 
-var Menu = document.getElementById("menu");
+let Menu = document.getElementById("menu");
 
 function openMenu() {
     Overlay.classList.add("fadeIn");
@@ -37,7 +37,7 @@ function closeMenu() {
 
 function header_selection(heading){
     headers = document.getElementsByClassName("heading")
-    for (var event_index=0; event_index < 3; event_index++){
+    for (let event_index=0; event_index < 4; event_index++){
         if (headers[event_index].classList.contains("non-active")){
             if (heading == headers[event_index]){
                 headers[event_index].classList.remove("non-active")
@@ -49,6 +49,16 @@ function header_selection(heading){
             }
         }
     }
+    if (heading.innerHTML == "Chance of Winning"){
+        loadWinChance();
+    }
+    if (heading.innerHTML == "Electoral Votes"){
+        loadEV();
+    }
+    if (heading.innerHTML == "Popular Vote"){
+        loadPV();
+    }
+    let chart = document.getElementById('win_chance_chart');
 }
 
 function setStatsBarSize(statsBar, width, dVal, rVal) {
@@ -58,8 +68,8 @@ function setStatsBarSize(statsBar, width, dVal, rVal) {
 
 
 function animateMethodology() {
-    var elements;
-    var windowHeight;
+    let elements;
+    let windowHeight;
 
     function checkResize() {
         windowHeight = window.innerHeight
@@ -67,7 +77,7 @@ function animateMethodology() {
     }
 
     function checkPosition() {
-        for (var i = 0; i < elements.length; i++) {
+        for (let i = 0; i < elements.length; i++) {
             if (elements[i].getBoundingClientRect().bottom < 0){
                 elements[i].classList.remove('fade-in-element')
                 elements[i].classList.add('hidden')
@@ -92,10 +102,33 @@ function animateMethodology() {
 
 
 function addMapEventListener() {
-    var mapTimeline = document.getElementById("map-timeline");
-
+    let mapTimeline = document.getElementById("map-timeline");
     mapTimeline.addEventListener("input", function() {
-        var mapStyle = document.getElementById("mapStyle");
+        let mapStyle = document.getElementById("mapStyle");
         mapStyle.innerHTML = getMapCss(GetNthEntry(GLOBAL_DATA["state_chances"], mapTimeline.value));
+        
+        let timelineToday = document.getElementById("line-timeline-today");
+        let lineTodayPos = ((1-(mapTimeline.value/(TOTAL_ENTRIES-1))) * 0.7) + 0.07
+        timelineToday.style.right = String(lineTodayPos*100) + "%"
+        
+        let simDate = Object.keys(GLOBAL_DATA["dem_win_chance"])[mapTimeline.value]
+        simDate = simDate.slice(5, 7) + '/' + simDate.slice(8, 10) + " " + simDate.slice(11, 13) + "H"
+        timelineToday.innerText = simDate
+        console.log(timelineToday.innerText)
+    })
+}
+
+function addBarEventListener() {
+    let barTimeline = document.getElementById("bar-timeline");
+    barTimeline.addEventListener("input", function() {
+        loadHistogram(barTimeline.value)
+        
+        let barTimelineToday = document.getElementById("bar-timeline-today");
+        let barTodayPos = ((1-(barTimeline.value/(TOTAL_ENTRIES-1))) * 0.75) + 0.05
+        barTimelineToday.style.right = String(barTodayPos*100) + "%"
+        
+        let simDate = Object.keys(GLOBAL_DATA["dem_win_chance"])[barTimeline.value]
+        simDate = simDate.slice(5, 7) + '/' + simDate.slice(8, 10) + " " + simDate.slice(11, 13) + "H"
+        barTimelineToday.innerText = simDate
     })
 }

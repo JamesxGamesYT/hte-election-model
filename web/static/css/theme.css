@@ -1,6 +1,6 @@
 :root {
-    --card-bg: #21243a;
-    --section-bg: #4447622f;
+    --card-bg: rgb(33,36,58);
+    --section-bg: rgba(255, 255, 255, 0.644);
     --rep-bg: rgb(255, 104, 104);
     --dem-bg: rgb(110, 144, 255);
 }

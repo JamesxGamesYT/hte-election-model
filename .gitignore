@@ -1,8 +1,8 @@
-web/results/*
+/web/results/*
 
 
-data/polling_averages.csv
-data/simulations.csv
+/data/polling_averages.csv
+/data/simulations.csv
 
 .vscode
 

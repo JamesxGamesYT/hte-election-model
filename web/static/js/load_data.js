@@ -1,13 +1,14 @@
-var GLOBAL_DATA = {}
-var TOTAL_ENTRIES = -1;
-var MAX_VOTES = 538;
-var WinChanceDict;
+let GLOBAL_DATA = {}
+let TOTAL_ENTRIES = -1;
+let MAX_VOTES = 538;
+let WinChanceDict;
 
 Chart.defaults.global.defaultFontSize = 20;
+Chart.defaults.global.defaultFontFamily = "Fira Code";
 Chart.defaults.global.elements.point.radius = 4;
+Chart.defaults.global.animation.duration = 1
 
-
-var STATEABBR = {
+let STATEABBR = {
     "alabama": "AL",
     "alaska": "AK",
     "american samoa": "AS",
@@ -91,31 +92,152 @@ function parseData(rt) {
     TOTAL_ENTRIES = Object.keys(GLOBAL_DATA["dem_win_chance"]).length;
 
 
-    // Load specific data entries into useful vars
+    // Load specific data entries into useful lets
     DEM_WIN_CHANCE = GetNthEntry(GLOBAL_DATA["dem_win_chance"], TOTAL_ENTRIES - 1)["dem"]
     DEM_ELECTORAL_VOTES = GetNthEntry(GLOBAL_DATA["percentile_ev"], TOTAL_ENTRIES - 1)["median"]
     DEM_POPULAR_VOTE = GetNthEntry(GLOBAL_DATA["percentile_state_margins"], TOTAL_ENTRIES - 1)["national"][1]
     SIMULATION_DATE = Object.keys(GLOBAL_DATA["dem_win_chance"])[TOTAL_ENTRIES - 1]
-    SIMULATION_DATE = "Updated " + SIMULATION_DATE.slice(0, 10) + " " + String(Number(SIMULATION_DATE.slice(-2))) + ":00 UTC"
+    SIMULATION_DATE = SIMULATION_DATE.slice(0, 10) + " " + String(Number(SIMULATION_DATE.slice(-2))) + ":00 UTC"
     
-    WinChanceDict = {};
-    Object.keys(GLOBAL_DATA["dem_win_chance"]).forEach(key => {
-        var value = GLOBAL_DATA["dem_win_chance"][key]["dem"]
-        WinChanceDict[key] = value;
-    })
-
-
+    
     openPage();
 }
 
+function loadWinChance() {
+    newDemDataset = {
+        label: "Biden",
+        data: [],
+        fill: false,
+        borderColor: "rgb(110, 144, 255)",
+        borderWidth: 5,
+        backgroundColor: "rgb(110, 144, 255)"
+    }
 
-function loadChart(WinChanceDict){
-    var chart = document.getElementById('win_chance_chart').getContext('2d');
+    newRepDataset ={
+        label: "Trump",
+        data: [],
+        fill: false,
+        borderColor: "rgb(255, 104, 104)",
+        borderWidth: 5,
+        backgroundColor: "rgb(255, 104, 104)"
+    }
 
-    var labels = []
-    var demWinChance = []
-    var repWinChance = []
+    Object.values(GLOBAL_DATA["dem_win_chance"]).forEach(key => {
+        val = key["dem"]
+        newDemDataset.data.push((val*100).toFixed(3))
+        newRepDataset.data.push((100-val*100).toFixed(3))
+    })
 
+    let gridLineColor = Array(11).fill(getCssletiable("--section-bg"))
+    gridLineColor[5] = "rgb(0,0,0)"
+
+    lineConfig.data.datasets.splice(0,2);
+    lineConfig.data.datasets.push(newDemDataset, newRepDataset)
+    lineConfig.options.scales.yAxes[0].ticks.max = 100;
+    lineConfig.options.scales.yAxes[0].ticks.stepSize = 10;
+    lineConfig.options.scales.yAxes[0].gridLines.color = gridLineColor;
+    lineConfig.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
+        return value + '%';
+    };
+    configuredLineChart.update()
+}
+
+function loadEV() {
+    newDemDataset = {
+        label: "Biden",
+        data: [],
+        fill: false,
+        borderColor: "rgb(110, 144, 255)",
+        borderWidth: 5,
+        backgroundColor: "rgb(110, 144, 255)"
+    }
+
+    newRepDataset = {
+        label: "Trump",
+        data: [],
+        fill: false,
+        borderColor: "rgb(255, 104, 104)",
+        borderWidth: 5,
+        backgroundColor: "rgb(255, 104, 104)"
+    }
+
+    Object.values(GLOBAL_DATA["percentile_ev"]).forEach(key => {
+        val = key["median"]
+        newDemDataset.data.push((val))
+        newRepDataset.data.push((538-val))
+    })
+
+    lineConfig.data.datasets.splice(0,2)
+    lineConfig.data.datasets.push(newDemDataset, newRepDataset)
+
+    let gridLineColor = Array(11).fill(getCssletiable("--section-bg"))
+    gridLineColor[9] = "rgb(0,0,0)"
+
+    lineConfig.options.scales.yAxes[0].ticks.max = 538;
+    lineConfig.options.scales.yAxes[0].ticks.stepSize = 30;
+    lineConfig.options.scales.yAxes[0].gridLines.color = gridLineColor;
+    lineConfig.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
+        return value;
+    };
+    configuredLineChart.update()
+}
+
+function loadPV() {
+    newDemDataset = {
+        label: "Biden",
+        data: [],
+        fill: false,
+        borderColor: "rgb(110, 144, 255)",
+        borderWidth: 5,
+        backgroundColor: "rgb(110, 144, 255)"
+    }
+
+    newRepDataset = {
+        label: "Trump",
+        data: [],
+        fill: false,
+        borderColor: "rgb(255, 104, 104)",
+        borderWidth: 5,
+        backgroundColor: "rgb(255, 104, 104)"
+    }
+
+    Object.values(GLOBAL_DATA["percentile_state_margins"]).forEach(key => {
+        val = key["national"][1]
+        newDemDataset.data.push((50+(val/2)).toFixed(3))
+        newRepDataset.data.push((50-(val/2)).toFixed(3))
+    })
+
+
+    let gridLineColor = Array(11).fill(getCssletiable("--section-bg"))
+    gridLineColor[5] = "rgb(0,0,0)"
+
+    lineConfig.data.datasets.splice(0,2)
+    lineConfig.data.datasets.push(newDemDataset, newRepDataset)
+    lineConfig.options.scales.yAxes[0].ticks.max = 100;
+    lineConfig.options.scales.yAxes[0].ticks.stepSize = 10;
+    lineConfig.options.scales.yAxes[0].gridLines.color = gridLineColor;
+    lineConfig.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
+        return value + '%';
+    };
+    
+    configuredLineChart.update()
+}
+
+let configuredLineChart;
+let lineConfig;
+function loadLineChart(){
+    let chart = document.getElementById('win_chance_chart');
+
+    WinChanceDict = {};
+    Object.keys(GLOBAL_DATA["dem_win_chance"]).forEach(key => {
+        let value = GLOBAL_DATA["dem_win_chance"][key]["dem"]
+        WinChanceDict[key] = value;
+    })
+
+    let labels = []
+    let demWinChance = []
+    let repWinChance = []
+    
     Object.keys(WinChanceDict).forEach(key => {
         newKey = key.slice(5, 7) + '/' + key.slice(8, 10) + ' ' + key.slice(-2) + 'H'
         labels.push(newKey)
@@ -124,8 +246,10 @@ function loadChart(WinChanceDict){
         repWinChance.push((100-val*100).toFixed(3))
     })
 
+    let gridLineColor = Array(11).fill(getCssletiable("--section-bg"))
+    gridLineColor[5] = "rgb(0,0,0)"
 
-    var configuredChart = new Chart(chart, {
+    lineConfig = {
         type: 'line',
         data: {
             labels: labels,
@@ -147,20 +271,21 @@ function loadChart(WinChanceDict){
             }]
         },
         options: {
-            padding: "50",
-            responsive: false,
+            // padding: "50",
+            responsive: true,
             tooltips: {
-                intersect: false
+                intersect: false,
             },
             legend: {
-                fontColor: "white"
+                fontColor: getCssletiable("--card-bg"),
+                // display: false,
             },
             layout: {
                 padding: {
                     left: 75,
                     right: 75,
-                    top: 30,
-                    bottom: 30
+                    // top: 30,
+                    bottom: 10,
                 }
             },
             scales: {
@@ -168,46 +293,188 @@ function loadChart(WinChanceDict){
                     ticks: {
                         min: -0.0,
                         max: 100,
-                        fontColor: "white",
-                        stepSize: 10
+                        fontColor: getCssletiable("--card-bg"),
+                        stepSize: 10,
+                        callback: function(value, index, values) {
+                            return value + '%';
+                        }
                     },
                     gridLines: {
-                        color: "white"
+                        color: gridLineColor,
                     }
                 }],
                 xAxes: [{
                     ticks: {
-                        fontColor: "white"
+                        fontColor: getCssletiable("--card-bg"),
+                        minRotation: 45,
                     },
                     gridLines: {
-                        color: "white"
+                        color: getCssletiable("--section-bg"),
                     }
                 }]
             }
         }
-    });
+    }
+
+    configuredLineChart = new Chart(chart, lineConfig);
+}
+
+let configuredBarChart;
+let barConfig;
+function loadHistogram(index=TOTAL_ENTRIES-1) {
+    Chart.defaults.global.animation.duration = 1000
+    let histogram = document.getElementById("ev_histogram_chart")
+    if(configuredBarChart) {
+        configuredBarChart.destroy();
+    }
+
+    let dataMin = 538;
+    let dataMax = 0;
+
+    for (let i = 0; i <= TOTAL_ENTRIES-1; i++) {
+        evHistogramData = GetNthEntry(GLOBAL_DATA["ev_histogram"], i)
+        let min = Object.keys(evHistogramData)[0]
+        let max = Object.keys(evHistogramData)[Object.keys(evHistogramData).length - 1]
+        if (min < dataMin) {
+            dataMin = min;
+        }
+        if (max > dataMax) {
+            dataMax = max;
+        }
+    }
+    EV_HISTOGRAM = GetNthEntry(GLOBAL_DATA["ev_histogram"], index)
+    let tippingPointIndex;
+
+    for (let i = 0; i < Object.keys(EV_HISTOGRAM).length; i++){
+        if (Object.keys(EV_HISTOGRAM)[i] == 269) {
+            tippingPointIndex = i;
+        }
+    }
+
+    for (let i = dataMin; i < Object.keys(EV_HISTOGRAM)[0]; i++){
+        if (i == dataMin) {
+            EV_HISTOGRAM[i] = 1
+        }
+        else {
+            EV_HISTOGRAM[i] = 0;
+        }
+    }
+
+    for (let i = Number(Object.keys(EV_HISTOGRAM)[Object.keys(EV_HISTOGRAM).length - 1])+1; i <= dataMax; i++){
+        if (i == dataMax) {
+            EV_HISTOGRAM[i] = 1
+        }
+        else {
+            EV_HISTOGRAM[i] = 0;
+        }
+    }
+
+    let gridBarColor = Array(tippingPointIndex).fill("rgb(255, 104, 104)")
+    gridBarColor.push("rgb(255,255,255)")
+    gridBarColor.push.apply(gridBarColor, Array(Object.keys(EV_HISTOGRAM).length - tippingPointIndex - 1).fill("rgb(110, 144, 255)"))
+    gridBarColor[0] = "rgb(33,36,58)"
+    gridBarColor[gridBarColor.length - 1] = "rgb(33,36,58)"
+
+    let fontColor = "rgb(255,255,255)"
+
+    barConfig = {
+        type: 'bar',
+        data: {
+            labels: Object.keys(EV_HISTOGRAM),
+            datasets: [{
+                label: "Number of Simulations",
+                data: Object.values(EV_HISTOGRAM),
+                fill: false,
+                borderColor: gridBarColor,
+                borderWidth: 5,
+                backgroundColor: gridBarColor,
+                barPercentage: 1,
+                categoryPercentage: 1,
+                barThickness: 'flex',
+            }, ]
+        },
+        options: {
+            // padding: "50",
+            responsive: true,
+            tooltips: {
+                intersect: false,
+                mode: "index",
+                // enabled: false,
+            },
+            title: {
+                text: "Democratic EVs",
+                display: true,
+                fontColor: fontColor
+            },
+            legend: {
+                fontColor: fontColor,
+                display: false,
+            },
+            layout: {
+                padding: {
+                    left: 75,
+                    right: 75,
+                    top: 30,
+                    bottom: 10,
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: -0.0,
+                        // max: 100,
+                        fontColor: fontColor,
+                    },
+                    gridLines: {
+                        // color: fontColor,
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontColor: fontColor,
+                        minRotation: 0,
+                        maxRotation: 30,
+                        // stepSize: 10,
+                        maxTicksLimit: 20,
+                        min: dataMin,
+                        max: dataMax,
+
+                    },
+                    gridLines: {
+                        color: getCssletiable("--card-bg"),
+                    }
+                }]
+            }
+        }
+    }
+
+    configuredBarChart = new Chart(histogram, barConfig);
 }
 
 
 function lerp(x, y, t) {
-    return x + (y - x) * t;
+    if (t > 0.5) {
+        return x + (y - x) * Math.pow(t, 3);
+    }
+    else {
+        return x + (y - x) * Math.pow(t, 1/3);
+    }
 }
 
 
 function getMapCss(data) {
-    var cssStr = "";
+    let cssStr = "";
 
-    var demC = getCssVariable("--dem-bg").replace("rgb(", "").replace(")", "").split(",");
-    var repC = getCssVariable("--rep-bg").replace("rgb(", "").replace(")", "").split(",");
-
-
+    let demC = getCssletiable("--dem-bg").replace("rgb(", "").replace(")", "").split(",");
+    let repC = getCssletiable("--rep-bg").replace("rgb(", "").replace(")", "").split(",");
+    
     Object.keys(data).forEach(key => {
         if (STATEABBR[key]) {
             cssStr += "#" + STATEABBR[key] + " { fill:"
-            var rgb = [];
+            let rgb = [];
             
             if (data[key] < 0.5) {
-                var datapoint = data[key] * 2;
+                let datapoint = data[key] * 2;
                 rgb = [
                     lerp(parseInt(repC[0]), 255, data[key]),
                     lerp(parseInt(repC[1]), 255, data[key]),
@@ -215,7 +482,7 @@ function getMapCss(data) {
                 ]
             }
             else {
-                var datapoint = (data[key] - 0.5) * 2;
+                let datapoint = (data[key] - 0.5) * 2;
                 rgb = [
                     lerp(255, parseInt(demC[0]), data[key]),
                     lerp(255, parseInt(demC[1]), data[key]),
@@ -226,13 +493,13 @@ function getMapCss(data) {
             cssStr += "rgb(" + rgb.join(", ") + ")}\n";
         }
     })
-
+    
     return cssStr;
 }
 
 
 function loadData() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() { 
         if (xhr.readyState == 4 && xhr.status == 200) {
             parseData(xhr.responseText);
@@ -244,13 +511,13 @@ function loadData() {
 }
 
 
-function getCssVariable(variable) {
-    return getComputedStyle(document.body).getPropertyValue(variable);
+function getCssletiable(letiable) {
+    return getComputedStyle(document.body).getPropertyValue(letiable);
 }
 
 
 function hexToRgb(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
       r: parseInt(result[1], 16),
       g: parseInt(result[2], 16),
@@ -260,7 +527,8 @@ function hexToRgb(hex) {
 
 
 function openPage() {
-    var bars = document.getElementsByClassName("stats-bar");
+
+    let bars = document.getElementsByClassName("stats-bar");
     document.querySelectorAll(".win-prob.biden")[0].innerHTML = Math.round(DEM_WIN_CHANCE * 1000) / 10 + "%"
     document.querySelectorAll(".win-prob.trump")[0].innerHTML = Math.round((100.0 - (DEM_WIN_CHANCE * 100.0)) * 10) / 10 + "%"
     setStatsBarSize(bars[0], DEM_WIN_CHANCE * 100);
@@ -273,16 +541,29 @@ function openPage() {
     document.querySelectorAll("#popular span.biden")[0].innerHTML = Math.round(10 * (50 + (DEM_POPULAR_VOTE / 2))) / 10 + "%"
     document.querySelectorAll("#popular span.trump")[0].innerHTML = 100 - (Math.round(10 * (50 + (DEM_POPULAR_VOTE / 2))) / 10) + "%"
     setStatsBarSize(bars[2], 50 + (DEM_POPULAR_VOTE / 2));
-    document.getElementById("updated").children[0].innerHTML = SIMULATION_DATE
+    document.getElementById("updated").children[0].innerHTML = "Updated " + SIMULATION_DATE
 
-    loadChart(WinChanceDict);
-    var mapStyle = document.getElementById("mapStyle");
+    loadLineChart();
+    let mapStyle = document.getElementById("mapStyle");
     mapStyle.innerHTML = getMapCss(GetNthEntry(GLOBAL_DATA["state_chances"], TOTAL_ENTRIES - 1));
     
-    var MapTimeline = document.getElementById("map-timeline");
+    let mapTimeline = document.getElementById("map-timeline");
     addMapEventListener();
-    MapTimeline.max = TOTAL_ENTRIES - 1;
-    MapTimeline.value = TOTAL_ENTRIES - 1;
+    mapTimeline.max = TOTAL_ENTRIES - 1;
+    mapTimeline.value = TOTAL_ENTRIES - 1;
+
+    let barTimeline = document.getElementById("bar-timeline");
+    barTimeline.max = TOTAL_ENTRIES - 1;
+    barTimeline.value = TOTAL_ENTRIES - 1;
+    addBarEventListener();
+
+    let lineTimelineToday = document.getElementById("line-timeline-today")
+    let barTimelineToday = document.getElementById("bar-timeline-today")
+    SIMULATION_DATE = SIMULATION_DATE.slice(5, 7) + '/' + SIMULATION_DATE.slice(8, 12) + "H"
+    lineTimelineToday.innerHTML = SIMULATION_DATE
+    barTimelineToday.innerHTML = SIMULATION_DATE
+    loadHistogram();
+    console.log(barTimelineToday)
 }
 
 
