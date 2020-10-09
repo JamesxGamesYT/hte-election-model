@@ -17,7 +17,7 @@ def run_simulations(num=50000, write=False):
     new_margin = polling_averages["new_margin"]
 
     score_matrix = pd.read_csv("data/state_weights.csv", index_col="Geography").to_numpy()
-    score_matrix = np.apply_along_axis(lambda x : np.sqrt(x), 1, score_matrix)
+    score_matrix = np.apply_along_axis(lambda x : np.power(x, 1/3), 1, score_matrix)
     simulations = []
     for _ in range(num):
         variations = np.random.normal(scale=poll_error, size=[57])
