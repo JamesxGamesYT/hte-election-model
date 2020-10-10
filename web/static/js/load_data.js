@@ -322,7 +322,7 @@ function loadLineChart(){
 let configuredBarChart;
 let barConfig;
 function loadHistogram(index=TOTAL_ENTRIES-1) {
-    Chart.defaults.global.animation.duration = 1000
+    // Chart.defaults.global.animation.duration = 1000
     let histogram = document.getElementById("ev_histogram_chart")
     if(configuredBarChart) {
         configuredBarChart.destroy();
@@ -342,33 +342,28 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
             dataMax = max;
         }
     }
+    dataMin = 0;
+    dataMax = 538;
     EV_HISTOGRAM = GetNthEntry(GLOBAL_DATA["ev_histogram"], index)
+    
+    let indexBeginning = Object.keys(EV_HISTOGRAM)[0]
+    for (let i = dataMin; i < indexBeginning; i++){
+        EV_HISTOGRAM[i] = 0;
+    }
+    
+    let indexEnd = Number(Object.keys(EV_HISTOGRAM)[Object.keys(EV_HISTOGRAM).length - 1])+1
+    for (let i = indexEnd; i <= dataMax; i++){
+        EV_HISTOGRAM[i] = 0;
+    }
+    
     let tippingPointIndex;
-
     for (let i = 0; i < Object.keys(EV_HISTOGRAM).length; i++){
         if (Object.keys(EV_HISTOGRAM)[i] == 269) {
             tippingPointIndex = i;
         }
     }
 
-    for (let i = dataMin; i < Object.keys(EV_HISTOGRAM)[0]; i++){
-        if (i == dataMin) {
-            EV_HISTOGRAM[i] = 1
-        }
-        else {
-            EV_HISTOGRAM[i] = 0;
-        }
-    }
-
-    for (let i = Number(Object.keys(EV_HISTOGRAM)[Object.keys(EV_HISTOGRAM).length - 1])+1; i <= dataMax; i++){
-        if (i == dataMax) {
-            EV_HISTOGRAM[i] = 1
-        }
-        else {
-            EV_HISTOGRAM[i] = 0;
-        }
-    }
-
+    console.log(EV_HISTOGRAM)
     let gridBarColor = Array(tippingPointIndex).fill("rgb(255, 104, 104)")
     gridBarColor.push("rgb(255,255,255)")
     gridBarColor.push.apply(gridBarColor, Array(Object.keys(EV_HISTOGRAM).length - tippingPointIndex - 1).fill("rgb(110, 144, 255)"))
@@ -376,7 +371,9 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
     gridBarColor[gridBarColor.length - 1] = "rgb(33,36,58)"
 
     let fontColor = "rgb(255,255,255)"
-
+    let ticks = linspace(dataMin, dataMax, 15)
+    ticks.push("269")
+    console.log(ticks)
     barConfig = {
         type: 'bar',
         data: {
@@ -420,10 +417,19 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
             },
             scales: {
                 yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "% of Simulations",
+                        fontColor: fontColor,
+                        padding: 20,
+                    },
                     ticks: {
                         min: -0.0,
-                        // max: 100,
+                        max: 1600,
                         fontColor: fontColor,
+                        callback: function(value, index, values) {
+                            return String((value/500).toFixed(2)) + "%";
+                        }
                     },
                     gridLines: {
                         // color: fontColor,
@@ -433,11 +439,28 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
                     ticks: {
                         fontColor: fontColor,
                         minRotation: 0,
-                        maxRotation: 30,
-                        // stepSize: 10,
-                        maxTicksLimit: 20,
-                        min: dataMin,
-                        max: dataMax,
+                        maxRotation: 45,
+                        // stepSize: dataMax-dataMin,
+                        // maxTicksLimit: 20,
+                        min: 0,
+                        max: 538,
+                        autoSkip: false,
+                        beginAtZero: true,
+                        // afterBuildTicks: function(setTicks) {
+                        //     setTicks = ticks;
+                        //     return;
+                        // },
+                        // beforeUpdate: function(oScale) {
+                        //     return;
+                        // },
+                        callback: function(value, index, values) {
+                            if (ticks.includes(value)) {
+                                return value;
+                            }
+                            else {
+                                return;
+                            }
+                        }
 
                     },
                     gridLines: {
@@ -451,6 +474,16 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
     configuredBarChart = new Chart(histogram, barConfig);
 }
 
+function linspace(start, end, length) {
+    let arr = []
+    let diff = end - start
+    for (i = 0; i < length; i++){
+        let add = (Number(start) + (diff * i/(length-1)));
+        arr.push(add.toFixed(0))
+    }
+    return arr;
+}
+
 
 function lerp(x, y, t) {
     if (t > 0.5) {
@@ -459,6 +492,22 @@ function lerp(x, y, t) {
     else {
         return x + (y - x) * Math.pow(t, 1/3);
     }
+}
+
+function unlerp(arr) {
+    let repC = getCssletiable("--rep-bg").replace("rgb(", "").replace(")", "").split(",");
+    let demC = getCssletiable("--dem-bg").replace("rgb(", "").replace(")", "").split(",");
+    
+    let r = parseFloat(arr[0]);
+    let g = parseFloat(arr[1]);
+    let chance;
+    if (r == 255) {
+        chance = Math.pow((g - parseInt(repC[1]))/(255-parseInt(repC[1])), 3);
+    }
+    else {
+        chance = Math.pow(1-(g - parseInt(demC[1]))/(255-parseInt(demC[1])), 1/3);
+    }
+    return chance;
 }
 
 

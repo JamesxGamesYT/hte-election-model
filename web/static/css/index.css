@@ -236,7 +236,7 @@ path:hover {
 #line-timeline-today {
     float: right;
     color: white;
-    right: 7%;
+    right: 28%;
     font-size: 20px;
     position: absolute;
 }
@@ -244,7 +244,7 @@ path:hover {
 #bar-timeline-today {
     float: right;
     color: white;
-    right: 5%;
+    right: 25%;
     font-size: 20px;
     position: absolute;
 }
@@ -270,6 +270,55 @@ input[type="range"]::-moz-range-thumb {
     cursor: pointer;
 }
 
+#state-changes {
+    display: inline-block;
+    width: 900px;
+}
+
+.state-name.dem {
+    left: 47.5%;
+    position: absolute;
+}
+
+.state-name.rep {
+    position: absolute;
+}
+
+.state-amount.dem {
+    color: white;
+    /* height: 40px; */
+    /* width: 500px; */
+    display: inline-block;
+    position: absolute;
+    font-size: 25px;
+    margin-left: 100px;
+    margin-right: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.state-amount.rep {
+    color: white;
+    /* height: 40px; */
+    /* width: 500px; */
+    display: inline-block;
+    position: absolute;
+    right: 53%;
+    font-size: 25px;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-left: 30px;
+    padding-right: 60px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.state-name {
+    display: inline;
+    font-size: 50px;
+}
 
 /*******************************
     Mainstats section css
