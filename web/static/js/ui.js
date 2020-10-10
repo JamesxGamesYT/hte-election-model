@@ -238,7 +238,8 @@ function addMapEventListener() {
                 stateName.className = "state-name"
                 stateName.id = String(i)
                 stateName.innerText = state
-                
+               
+
                 let stateAmount = document.createElement("div")
                 stateAmount.innerText = String((Number(changes[state] * 100)).toFixed(2)) + "%"
                 stateAmount.style.width = String(Math.abs((Number(changes[state]) * 1000).toFixed(2))) + "px"

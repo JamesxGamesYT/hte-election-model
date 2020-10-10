@@ -98,7 +98,7 @@ function parseData(rt) {
     DEM_POPULAR_VOTE = GetNthEntry(GLOBAL_DATA["percentile_state_margins"], TOTAL_ENTRIES - 1)["national"][1]
     SIMULATION_DATE = Object.keys(GLOBAL_DATA["dem_win_chance"])[TOTAL_ENTRIES - 1]
     SIMULATION_DATE = SIMULATION_DATE.slice(0, 10) + " " + String(Number(SIMULATION_DATE.slice(-2))) + ":00 UTC"
-    
+    TIPPING_POINT_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_data"], TOTAL_ENTRIES - 1)
     
     openPage();
 }
@@ -612,7 +612,18 @@ function openPage() {
     lineTimelineToday.innerHTML = SIMULATION_DATE
     barTimelineToday.innerHTML = SIMULATION_DATE
     loadHistogram();
-    console.log(barTimelineToday)
+
+    let tippingPointAmount = document.getElementById("tipping-point-amount")
+    let popevAmount = document.getElementById("pop-ev-amount")
+    let favored = document.getElementById("favored")
+    tippingPointAmount.innerHTML = TIPPING_POINT_DATA["average tipping point"].toFixed(1) + "%"
+    popevAmount.innerHTML = Math.abs(TIPPING_POINT_DATA["pop-ev split"]).toFixed(1) + "%"
+    if (TIPPING_POINT_DATA["pop-ev split"] > 0) {
+        favored.innerHTML = "Biden"
+    }
+    else {
+        favored.innerHTML = "Trump"
+    }
 }
 
 
