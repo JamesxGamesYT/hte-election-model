@@ -275,43 +275,52 @@ input[type="range"]::-moz-range-thumb {
     width: 900px;
 }
 
+.state-image {
+    position: absolute;
+    left: 44%
+}
+
 .state-name.dem {
-    left: 48.5%;
+    left: 51.3%;
     position: absolute;
 }
 
 .state-name.rep {
     position: absolute;
+    right: 44.5%;
 }
 
 .state-amount.dem {
     color: white;
-    /* height: 40px; */
-    /* width: 500px; */
     display: inline-block;
     position: absolute;
     font-size: 25px;
-    margin-left: 100px;
+    left: 55%;
+    height: 35px;
+    margin-left: 50px;
     margin-right: 50px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 15px;
+    margin-top: 1px;
+    margin-bottom: 15px;
+    padding-left: 60px;
+    padding-right: 40px;
+    padding-top: 10px;
     padding-bottom: 10px;
 }
 
 .state-amount.rep {
     color: white;
-    /* height: 40px; */
-    /* width: 500px; */
     display: inline-block;
     position: absolute;
-    right: 53%;
+    right: 55%;
+    height: 35px;
     font-size: 25px;
     margin-left: 50px;
     margin-right: 50px;
+    margin-top: 5px;
+    margin-bottom: 15px;
     padding-left: 30px;
     padding-right: 60px;
-    padding-top: 15px;
+    padding-top: 10px;
     padding-bottom: 10px;
 }
 

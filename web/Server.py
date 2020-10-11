@@ -35,6 +35,8 @@ def get_simulations():
 @app.route('/load_data', methods=['GET'])
 @app.route('/load_data.js', methods=['GET'])
 def load_data():
+    headers = flask.request.headers
+    print("Headers:", str(headers))
     files = listdir("results")
     contents = {}
 
@@ -42,7 +44,16 @@ def load_data():
         with open("results/" + file, "+r") as f:
             contents[file.split(".")[0]] = json.load(f)
     
-    return json.dumps(contents)
+    state_svg_files = listdir("static/media/state_svgs")
+
+    state_svgs = {}
+    for file in state_svg_files:
+        if file[-3:] == "bmp":
+            continue
+        with open("static/media/state_svgs/" + file, "r") as f:
+            state_svgs[file.split(".")[0]] = f.read()
+    print(state_svgs)
+    return json.dumps([contents, state_svgs])
 
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port="8080", debug=True)

@@ -89,6 +89,8 @@ function GetNthEntry(obj, n) {
 function parseData(rt) {
     // read data into global parser
     GLOBAL_DATA = JSON.parse(rt);
+    STATE_SVGS = GLOBAL_DATA[1];
+    GLOBAL_DATA = GLOBAL_DATA[0];
     TOTAL_ENTRIES = Object.keys(GLOBAL_DATA["dem_win_chance"]).length;
 
 
@@ -519,7 +521,7 @@ function getMapCss(data) {
     
     Object.keys(data).forEach(key => {
         if (STATEABBR[key]) {
-            cssStr += "#" + STATEABBR[key] + " { fill:"
+            cssStr += "#map #" + STATEABBR[key] + " { fill:"
             let rgb = [];
             
             if (data[key] < 0.5) {
