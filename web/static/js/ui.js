@@ -239,28 +239,58 @@ function addMapEventListener() {
                 stateName.id = String(i)
                 stateName.innerText = state
                 
+                let stateImage = document.createElement("div")
+                stateImage.style.display = "inline";
+                stateImage.className = "state-image"
+                stateImage.width = "500px"
+                stateImage.innerHTML = STATE_SVGS[state]
+
                 let stateAmount = document.createElement("div")
                 stateAmount.innerText = String((Number(changes[state] * 100)).toFixed(2)) + "%"
                 stateAmount.style.width = String(Math.abs((Number(changes[state]) * 1000).toFixed(2))) + "px"
                 stateAmount.className = "state-amount"
+
+                let demC = getCssletiable("--dem-bg").replace("rgb(", "").replace(")", "").split(",");
+                let repC = getCssletiable("--rep-bg").replace("rgb(", "").replace(")", "").split(",");
                 if (changes[state] > 0) {
+                    rgb = [
+                        lerp(parseInt(demC[0]), 255, 1-(changes[state])),
+                        lerp(parseInt(demC[1]), 255, 1-(changes[state])),
+                        lerp(parseInt(demC[2]), 255, 1-(changes[state]))
+                    ]
+                    console.log(rgb)
+                    let rgbString = "rgb(" + rgb.join(",") + ")"
+                    stateImage.style.fill = rgbString;
+                    
                     stateName.style.color = "var(--dem-bg)"
                     stateName.classList.add("dem")
                     stateAmount.classList.add("dem")
                     stateAmount.style["background-color"] = "var(--dem-bg)"
-                    // stateAmount.style.left = "50%"
                     stateAmount.style.textAlign = "right"
+                    stateDiv.appendChild(stateImage)
                     stateDiv.appendChild(stateName)
                     stateDiv.appendChild(stateAmount)
                 }
                 else {
+                    console.log(1+changes[state])
+                    rgb = [
+                        lerp(255, parseInt(repC[0]), Math.abs(changes[state])),
+                        lerp(255, parseInt(repC[1]), Math.abs(changes[state])),
+                        lerp(255, parseInt(repC[2]), Math.abs(changes[state])),
+                    ]
+                    console.log(rgb)
+                    let rgbString = "rgb(" + rgb.join(",") + ")"
+                    stateImage.style.fill = rgbString;
+
                     stateName.style.color = "var(--rep-bg)"
+                    stateName.classList.add("rep")
                     stateAmount.classList.add("rep")
                     stateAmount.style["background-color"] = "var(--rep-bg)"
                     stateAmount.style.textAlign = "left"
-                    // stateAmount.style.right = "50%"
                     stateDiv.appendChild(stateAmount)
                     stateDiv.appendChild(stateName)
+                    stateDiv.appendChild(stateImage)
+                    console.log(stateImage.style)
                 }
                 stateChangeContainer.appendChild(stateDiv)
             }

@@ -275,43 +275,52 @@ input[type="range"]::-moz-range-thumb {
     width: 900px;
 }
 
+.state-image {
+    position: absolute;
+    left: 44%
+}
+
 .state-name.dem {
-    left: 47.5%;
+    left: 51.3%;
     position: absolute;
 }
 
 .state-name.rep {
     position: absolute;
+    right: 44.5%;
 }
 
 .state-amount.dem {
     color: white;
-    /* height: 40px; */
-    /* width: 500px; */
     display: inline-block;
     position: absolute;
     font-size: 25px;
-    margin-left: 100px;
+    left: 55%;
+    height: 35px;
+    margin-left: 50px;
     margin-right: 50px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 15px;
+    margin-top: 1px;
+    margin-bottom: 15px;
+    padding-left: 60px;
+    padding-right: 40px;
+    padding-top: 10px;
     padding-bottom: 10px;
 }
 
 .state-amount.rep {
     color: white;
-    /* height: 40px; */
-    /* width: 500px; */
     display: inline-block;
     position: absolute;
-    right: 53%;
+    right: 55%;
+    height: 35px;
     font-size: 25px;
     margin-left: 50px;
     margin-right: 50px;
+    margin-top: 5px;
+    margin-bottom: 15px;
     padding-left: 30px;
     padding-right: 60px;
-    padding-top: 15px;
+    padding-top: 10px;
     padding-bottom: 10px;
 }
 
@@ -476,4 +485,73 @@ input[type="range"]::-moz-range-thumb {
 #chart {
     display: inline-block;
     position: relative;
+}
+
+
+#tipping-points {
+    display: block;
+    width: 1000px;
+    height: 650px;
+    border-radius: 10px;
+    background-color: var(--card-bg);
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
+    -2px -2px 6px rgba(255,255,255,0.4);
+    margin: 50px auto;
+}
+
+#tipping-points .heading {
+    font-size: 35px;
+    font-weight: 1000;
+    color: white;
+    padding-top: 50px;
+    margin-bottom: 40px;
+}
+
+#tipping-point-margin {
+    float: left;
+    width: 400px;
+    height: 450px;
+    margin-left: 50px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+    background-color: var(--dem-bg);
+}
+
+#pop-ev-split {
+    float: right;
+    width: 400px;
+    height: 450px;
+    margin-right: 50px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+    background-color: var(--rep-bg);
+}
+
+#tipping-points p {
+    font-size: 25px;
+    font-weight: 500;
+    color: white;
+    padding-top: 60px;
+    margin-bottom: 60px; 
+    margin-left: 30px;
+    margin-right: 30px;
+
+}
+
+.tipping-point-data {
+    font-size: 85px;
+    color: var(--card-bg);
+    bottom: 100px;
+    margin-left: 100px;
+    margin-bottom: 75px;
+    position: absolute;
+}
+
+#pop-ev-split #favored-text {
+    margin-top: 120px;
+}
+
+#tipping-points b {
+    color: var(--card-bg);
+    border-bottom: 5px solid black;
 }

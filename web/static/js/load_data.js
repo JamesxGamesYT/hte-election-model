@@ -89,6 +89,8 @@ function GetNthEntry(obj, n) {
 function parseData(rt) {
     // read data into global parser
     GLOBAL_DATA = JSON.parse(rt);
+    STATE_SVGS = GLOBAL_DATA[1];
+    GLOBAL_DATA = GLOBAL_DATA[0];
     TOTAL_ENTRIES = Object.keys(GLOBAL_DATA["dem_win_chance"]).length;
 
 
@@ -98,7 +100,7 @@ function parseData(rt) {
     DEM_POPULAR_VOTE = GetNthEntry(GLOBAL_DATA["percentile_state_margins"], TOTAL_ENTRIES - 1)["national"][1]
     SIMULATION_DATE = Object.keys(GLOBAL_DATA["dem_win_chance"])[TOTAL_ENTRIES - 1]
     SIMULATION_DATE = SIMULATION_DATE.slice(0, 10) + " " + String(Number(SIMULATION_DATE.slice(-2))) + ":00 UTC"
-    
+    TIPPING_POINT_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_data"], TOTAL_ENTRIES - 1)
     
     openPage();
 }
@@ -519,7 +521,7 @@ function getMapCss(data) {
     
     Object.keys(data).forEach(key => {
         if (STATEABBR[key]) {
-            cssStr += "#" + STATEABBR[key] + " { fill:"
+            cssStr += "#map #" + STATEABBR[key] + " { fill:"
             let rgb = [];
             
             if (data[key] < 0.5) {
@@ -612,7 +614,18 @@ function openPage() {
     lineTimelineToday.innerHTML = SIMULATION_DATE
     barTimelineToday.innerHTML = SIMULATION_DATE
     loadHistogram();
-    console.log(barTimelineToday)
+
+    let tippingPointAmount = document.getElementById("tipping-point-amount")
+    let popevAmount = document.getElementById("pop-ev-amount")
+    let favored = document.getElementById("favored")
+    tippingPointAmount.innerHTML = TIPPING_POINT_DATA["average tipping point"].toFixed(1) + "%"
+    popevAmount.innerHTML = Math.abs(TIPPING_POINT_DATA["pop-ev split"]).toFixed(1) + "%"
+    if (TIPPING_POINT_DATA["pop-ev split"] > 0) {
+        favored.innerHTML = "Biden"
+    }
+    else {
+        favored.innerHTML = "Trump"
+    }
 }
 
 
