@@ -246,5 +246,13 @@
     "2020-10-11T19": {
         "average tipping point": 6.051,
         "pop-ev split": -4.453
+    },
+    "2020-10-11T22": {
+        "average tipping point": 6.062,
+        "pop-ev split": -4.459
+    },
+    "2020-10-12T01": {
+        "average tipping point": 6.022,
+        "pop-ev split": -4.472
     }
 }

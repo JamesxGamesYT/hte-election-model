@@ -308,5 +308,15 @@
         "5 percentile": 248.0,
         "median": 350.0,
         "95 percentile": 439.0
+    },
+    "2020-10-11T22": {
+        "5 percentile": 248.0,
+        "median": 350.0,
+        "95 percentile": 440.0
+    },
+    "2020-10-12T01": {
+        "5 percentile": 248.0,
+        "median": 349.0,
+        "95 percentile": 440.0
     }
 }
