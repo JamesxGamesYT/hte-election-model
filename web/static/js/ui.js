@@ -242,7 +242,7 @@ function addMapEventListener() {
                 let stateImage = document.createElement("div")
                 stateImage.style.display = "inline";
                 stateImage.className = "state-image"
-                stateImage.width = "500px"
+                // stateImage.width = "500px"
                 stateImage.innerHTML = STATE_SVGS[state]
 
                 let stateAmount = document.createElement("div")
@@ -314,4 +314,56 @@ function addBarEventListener() {
         simDate = simDate.slice(5, 7) + '/' + simDate.slice(8, 10) + " " + simDate.slice(11, 13) + "H"
         barTimelineToday.innerText = simDate
     })
+}
+
+function tippingPointStates() {
+
+    let colorsList = document.getElementById("mapStyle").innerHTML.split("\n").slice(0,-1)
+    let colorsDict = {}
+    colorsList.forEach(string => {
+        let key = string.substr(1,2)
+        let color = string.slice(11, -1)
+        colorsDict[key] = color
+    })
+    console.log(colorsDict)
+    let stateTippingLikelyList = document.getElementsByClassName("state-likely-div")
+    let stateTippingNonLikelyList = document.getElementsByClassName("state-non-likely-div")
+    for (var i = 0; i < 11; i++){
+        let data_arr = TIPPING_POINT_STATE_DATA[String(i)]
+        if (STATEABBR[data_arr[0]]) {
+            if (i < 6){
+                stateTipping = stateTippingLikelyList[i]
+            }
+            else {
+                stateTipping = stateTippingNonLikelyList[i-6]
+            }
+            console.log(i-6)
+            stateTipping.style.display = "inline-block";
+            stateTipping.style["margin-right"] = "150px"
+            stateTipping.style["margin-left"] = "50px"
+            stateTipping.style["margin-bottom"] = "10px"
+            stateTipping.style["margin-top"] = "10px"
+
+            let stateTippingDiv = document.createElement("div")
+            let svg = STATE_SVGS[STATEABBR[data_arr[0]]]
+            let percentage = document.createElement("p")
+            percentageText = (data_arr[1]*100).toFixed(1)
+            percentage.innerHTML = String(percentageText) + "%"
+            percentage.style.display = "inline-block"
+            percentage.style["font-size"] = "50px"
+            percentage.style["margin-top"] = "20px"
+            percentage.style["margin-left"] = "15px"
+            percentage.style.position = "absolute"
+            percentage.style.color = colorsDict[STATEABBR[data_arr[0]]]
+
+            stateTippingDiv.style.display = "inline-block"
+            stateTippingDiv.width = "500px"
+            stateTippingDiv.innerHTML = svg
+            stateTippingDiv.style.fill = colorsDict[STATEABBR[data_arr[0]]]
+            stateTippingDiv.style["padding-top"] = "15px"
+
+            stateTipping.appendChild(stateTippingDiv)
+            stateTipping.appendChild(percentage)
+        }
+    }
 }

@@ -277,17 +277,17 @@ input[type="range"]::-moz-range-thumb {
 
 .state-image {
     position: absolute;
-    left: 44%
+    left: 45%
 }
 
 .state-name.dem {
-    left: 51.3%;
+    left: 51.6%;
     position: absolute;
 }
 
 .state-name.rep {
     position: absolute;
-    right: 44.5%;
+    right: 45%;
 }
 
 .state-amount.dem {
@@ -492,14 +492,16 @@ input[type="range"]::-moz-range-thumb {
     display: block;
     width: 1000px;
     height: 650px;
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     background-color: var(--card-bg);
     box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
     -2px -2px 6px rgba(255,255,255,0.4);
     margin: 50px auto;
+    margin-bottom: 0px;
 }
 
-#tipping-points .heading {
+#tipping-points .heading, #state-tipping-points .heading {
     font-size: 35px;
     font-weight: 1000;
     color: white;
@@ -541,7 +543,7 @@ input[type="range"]::-moz-range-thumb {
 .tipping-point-data {
     font-size: 85px;
     color: var(--card-bg);
-    bottom: 100px;
+    bottom: 1000px;
     margin-left: 100px;
     margin-bottom: 75px;
     position: absolute;
@@ -554,4 +556,35 @@ input[type="range"]::-moz-range-thumb {
 #tipping-points b {
     color: var(--card-bg);
     border-bottom: 5px solid black;
+}
+
+#state-tipping-points {
+    display: block;
+    width: 1000px;
+    height: 900px;
+    border-top: 6px solid var(--section-bg);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--card-bg);
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+    margin: 50px auto;
+    margin-top: 0px;
+}
+
+#likely {
+    display: inline-block;
+    width: 900px;
+    height: 300px;
+    /* margin-left: 50px; */
+    /* margin-top: 50px; */
+    background-color: var(--card-bg);
+}
+
+#not-so-likely {
+    display: inline-block;
+    width: 900px;
+    height: 400px;
+    /* margin-right: 50px; */
+    margin-bottom: 50px;
+    background-color: var(--card-bg);
 }

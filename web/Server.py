@@ -35,8 +35,6 @@ def get_simulations():
 @app.route('/load_data', methods=['GET'])
 @app.route('/load_data.js', methods=['GET'])
 def load_data():
-    headers = flask.request.headers
-    print("Headers:", str(headers))
     files = listdir("results")
     contents = {}
 
@@ -52,7 +50,6 @@ def load_data():
             continue
         with open("static/media/state_svgs/" + file, "r") as f:
             state_svgs[file.split(".")[0]] = f.read()
-    print(state_svgs)
     return json.dumps([contents, state_svgs])
 
 if __name__ == '__main__':

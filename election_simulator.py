@@ -56,19 +56,43 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
             modified_simulations = modified_simulations[binary_matrix[state] == win]
             binary_matrix = (modified_simulations > 0).astype(int)
         pass
+    
+    encoder = np.logspace(56, 0, num=57, base=2)
     sim_ev = np.dot(binary_matrix, electoral_votes)
-    dem_win_chance = len(sim_ev[sim_ev > 270])/len(modified_simulations)
+    most_common_simulations = {}
+    for i in range(len(pd.Series(sim_ev).value_counts())):
+        if pd.Series(sim_ev).value_counts().iloc[i] == 0:
+            continue
+        ev = pd.Series(sim_ev).value_counts().index[i]
+        arr = []
+        simulations_dict = {}
+        # print(len(binary_matrix[sim_ev == ev]))
+        for j in range(len(binary_matrix[sim_ev == ev])):
+            simulation = binary_matrix[sim_ev == ev].iloc[j]
+            checksum = np.dot(encoder, simulation.to_numpy())
+            arr.append(checksum)
+            simulations_dict[checksum] = simulation
+        most_common = simulations_dict[pd.Series(arr).value_counts().index[0]]
+        most_common_simulations[str(ev)] = json.loads(most_common.to_json())
+    if write == True:
+        with open("web/results/simulations_by_ev.json", "w") as f:
+            f.write(json.dumps(most_common_simulations, indent=4))
+
+    dem_win_chance = len(sim_ev[sim_ev > 270])/len(modified_simulations)    
     state_chances = [sum(binary_matrix.iloc[:,x])/len(binary_matrix) for x in range(57)]
+
     twentytiles = [pd.qcut(modified_simulations.iloc[:,x], 20).value_counts().index.to_list() for x in range(57)]
     five_percentile = [min([twentytiles[y][x].right for x in range(len(twentytiles[0]))]) for y in range(len(twentytiles))]
     medians = modified_simulations.median().to_list()
     ninety_five_percentile = [max([twentytiles[y][x].left for x in range(len(twentytiles[-1]))]) for y in range(len(twentytiles))]
     percentile_state_margins = list(zip(five_percentile, medians, ninety_five_percentile))
     ev_percentile_array = pd.qcut(sim_ev, 20, duplicates="drop").value_counts().index.to_list()
+
     five_ev = ev_percentile_array[0].right
     median_ev = np.median(sim_ev)
     ninety_five_ev = ev_percentile_array[-1].left
     percentile_ev = (five_ev, median_ev, ninety_five_ev)
+    
     sorted_margins = pd.Series([modified_simulations.iloc[x].sort_values() for x in range(len(modified_simulations))])
     sorted_index = pd.Series([modified_simulations.iloc[x].argsort() for x in range(len(modified_simulations))])
     tipping_point_margins = []
@@ -82,6 +106,7 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
                 tipping_point_margins.append(sim[num])
                 tipping_point_states.append(sim.index[num])
                 break
+
     tipping_point_margins = pd.Series(tipping_point_margins)
     tipping_point_states = pd.Series(tipping_point_states)
     average_tipping_point = round(tipping_point_margins.median(), 3)
@@ -90,6 +115,7 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
         state_tipping_points.append(tipping_point_margins[tipping_point_states == state].median()) 
     tipping_point_state_data = list(zip(tipping_point_states.value_counts().index.to_list(), (tipping_point_states.value_counts()/len(modified_simulations)).to_list(), state_tipping_points))
     tipping_point_data = (average_tipping_point, round((tipping_point_margins - modified_simulations.iloc[:, 0]).median(),3))
+    
     ev_histogram = pd.cut(sim_ev, np.linspace(min(sim_ev)-6, max(sim_ev)+5, num=max(sim_ev)-min(sim_ev)+12)).value_counts()
     ev_histogram_tuple = list(zip([category.right for category in ev_histogram.index], ev_histogram.to_list()))
     ev_histogram_dict = {int(lists[0]) : lists[1] for lists in ev_histogram_tuple}
@@ -105,10 +131,6 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
     percentile_state_margins = json.loads(pd.Series(percentile_state_margins, index=modified_simulations.columns).to_json())
     ev_histogram = json.loads(pd.Series(ev_histogram_dict).to_json())
 
-    # try:
-    #     os.mkdir('results/'+time_string)
-    # except OSError:
-    #     pass
     json_files = {}
     json_files["web/results/dem_win_chance.json"] = dem_win_chance
     json_files["web/results/state_chances.json"] = state_chances

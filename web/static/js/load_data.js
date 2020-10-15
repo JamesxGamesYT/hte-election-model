@@ -101,6 +101,7 @@ function parseData(rt) {
     SIMULATION_DATE = Object.keys(GLOBAL_DATA["dem_win_chance"])[TOTAL_ENTRIES - 1]
     SIMULATION_DATE = SIMULATION_DATE.slice(0, 10) + " " + String(Number(SIMULATION_DATE.slice(-2))) + ":00 UTC"
     TIPPING_POINT_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_data"], TOTAL_ENTRIES - 1)
+    TIPPING_POINT_STATE_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_state_data"], TOTAL_ENTRIES-1)
     
     openPage();
 }
@@ -521,7 +522,7 @@ function getMapCss(data) {
     
     Object.keys(data).forEach(key => {
         if (STATEABBR[key]) {
-            cssStr += "#map #" + STATEABBR[key] + " { fill:"
+            cssStr += "#" + STATEABBR[key] + " { fill:"
             let rgb = [];
             
             if (data[key] < 0.5) {
@@ -626,6 +627,8 @@ function openPage() {
     else {
         favored.innerHTML = "Trump"
     }
+
+    tippingPointStates()
 }
 
 
