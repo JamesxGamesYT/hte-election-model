@@ -370,6 +370,7 @@ input[type="range"]::-moz-range-thumb {
 #img-stats-wrapper img {
     margin-top: 20px;
     width: 100px;
+    height: auto;
     border-radius: 5px;
     vertical-align: middle;
     border: 6px solid;
@@ -557,6 +558,7 @@ input[type="range"]::-moz-range-thumb {
     color: var(--card-bg);
     border-bottom: 5px solid black;
 }
+<<<<<<< HEAD
 
 #state-tipping-points {
     display: block;
@@ -588,3 +590,5 @@ input[type="range"]::-moz-range-thumb {
     margin-bottom: 50px;
     background-color: var(--card-bg);
 }
+=======
+>>>>>>> 996cc71c435c36505ac6d19a00121e68b9989124

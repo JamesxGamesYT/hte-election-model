@@ -15,9 +15,113 @@
         "average tipping point": 4.791,
         "pop-ev split": -5.552
     },
+    "2020-10-04T16": {
+        "average tipping point": 4.806,
+        "pop-ev split": -5.557
+    },
+    "2020-10-04T19": {
+        "average tipping point": 4.809,
+        "pop-ev split": -5.374
+    },
+    "2020-10-04T22": {
+        "average tipping point": 4.822,
+        "pop-ev split": -5.359
+    },
+    "2020-10-05T01": {
+        "average tipping point": 4.82,
+        "pop-ev split": -5.357
+    },
+    "2020-10-05T04": {
+        "average tipping point": 4.819,
+        "pop-ev split": -5.349
+    },
+    "2020-10-05T07": {
+        "average tipping point": 4.835,
+        "pop-ev split": -5.41
+    },
+    "2020-10-05T10": {
+        "average tipping point": 4.851,
+        "pop-ev split": -5.382
+    },
+    "2020-10-05T13": {
+        "average tipping point": 4.809,
+        "pop-ev split": -5.427
+    },
+    "2020-10-05T16": {
+        "average tipping point": 4.86,
+        "pop-ev split": -5.394
+    },
+    "2020-10-05T19": {
+        "average tipping point": 4.883,
+        "pop-ev split": -5.104
+    },
+    "2020-10-05T22": {
+        "average tipping point": 4.904,
+        "pop-ev split": -5.079
+    },
+    "2020-10-06T01": {
+        "average tipping point": 4.865,
+        "pop-ev split": -5.139
+    },
+    "2020-10-06T04": {
+        "average tipping point": 4.926,
+        "pop-ev split": -5.066
+    },
+    "2020-10-06T07": {
+        "average tipping point": 4.916,
+        "pop-ev split": -5.083
+    },
+    "2020-10-06T10": {
+        "average tipping point": 4.933,
+        "pop-ev split": -5.036
+    },
+    "2020-10-06T13": {
+        "average tipping point": 5.026,
+        "pop-ev split": -5.269
+    },
+    "2020-10-06T16": {
+        "average tipping point": 5.39,
+        "pop-ev split": -4.844
+    },
+    "2020-10-06T19": {
+        "average tipping point": 5.405,
+        "pop-ev split": -4.627
+    },
+    "2020-10-06T22": {
+        "average tipping point": 5.424,
+        "pop-ev split": -4.734
+    },
+    "2020-10-07T01": {
+        "average tipping point": 5.37,
+        "pop-ev split": -4.727
+    },
+    "2020-10-07T04": {
+        "average tipping point": 5.337,
+        "pop-ev split": -4.746
+    },
+    "2020-10-07T07": {
+        "average tipping point": 5.326,
+        "pop-ev split": -4.755
+    },
+    "2020-10-07T10": {
+        "average tipping point": 5.319,
+        "pop-ev split": -4.809
+    },
+    "2020-10-07T13": {
+        "average tipping point": 5.336,
+        "pop-ev split": -4.784
+    },
+    "2020-10-07T16": {
+        "average tipping point": 5.469,
+        "pop-ev split": -4.645
+    },
+    "2020-10-07T19": {
+        "average tipping point": 5.975,
+        "pop-ev split": -4.259
+    },
     "2020-10-07T22": {
-        "average tipping point": 6.015,
-        "pop-ev split": -4.304
+        "average tipping point": 6.104,
+        "pop-ev split": -4.122
     },
     "2020-10-08T01": {
         "average tipping point": 6.057,
@@ -104,43 +208,51 @@
         "pop-ev split": -4.463
     },
     "2020-10-10T16": {
-        "average tipping point": 6.128,
-        "pop-ev split": -4.478
+        "average tipping point": 6.173,
+        "pop-ev split": -4.46
     },
     "2020-10-10T19": {
-        "average tipping point": 6.114,
-        "pop-ev split": -4.12
+        "average tipping point": 6.172,
+        "pop-ev split": -4.111
     },
     "2020-10-10T22": {
-        "average tipping point": 6.117,
-        "pop-ev split": -4.12
+        "average tipping point": 6.166,
+        "pop-ev split": -4.121
     },
     "2020-10-11T01": {
-        "average tipping point": 6.122,
-        "pop-ev split": -4.08
+        "average tipping point": 6.178,
+        "pop-ev split": -4.105
     },
     "2020-10-11T04": {
-        "average tipping point": 6.031,
-        "pop-ev split": -4.312
+        "average tipping point": 6.046,
+        "pop-ev split": -4.276
     },
     "2020-10-11T07": {
-        "average tipping point": 6.093,
-        "pop-ev split": -4.52
+        "average tipping point": 6.09,
+        "pop-ev split": -4.565
     },
     "2020-10-11T10": {
-        "average tipping point": 6.101,
-        "pop-ev split": -4.57
+        "average tipping point": 6.059,
+        "pop-ev split": -4.573
     },
     "2020-10-11T13": {
-        "average tipping point": 6.033,
-        "pop-ev split": -4.881
+        "average tipping point": 6.1,
+        "pop-ev split": -4.891
     },
     "2020-10-11T16": {
-        "average tipping point": 6.069,
-        "pop-ev split": -4.874
+        "average tipping point": 5.994,
+        "pop-ev split": -4.906
     },
     "2020-10-11T19": {
-        "average tipping point": 6.06,
-        "pop-ev split": -4.421
+        "average tipping point": 6.051,
+        "pop-ev split": -4.453
+    },
+    "2020-10-11T22": {
+        "average tipping point": 6.062,
+        "pop-ev split": -4.459
+    },
+    "2020-10-12T01": {
+        "average tipping point": 6.022,
+        "pop-ev split": -4.472
     }
 }
