@@ -89,6 +89,8 @@ function GetNthEntry(obj, n) {
 function parseData(rt) {
     // read data into global parser
     GLOBAL_DATA = JSON.parse(rt);
+    US_SVG = GLOBAL_DATA[2];
+    // console.log(US_SVG)
     STATE_SVGS = GLOBAL_DATA[1];
     GLOBAL_DATA = GLOBAL_DATA[0];
     TOTAL_ENTRIES = Object.keys(GLOBAL_DATA["dem_win_chance"]).length;
@@ -98,6 +100,7 @@ function parseData(rt) {
     DEM_WIN_CHANCE = GetNthEntry(GLOBAL_DATA["dem_win_chance"], TOTAL_ENTRIES - 1)["dem"]
     DEM_ELECTORAL_VOTES = GetNthEntry(GLOBAL_DATA["percentile_ev"], TOTAL_ENTRIES - 1)["median"]
     DEM_POPULAR_VOTE = GetNthEntry(GLOBAL_DATA["percentile_state_margins"], TOTAL_ENTRIES - 1)["national"][1]
+    SIMULATIONS_BY_EV = GLOBAL_DATA["simulations_by_ev"]
     SIMULATION_DATE = Object.keys(GLOBAL_DATA["dem_win_chance"])[TOTAL_ENTRIES - 1]
     SIMULATION_DATE = SIMULATION_DATE.slice(0, 10) + " " + String(Number(SIMULATION_DATE.slice(-2))) + ":00 UTC"
     TIPPING_POINT_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_data"], TOTAL_ENTRIES - 1)
@@ -322,6 +325,7 @@ function loadLineChart(){
     configuredLineChart = new Chart(chart, lineConfig);
 }
 
+
 let configuredBarChart;
 let barConfig;
 function loadHistogram(index=TOTAL_ENTRIES-1) {
@@ -399,7 +403,8 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
             tooltips: {
                 intersect: false,
                 mode: "index",
-                // enabled: false,
+                enabled: false,
+                custom: EVTooltip,
             },
             title: {
                 text: "Democratic EVs",
@@ -428,7 +433,7 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
                     },
                     ticks: {
                         min: -0.0,
-                        max: 1600,
+                        max: 2000,
                         fontColor: fontColor,
                         callback: function(value, index, values) {
                             return String((value/500).toFixed(2)) + "%";
@@ -514,7 +519,7 @@ function unlerp(arr) {
 }
 
 
-function getMapCss(data) {
+function getMapCss(data, id_prefix="") {
     let cssStr = "";
 
     let demC = getCssletiable("--dem-bg").replace("rgb(", "").replace(")", "").split(",");
@@ -522,7 +527,7 @@ function getMapCss(data) {
     
     Object.keys(data).forEach(key => {
         if (STATEABBR[key]) {
-            cssStr += "#" + STATEABBR[key] + " { fill:"
+            cssStr += id_prefix + "#" + STATEABBR[key] + " { fill:"
             let rgb = [];
             
             if (data[key] < 0.5) {
@@ -598,7 +603,14 @@ function openPage() {
     loadLineChart();
     let mapStyle = document.getElementById("mapStyle");
     mapStyle.innerHTML = getMapCss(GetNthEntry(GLOBAL_DATA["state_chances"], TOTAL_ENTRIES - 1));
-    
+    // let mapWrapper = document.getElementById("map-wrapper")
+    // console.log(mapWrapper)
+    // let timelineDivs = mapWrapper.childNodes
+    // console.log(timelineDivs)
+    // mapWrapper.innerHTML = US_SVG
+    // mapWrapper.appendChild(timelineDivs[0])
+    // mapWrapper.appendChild(timelineDivs[1])
+    // console.log(mapWrapper.innerHTML)
     let mapTimeline = document.getElementById("map-timeline");
     addMapEventListener();
     mapTimeline.max = TOTAL_ENTRIES - 1;

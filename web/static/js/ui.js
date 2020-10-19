@@ -106,6 +106,8 @@ function addMapEventListener() {
 
     
     let currentLength = 0;
+    console.log(Object.keys(GLOBAL_DATA["dem_win_chance"]))
+    console.log(mapTimeline.value)
     let simDate = Object.keys(GLOBAL_DATA["dem_win_chance"])[mapTimeline.value]
     simDate = simDate.slice(5, 7) + '/' + simDate.slice(8, 10) + " " + simDate.slice(11, 13) + "H"
     let lastTimelineValues = [simDate, simDate]
@@ -299,6 +301,66 @@ function addMapEventListener() {
         }
     
     })
+}
+
+function EVTooltip(tooltipModel) {
+    let tooltipEl = document.getElementById("ev-tooltip")
+
+    if (!tooltipEl) {
+        tooltipEl = document.createElement("div")
+        tooltipEl.id = "ev-tooltip"
+        document.body.appendChild(tooltipEl)
+    }
+
+    if (tooltipModel.opacity === 0) {
+        tooltipEl.style.opacity = 0;
+        return;
+    }
+
+    tooltipEl.classList.remove('above', 'below', 'no-transform');
+    if (tooltipModel.yAlign) {
+        tooltipEl.classList.add(tooltipModel.yAlign);
+    } else {
+        tooltipEl.classList.add('no-transform');
+    }
+    if (tooltipModel.body) {
+        map = document.createElement("div")
+        map.style.width = "250px"
+        map.style.display = "inline-block"
+        let evs = document.createElement("h3")
+        evs.class = "heading"
+        evs.style.color = "white"
+        let percentage = String((tooltipModel.body[0]["lines"][0].slice(23)/500).toFixed(2)) + "%"
+        evs.innerHTML = tooltipModel.title[0] + " - " + percentage + " of simulations"
+        map.appendChild(evs)
+        if (SIMULATIONS_BY_EV[tooltipModel.title[0]]) {
+            let svg = document.createElement("div")
+            changed_US_SVG = US_SVG.slice(0,US_SVG.indexOf("width")) + 'width: "250px"' + (US_SVG.slice(US_SVG.indexOf("width")+11))
+            svg.innerHTML = changed_US_SVG
+            // svg.style.width = "250px"
+            // svg.firstChild.width = "250px"
+            
+            let style = document.createElement("style")
+            style.innerHTML = getMapCss(SIMULATIONS_BY_EV[tooltipModel.title[0]], id_prefix="#ev-tooltip ")
+            map.appendChild(svg)
+            map.appendChild(style)
+        }
+    }
+
+    var position = this._chart.canvas.getBoundingClientRect();
+    tooltipEl.style.opacity = 1;
+    tooltipEl.style.position = 'absolute';
+    tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 20 + 'px';
+    tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY - 200 + 'px';
+    tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
+    tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
+    tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
+    tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
+    tooltipEl.style.pointerEvents = 'none';
+    tooltipEl.style.backgroundColor = "rgba(0,0,0,0.7)"
+    // tooltipEl.style.border = "2px solid white"
+    tooltipEl.innerHTML = ""
+    tooltipEl.appendChild(map)
 }
 
 function addBarEventListener() {

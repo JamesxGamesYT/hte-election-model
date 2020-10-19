@@ -95,6 +95,11 @@ h2 {
     font-size: 40px;
     padding-top: 30px;
     color: white;
+    /* font-size: 35px;
+    font-weight: 1000;
+    color: white;
+    padding-top: 50px;
+    margin-bottom: 40px; */
 }
 
 .tabs {
@@ -558,7 +563,6 @@ input[type="range"]::-moz-range-thumb {
     color: var(--card-bg);
     border-bottom: 5px solid black;
 }
-<<<<<<< HEAD
 
 #state-tipping-points {
     display: block;
@@ -590,5 +594,3 @@ input[type="range"]::-moz-range-thumb {
     margin-bottom: 50px;
     background-color: var(--card-bg);
 }
-=======
->>>>>>> 996cc71c435c36505ac6d19a00121e68b9989124

@@ -50,7 +50,10 @@ def load_data():
             continue
         with open("static/media/state_svgs/" + file, "r") as f:
             state_svgs[file.split(".")[0]] = f.read()
-    return json.dumps([contents, state_svgs])
+
+    with open("static/media/us.svg", "r") as f:
+        us_svg = f.read()
+    return json.dumps([contents, state_svgs, us_svg])
 
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port="8080", debug=True)
