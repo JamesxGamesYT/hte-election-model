@@ -27,6 +27,11 @@ def about_page():
 def methodology_page():
     return render_template('methodology.html')
 
+@app.route("/states", methods=["GET", "POST"])
+@app.route("/states.html", methods=["GET", "POST"])
+def states_page():
+    return render_template('states.html')
+
 @app.route('/get_simulations', methods=['POST'])
 def get_simulations():
     return request.form['data']

@@ -106,7 +106,9 @@ function parseData(rt) {
     TIPPING_POINT_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_data"], TOTAL_ENTRIES - 1)
     TIPPING_POINT_STATE_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_state_data"], TOTAL_ENTRIES-1)
     
-    openPage();
+    if (document.title == "Predictions | sss_election_model") {
+        openPage();
+    }
 }
 
 function loadWinChance() {

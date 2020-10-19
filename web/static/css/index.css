@@ -68,7 +68,7 @@ h2 {
 ***************************/
 
 #time-change {
-    display: inline-block;
+    display: block;
     width: 1000px;
     height: 600px;
     background-color: var(--section-bg);
@@ -79,7 +79,7 @@ h2 {
 }
 
 #ev-histogram {
-    display: inline-block;
+    display: block;
     width: 1000px;
     height: 1100px;
     background-color: var(--card-bg);
