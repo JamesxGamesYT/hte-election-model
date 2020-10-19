@@ -114,18 +114,18 @@ function loadWinChance() {
         label: "Biden",
         data: [],
         fill: false,
-        borderColor: "rgb(110, 144, 255)",
+        borderColor: getCssletiable("--dem-bg"),
         borderWidth: 5,
-        backgroundColor: "rgb(110, 144, 255)"
+        backgroundColor: getCssletiable("--dem-bg"),
     }
 
     newRepDataset ={
         label: "Trump",
         data: [],
         fill: false,
-        borderColor: "rgb(255, 104, 104)",
+        borderColor: getCssletiable("--rep-bg"),
         borderWidth: 5,
-        backgroundColor: "rgb(255, 104, 104)"
+        backgroundColor: getCssletiable("--rep-bg"),
     }
 
     Object.values(GLOBAL_DATA["dem_win_chance"]).forEach(key => {
@@ -153,18 +153,18 @@ function loadEV() {
         label: "Biden",
         data: [],
         fill: false,
-        borderColor: "rgb(110, 144, 255)",
+        borderColor: getCssletiable("--dem-bg"),
         borderWidth: 5,
-        backgroundColor: "rgb(110, 144, 255)"
+        backgroundColor: getCssletiable("--dem-bg"),
     }
 
     newRepDataset = {
         label: "Trump",
         data: [],
         fill: false,
-        borderColor: "rgb(255, 104, 104)",
+        borderColor: getCssletiable("--rep-bg"),
         borderWidth: 5,
-        backgroundColor: "rgb(255, 104, 104)"
+        backgroundColor: getCssletiable("--rep-bg"),
     }
 
     Object.values(GLOBAL_DATA["percentile_ev"]).forEach(key => {
@@ -193,18 +193,18 @@ function loadPV() {
         label: "Biden",
         data: [],
         fill: false,
-        borderColor: "rgb(110, 144, 255)",
+        borderColor: getCssletiable("--dem-bg"),
         borderWidth: 5,
-        backgroundColor: "rgb(110, 144, 255)"
+        backgroundColor: getCssletiable("--dem-bg"),
     }
 
     newRepDataset = {
         label: "Trump",
         data: [],
         fill: false,
-        borderColor: "rgb(255, 104, 104)",
+        borderColor: getCssletiable("--rep-bg"),
         borderWidth: 5,
-        backgroundColor: "rgb(255, 104, 104)"
+        backgroundColor: getCssletiable("--rep-bg"),
     }
 
     Object.values(GLOBAL_DATA["percentile_state_margins"]).forEach(key => {
@@ -253,7 +253,7 @@ function loadLineChart(){
     })
 
     let gridLineColor = Array(11).fill(getCssletiable("--section-bg"))
-    gridLineColor[5] = "rgb(0,0,0)"
+    gridLineColor[5] = getCssletiable("--card-bg"),
 
     lineConfig = {
         type: 'line',
@@ -263,17 +263,17 @@ function loadLineChart(){
                 label: "Biden",
                 data: demWinChance,
                 fill: false,
-                borderColor: "rgb(110, 144, 255)",
+                borderColor: getCssletiable("--dem-bg"),
                 borderWidth: 5,
-                backgroundColor: "rgb(110, 144, 255)"
+                backgroundColor: getCssletiable("--dem-bg")
             },
             {
                 label: "Trump",
                 data: repWinChance,
                 fill: false,
-                borderColor: "rgb(255, 104, 104)",
+                borderColor: getCssletiable("--rep-bg"),
                 borderWidth: 5,
-                backgroundColor: "rgb(255, 104, 104)"
+                backgroundColor: getCssletiable("--rep-bg")
             }]
         },
         options: {
@@ -371,11 +371,11 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
     }
 
     console.log(EV_HISTOGRAM)
-    let gridBarColor = Array(tippingPointIndex).fill("rgb(255, 104, 104)")
+    let gridBarColor = Array(tippingPointIndex).fill(getCssletiable("--rep-bg"))
     gridBarColor.push("rgb(255,255,255)")
-    gridBarColor.push.apply(gridBarColor, Array(Object.keys(EV_HISTOGRAM).length - tippingPointIndex - 1).fill("rgb(110, 144, 255)"))
-    gridBarColor[0] = "rgb(33,36,58)"
-    gridBarColor[gridBarColor.length - 1] = "rgb(33,36,58)"
+    gridBarColor.push.apply(gridBarColor, Array(Object.keys(EV_HISTOGRAM).length - tippingPointIndex - 1).fill(getCssletiable("--dem-bg")))
+    gridBarColor[0] = getCssletiable("--card-bg")
+    gridBarColor[gridBarColor.length - 1] = getCssletiable("--card-bg")
 
     let fontColor = "rgb(255,255,255)"
     let ticks = linspace(dataMin, dataMax, 15)

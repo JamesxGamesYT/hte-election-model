@@ -1,6 +1,10 @@
 :root {
     --card-bg: rgb(33,36,58);
     --section-bg: rgba(255, 255, 255, 0.644);
-    --rep-bg: rgb(255, 104, 104);
-    --dem-bg: rgb(110, 144, 255);
+    --rep-bg:rgb(255, 104, 104);
+    --dem-bg:rgb(110, 144, 255);
+
+    /* Halloween Colors */
+    /* --rep-bg:rgb(255, 166, 0);
+    --dem-bg:rgb(190, 123, 211); */
 }
