@@ -70,7 +70,10 @@ let STATEABBR = {
     "wyoming": "WY"
 }
 
-
+let STATEUNABBR = {}
+Object.keys(STATEABBR).forEach(key => {
+    STATEUNABBR[STATEABBR[key]] = key
+})
 
 function DocReady(fn) {
     if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -106,8 +109,11 @@ function parseData(rt) {
     TIPPING_POINT_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_data"], TOTAL_ENTRIES - 1)
     TIPPING_POINT_STATE_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_state_data"], TOTAL_ENTRIES-1)
     
-    if (document.title == "Predictions | sss_election_model") {
+    if (document.title == "Predictions | hte_election_model") {
         openPage();
+    }
+    else if (document.title == "States | hte_election_model") {
+        openStatesPage();
     }
 }
 
@@ -643,7 +649,233 @@ function openPage() {
     }
 
     tippingPointStates()
+
+}
+
+function retrieveResults(prefix="") {
+    prefix = prefix.trim()
+    let results = []
+    Object.keys(STATE_SVGS).forEach(key => {
+        let full = STATEUNABBR[key]
+        if (full.startsWith(prefix)) {
+            results.push(STATEABBR[full])
+        }
+    })
+    let resultsDiv = document.getElementById("results")
+    while (resultsDiv.firstChild.nextSibling.nextSibling) {
+        resultsDiv.removeChild(resultsDiv.lastChild);
+    }
+    return results;
+}
+
+function svgSizeChange(state, size) {
+    let svg = STATE_SVGS[state]
+    svg = svg.slice(0, svg.indexOf("id")) + 'id="' + state + '" width="' + size +'" ' + svg.slice(svg.indexOf("height"))
+    return svg
+}
+
+function retrieveStates(prefix="") {
+    let resultsDiv = document.getElementById("results")
+    results = retrieveResults(prefix)
+    if (results.length  > 0) {
+        resultsDiv.style.border = "5px solid white"
+    }
+    else {
+        resultsDiv.style.border = "none"
+    }
+    for (let i = 0; i < results.length; i++) {
+        state = results[i]
+        let stateDiv = document.createElement("div")
+        stateDiv.style.display = "table-cell"
+        stateDiv.classList.add("state-results")
+        stateDiv.style.width = "285px"
+        stateDiv.style.height = "100px"
+        stateDiv.style["background-color"] = "var(--card-bg)"
+        stateDiv.tabIndex = "0"
+
+        let stateSvg = document.createElement("div")
+        stateSvg.style.height = "100px"
+        stateSvg.style.width = "100px"
+        stateSvg.style.display = "inline-block"
+        stateSvg.style["margin-top"] = "10px"
+        stateSvg.style.left = "0px"
+        stateSvg.style.position = "absolute"
+
+        stateSvg.innerHTML = svgSizeChange(state, 85);
+        stateDiv.appendChild(stateSvg)
+        if (i % 2 == 0) {
+            
+            let stateRow = document.createElement("div")
+            stateRow.style.display = "table-row"
+            stateRow.style.padding = "0px"
+            stateRow.appendChild(stateDiv)
+            resultsDiv.appendChild(stateRow)
+
+            let rect = stateDiv.getBoundingClientRect()
+            stateSvg.style["margin-left"] = String(rect["left"]+20) + "px"
+        }
+        else {
+            stateDiv.style["border-left"] = "6px solid white"
+            let stateRow = resultsDiv.lastChild
+            stateRow.appendChild(stateDiv)
+
+            let rect = stateDiv.getBoundingClientRect()
+            stateSvg.style["margin-left"] = String(rect["left"]+20) + "px"
+        }
+        if (i != 0 || i != 1) {
+            stateDiv.style["border-top"] = "4px solid white"
+        }
+        let stateText = document.createElement("p")
+        stateText.innerHTML = state;
+        stateText.style.display = "inline"
+        stateText.style.float = "right"
+        stateText.style["margin-right"] = "50px"
+        stateText.style.width = "100px"
+        stateText.style["margin-top"] = "10px"
+        stateText.style["font-size"] = "60px"
+        stateText.style["font-weight"] = "60"
+        stateText.style.textEmphasis = "none"
+        
+        let style = document.getElementById("states-style")
+        let beginning = style.innerText.indexOf(state)
+        let textColor = style.innerText.slice(beginning+10, style.innerText.indexOf("}", beginning))
+        stateText.style.color = textColor
+        stateDiv.appendChild(stateText)
+        
+        stateDiv.addEventListener("click", function() {
+            console.log(stateDiv.lastChild.innerHTML)
+        })
+        stateDiv.addEventListener("mouseenter", function() {
+            stateDiv.style["background-color"] = "black"
+            stateSvg.innerHTML = svgSizeChange(stateDiv.lastChild.innerHTML, 90);
+        })
+        stateDiv.addEventListener("mouseleave", function() {
+            stateDiv.style["background-color"] = "var(--card-bg)"
+            stateSvg.innerHTML = svgSizeChange(stateDiv.lastChild.innerHTML, 85);
+        })
+        stateDiv.addEventListener("click", function() {
+            console.log(stateDiv.lastChild.innerHTML)
+        })
+    }
+}
+
+function capitalize(text) {
+    let wordsArray = text.toLowerCase().split(' ')
+    let capsArray = []
+
+    wordsArray.forEach(word => {
+        capsArray.push(word[0].toUpperCase() + word.slice(1))
+    });
+
+    return capsArray.join(' ')
+}
+
+let stateResults = ["add"]
+
+function searchRequest(mode, state) {
+    if (mode == "search") {
+        results = retrieveResults(state)
+        state = results[0]
+    }
+    let resultsDiv = document.getElementById("results")
+    resultsDiv.style.border = "none"
+    if (state != undefined) {
+        stateResults.push(state)
+        let input = document.getElementById("states-enter")
+        input.style["border-top-left-radius"] = "0"
+        input.style["border-top-right-radius"] = "0"
+        let stateResult = document.createElement("div")
+        stateResult.style.display = "inline-block"
+        stateResult.style.width = "630px"
+        stateResult.style["margin-left"] = "auto"
+        stateResult.style["margin-right"] = "auto"
+        stateResult.style.height = "100px"
+        stateResult.style["background-color"] = "white"
+        stateResult.style.display = "block"
+        stateResult.style["border-bottom"] = "3px solid grey"
+        if (stateResults.length == 2) {
+            // stateResult.style["margin-top"] = "150px"
+            stateResult.style["border-top-left-radius"] = "20px"
+            stateResult.style["border-top-right-radius"] = "20px"
+        }
+
+        let resultsDiv = document.getElementById("results")
+        console.log(resultsDiv.style["margin-top"])
+        if (resultsDiv.style["margin-top"] != 0) {
+            console.log(Number(resultsDiv.style["margin-top"]))
+            resultsDiv.style["margin-top"] = String(Number(resultsDiv.style["margin-top"].slice(0,-2)) + 103) + "px"
+            console.log(resultsDiv.style["margin-top"])
+        }
+        else {
+            resultsDiv.style["margin-top"] = "110px"
+        }
+        console.log(resultsDiv.style["margin-top"])
+
+        let stateSvg = document.createElement("div")
+        stateSvg.style.height = "75px"
+        stateSvg.style.width = "100px"
+        stateSvg.style["margin-top"] = "15px"
+        stateSvg.style["margin-left"] = "15px"
+        stateSvg.style.display = "inline-block"
+        stateSvg.style.float = "left"
+        stateSvg.innerHTML = svgSizeChange(state, 85);
+        stateResult.append(stateSvg)
+
+        let stateText = document.createElement("p")
+        stateText.innerHTML = capitalize(STATEUNABBR[state]);
+        stateText.style.display = "inline"
+        stateText.style.float = "left"
+        stateText.style["margin-left"] = "20px"
+        stateText.style["text-align"] = "left"
+        stateText.style.width = "450px"
+        stateText.style["margin-top"] = "20px"
+        stateText.style["font-size"] = "42px"
+        stateText.style["font-weight"] = "70"
+        stateText.style["font-family"] = "Fira Code"
+        stateText.style.textEmphasis = "none"
+        let style = document.getElementById("states-style")
+        let beginning = style.innerText.indexOf(state)
+        let textColor = style.innerText.slice(beginning+10, style.innerText.indexOf("}", beginning))
+        stateText.style.color = "black"
+        stateResult.append(stateText)
+        let button = document.getElementsByTagName("button")[0]
+        // button.style["margin-top"] = "0px"
+        button.insertBefore(stateResult, input)
+        
+    }
+    console.log(stateResults)
+}
+
+function openStatesPage() {
+    let style = document.getElementById("states-style")
+    style.innerHTML = getMapCss(GetNthEntry(GLOBAL_DATA["state_chances"], TOTAL_ENTRIES - 1))
+    input = document.getElementById("states-enter")
+    input.classList.add('movein')
+    input.addEventListener("click", function() {
+        input.classList.add('bounce')
+    })
+    input.addEventListener("input", function() {
+        retrieveStates(input.value)
+    })
+    input.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            searchRequest("search", input.value)
+        }
+    })
+    input.addEventListener("focus", function() {
+        retrieveStates(input.value)
+    })
+    input.addEventListener("blur", function(event) {
+        let resultsDiv = document.getElementById("results")
+        resultsDiv.style.border = "none"
+        let newFocus = event.relatedTarget
+        if (newFocus != null) {
+            searchRequest("results", newFocus.lastChild.innerHTML)
+        }
+        retrieveResults()
+    })
 }
 
 
 DocReady(loadData);
+

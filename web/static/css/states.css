@@ -7,3 +7,91 @@
 #landingbg {
     z-index: -1;
 }
+
+#states-enter {
+    /* float: center; */
+    border-radius: 20px;
+    margin-top: 50px;
+    padding-left: 30px;
+    /* padding-top: 10px; */
+    display: inline-block;
+    width: 600px;
+    height: 70px;
+    background-color: white;
+    color: black;
+    font-size: 40px;
+    font-weight: 20;
+    text-align: left;
+    font-family: 'Fira Code';
+    position: relative;
+}
+
+.movein {
+    animation: movein 2.5s 1 forwards;
+}
+.bounce {
+    animation: movein 2.5s 1 forwards, bounce 1.5s;
+}
+
+#add-state-button {
+    /* float: right; */
+    /* display: block; */
+    /* margin-right: 30px; */
+    border-radius: 20px;
+    margin-top: 100px;
+    background-color: transparent;
+    border: none;
+    height: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+input[type="text"] {
+    appearance: textfield;
+    border: none;
+    outline: none;
+}
+
+@keyframes bounce {
+    50% {
+        width: 580px;
+        height: 60px;
+    }
+    100% {
+        width: 600px;
+        height: 70px;
+    }
+}
+
+@keyframes movein {
+    0% {
+        opacity: 0;
+        cursor: auto;
+        pointer-events: none;
+    }
+    50% {
+        pointer-events: none;
+    }
+    100% {
+        pointer-events: all;
+        cursor: pointer;
+        opacity: 1;
+        transform: translate(0, -50px);
+    }
+}
+
+#results {
+    margin-left: 0px;
+    width: 600px;
+    display: inline-table;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    /* border-radius: 15px; */
+    z-index: 1;
+}
+
+.state-results {
+    width: 800px;
+}
