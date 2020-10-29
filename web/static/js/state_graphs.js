@@ -43,7 +43,11 @@ function loadStateLineChart(mode){
     stateGridLineColor[5] = "rgb(255,255,255)"
     // stateGridLineColor[5] = "rgb(0,0,0)"
 
-    console.log(stateGridLineColor)
+    let stateTickColors = Array(6).fill("#6E90FF").concat(Array(7).fill("#FF6868"))
+    stateTickColors[5] = "#FFFFFF"
+    // stateTickColors[0] = "000000"
+
+    console.log(stateTickColors)
     let times = []
     Object.keys(STATE_CHANCES).forEach(time => {
         times.push(time)
@@ -67,7 +71,7 @@ function loadStateLineChart(mode){
             },
             layout: {
                 padding: {
-                    left: 75,
+                  left: 75,
                     right: 75,
                     // top: 30,
                     bottom: 10,
@@ -78,11 +82,12 @@ function loadStateLineChart(mode){
                     ticks: {
                         // min: -0.0,
                         // max: 100,
-                        fontColor: getCssletiable("--section-bg"),
+                        // fontColor: getCssletiable("--section-bg"),
                         // stepSize: 10,
                         callback: function(value, index, values) {
-                            return value + '%';
-                        }
+                            return Math.abs(value) + '%';
+                        },
+                        // fontColor: stateTickColors
                     },
                     gridLines: {
                         // color: stateGridLineColor,
@@ -100,19 +105,35 @@ function loadStateLineChart(mode){
             }
         }
     };
-
+  
     if (mode == "pv") {
         stateLineConfig.options.scales.yAxes[0].ticks.min = -15
         stateLineConfig.options.scales.yAxes[0].ticks.max = 15
         stateLineConfig.options.scales.yAxes[0].ticks.stepSize = 3
-        stateLineConfig.options.scales.yAxes[0].gridLines.color = stateGridLineColor
-        stateLineConfig.options.scales.yAxes[0].gridLines.zeroLineColor = "rgb(255,255,255)"
+        stateLineConfig.options.scales.yAxes[0].ticks.fontColor = stateTickColors 
+        stateLineConfig.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
+            return Math.abs(value) + '%';
+        }, 
+        stateLineConfig.options.scales.yAxes[0].gridLines.color = stateTickColors
+        stateLineConfig.options.scales.yAxes[0].gridLines.zeroLineColor = "rgb(255, 255, 255)"
+        stateLineConfig.options.scales.xAxes[0].gridLines.zeroLineColor = "rgb(255,255,255)"
     }
     else {
         stateLineConfig.options.scales.yAxes[0].ticks.min = -0.0
         stateLineConfig.options.scales.yAxes[0].ticks.max = 100
         stateLineConfig.options.scales.yAxes[0].ticks.stepSize = 10
-        stateLineConfig.options.scales.yAxes[0].gridLines.color = stateGridLineColor
+        stateLineConfig.options.scales.yAxes[0].ticks.fontColor = stateTickColors
+        stateLineConfig.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
+            if (value < 50) {
+                return Math.abs(value-50)+ 50 + '%';
+            }
+            else {
+                return Math.abs(value) + '%';
+            }
+        }, 
+        stateLineConfig.options.scales.yAxes[0].gridLines.color = stateTickColors
+        stateLineConfig.options.scales.yAxes[0].gridLines.zeroLineColor = "rgb(255, 104, 104)"
+        stateLineConfig.options.scales.xAxes[0].gridLines.zeroLineColor = "rgb(255,255,255)"
     }
     console.log(stateLineConfig)
     for (let state of stateResults.slice(1)) {

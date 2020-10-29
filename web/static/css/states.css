@@ -101,7 +101,8 @@ input[type="text"] {
     display: table-cell;
     width: 285px;
     height: 100px;
-    background-color: var(--card-bg)
+    background-color: var(--card-bg);
+    position: relative;
 }
 
 .state-svgs {
@@ -111,6 +112,7 @@ input[type="text"] {
     display: inline-block;
     position: absolute;
     /* margin-right: 0px; */
+    left: 150px;
 }
 
 .state-texts {
@@ -161,7 +163,7 @@ input[type="text"] {
     display: inline-block;
     background-color: var(--dem-bg);
     border-radius: 10px;
-    font-size: 35px;
+    font-size: 30px;
     font-family: "Fira Code";
     float: left;
     width: 420px;
@@ -170,14 +172,14 @@ input[type="text"] {
     margin-left: 35px;
     margin-bottom: 25px;
     padding-top: 20px;
-    padding-bottom: 65px;
+    padding-bottom: 55px;
 }
 
 #pv {
     display: inline-block;
     background-color: var(--rep-bg);
     border-radius: 10px;
-    font-size: 35px;
+    font-size: 30px;
     font-family: "Fira Code";
     float: right;
     width: 420px;
@@ -186,7 +188,7 @@ input[type="text"] {
     margin-right: 35px;
     margin-bottom: 25px;
     padding-top: 20px;
-    padding-bottom: 65px;
+    padding-bottom: 55px;
 }
 
 #state-win-chance-chart {
