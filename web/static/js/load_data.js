@@ -861,22 +861,28 @@ function searchRequest(state, mode=undefined) {
         pvContainer.style["border-bottom"] = "5px solid white"
         let pv = document.createElement("button")
         pv.id = "pv"
-        pv.innerHTML = "Popular Vote"
+        pv.innerHTML = "Popular Vote Margin"
         pv.addEventListener("click", function() {stateHeaderSelection("pv")})
         pvContainer.appendChild(pv)
 
         headingsContainer.appendChild(chanceContainer)
         headingsContainer.appendChild(pvContainer)
-        graphContainer.appendChild(headingsContainer)
-        graphContainer.classList.add("movein")
-        document.body.appendChild(graphContainer)
+        
+        let headingFloatContainer = document.createElement("div")
+        headingFloatContainer.style.width = "100%"
+        headingFloatContainer.appendChild(headingsContainer)
+        headingFloatContainer.classList.add("movein")
+        headingFloatContainer.id = "heading-width-container-container"
+        document.body.appendChild(headingFloatContainer)
         
         graphWidthContainer = document.createElement("div")
         graphWidthContainer.id = "state-chart-container"
         graph = document.createElement("canvas")
         graph.id = "state-chart"
         graphWidthContainer.appendChild(graph)
+        graphContainer.classList.add("movein")
         graphContainer.appendChild(graphWidthContainer)
+        document.body.appendChild(graphContainer)
         
         if (graphMode == "chance") {
             loadStateLineChart("chance")
@@ -945,8 +951,9 @@ function removeState(stateRemove) {
         input.style["border-top-right-radius"] = "20px"
         
         let graphContainer = document.getElementById('graph-container')
-        // console.log(type(graphContainer))
+        let headingContainer = document.getElementById("heading-width-container-container")
         document.body.removeChild(graphContainer)
+        document.body.removeChild(headingContainer)
     }
     else {
     }
