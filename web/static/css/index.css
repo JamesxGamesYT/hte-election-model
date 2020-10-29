@@ -376,7 +376,7 @@ input[type="range"]::-moz-range-thumb {
 #img-stats-wrapper img {
     margin-top: 20px;
     width: 100px;
-    height: auto;
+    height: 100px;
     border-radius: 5px;
     vertical-align: middle;
     border: 6px solid;

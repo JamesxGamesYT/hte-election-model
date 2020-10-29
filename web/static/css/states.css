@@ -27,14 +27,13 @@
 }
 
 .movein {
-    animation: movein 2.5s 1 forwards;
+    animation: movein 1.5s 1 forwards;
 }
 .bounce {
-    animation: movein 2.5s 1 forwards, bounce 1.5s;
+    animation: movein 1.5s 1 forwards, bounce 1s;
 }
 
-#add-state-button {
-    /* float: right; */
+#add-state-div {
     /* display: block; */
     /* margin-right: 30px; */
     border-radius: 20px;
@@ -44,7 +43,7 @@
     height: 70px;
     margin-left: auto;
     margin-right: auto;
-    display: block;
+    display: inline-block;
 }
 
 input[type="text"] {
@@ -81,9 +80,14 @@ input[type="text"] {
     }
 }
 
+#results-div {
+    width: 100%;
+    display: inline-block;
+}
+
 #results {
-    margin-left: 0px;
     width: 600px;
+    margin-top: 10px;
     display: inline-table;
     border-top: none;
     border-bottom-right-radius: 10px;
@@ -94,4 +98,106 @@ input[type="text"] {
 
 .state-results {
     width: 800px;
+    display: table-cell;
+    width: 285px;
+    height: 100px;
+    background-color: var(--card-bg)
+}
+
+.state-svgs {
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+    display: inline-block;
+    position: absolute;
+    /* margin-right: 0px; */
+}
+
+.state-texts {
+    display: inline;
+    float: right;
+    margin-right: 180px;
+    margin-top: 10px;
+    width: 100px;
+    font-size: 60px;
+    font-weight: 60;
+    text-emphasis: none;
+}
+
+#graph-container {
+    width: 100%;
+}
+
+#headings-container {
+    background-color: var(--card-bg);
+    width: 1000px;
+    height: 150px;
+    display: inline-block;
+    margin-top: 100px;
+    /* border-bottom: 10px solid white; */
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#chance-container {
+    width: 497.5px;
+    display: inline-block;
+    background-color: var(--card-bg);
+    border-top-left-radius: 15px;
+    border-bottom: 5px solid transparent;
+}
+
+#pv-container {
+    width: 497.5px;
+    display: inline-block;
+    background-color: var(--card-bg);
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-left: 5px solid white;
+    border-bottom: 5px solid white;
+}
+
+#chance {
+    display: inline-block;
+    background-color: var(--dem-bg);
+    border-radius: 10px;
+    font-size: 35px;
+    font-family: "Fira Code";
+    float: left;
+    width: 420px;
+    height: 75px;
+    margin-top: 25px;
+    margin-left: 35px;
+    margin-bottom: 25px;
+    padding-top: 20px;
+    padding-bottom: 65px;
+}
+
+#pv {
+    display: inline-block;
+    background-color: var(--rep-bg);
+    border-radius: 10px;
+    font-size: 35px;
+    font-family: "Fira Code";
+    float: right;
+    width: 420px;
+    height: 75px;
+    margin-top: 25px;
+    margin-right: 35px;
+    margin-bottom: 25px;
+    padding-top: 20px;
+    padding-bottom: 65px;
+}
+
+#state-win-chance-chart {
+    background-color: var(--card-bg);
+}
+
+#state-chart-container {
+    background-color: var(--card-bg);
+    display: inline-block;
+    width: 1000px;
+    margin-top: -5px;
+    padding-top: 20px;
+    margin-bottom: 150px;
 }
