@@ -32,6 +32,7 @@ let STATEABBR = {
     "kentucky": "KY",
     "louisiana": "LA",
     "maine": "ME",
+    "maine-2": "ME-2",
     "marshall islands": "MH",
     "maryland": "MD",
     "massachusetts": "MA",
@@ -41,6 +42,8 @@ let STATEABBR = {
     "missouri": "MO",
     "montana": "MT",
     "nebraska": "NE",
+    "nebraska-1": "NE-1",
+    "nebraska-2": "NE-2",
     "nevada": "NV",
     "new hampshire": "NH",
     "new jersey": "NJ",
@@ -557,7 +560,7 @@ function getMapCss(data, id_prefix="") {
             cssStr += "rgb(" + rgb.join(", ") + ")}\n";
         }
     })
-    
+    console.log(cssStr)
     return cssStr;
 }
 
@@ -705,9 +708,9 @@ function retrieveStates(prefix="") {
             // let rect = stateDiv.getBoundingClientRect()
             // stateSvg.style["margin-left"] = String(rect["left"]-880) + "px"
         }
-        if (i != 0 || i != 1) {
-            stateDiv.style["border-top"] = "3px solid white"
-        }
+        // if (i != 0 || i != 1) {
+        //     stateDiv.style["border-top"] = "3px solid white"
+        // }
         let stateText = document.createElement("p")
         stateText.classList.add("state-texts")
         stateText.innerHTML = state;
@@ -715,8 +718,21 @@ function retrieveStates(prefix="") {
         
         let style = document.getElementById("states-style")
         let beginning = style.innerText.indexOf(state)
-        let textColor = style.innerText.slice(beginning+10, style.innerText.indexOf("}", beginning))
+        let textColor;
+        let fontSize;
+        if (state.length == 4) {
+            textColor = style.innerText.slice(beginning+12, style.innerText.indexOf("}", beginning))
+            fontSize = "50px"
+            stateText.style["margin-right"] = "142px"
+            stateText.style["margin-top"] = "15px"
+        }
+        else {
+            textColor = style.innerText.slice(beginning+10, style.innerText.indexOf("}", beginning))
+            fontSize = "60px"
+        }
+        console.log(state, textColor)
         stateText.style.color = textColor
+        stateText.style["font-size"] = fontSize
         stateDiv.appendChild(stateText)
         
         stateDiv.addEventListener("click", function() {
@@ -959,8 +975,6 @@ function removeState(stateRemove) {
     }
     let state = stateResults.indexOf(stateDiv.id)
     removeGraphState(state)
-
-
 }
 
 

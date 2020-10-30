@@ -94,15 +94,18 @@ input[type="text"] {
     border-bottom-left-radius: 10px;
     /* border-radius: 15px; */
     z-index: 1;
+    table-layout: relative;
+    height: 118px;
 }
 
 .state-results {
     width: 800px;
-    display: table-cell;
-    width: 285px;
+    display: inline-block;
+    width: 297px;
     height: 100px;
     background-color: var(--card-bg);
     position: relative;
+    border-bottom: none;
 }
 
 .state-svgs {
@@ -118,10 +121,10 @@ input[type="text"] {
 .state-texts {
     display: inline;
     float: right;
-    margin-right: 180px;
+    margin-right: 150px;
     margin-top: 10px;
-    width: 100px;
-    font-size: 60px;
+    width: 150px;
+    /* font-size: 60px; */
     font-weight: 60;
     text-emphasis: none;
 }
