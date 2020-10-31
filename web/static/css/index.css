@@ -182,6 +182,7 @@ h2 {
 
 #map-wrapper {
     padding: 50px;
+    position: relative;
 }
 
 path {
@@ -189,13 +190,11 @@ path {
     stroke: var(--card-bg);
     stroke-linecap: round;
     stroke-miterlimit: 1;
-    z-index: 9;
-    transition: 0.3s;
+    transition: 0.05s;
 }
 
 path:hover {
     stroke: white;
-    z-index: 3;
 }
 
 
@@ -333,6 +332,40 @@ input[type="range"]::-moz-range-thumb {
 .state-name {
     display: inline;
     font-size: 50px;
+}
+
+
+#tooltip-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    pointer-events: none;
+}
+
+#el-map-tool-tip {
+    left: 20px;
+    position: absolute;
+    transition: left 0.2s, top 0.2s;
+}
+
+#tool-tip-body {
+    padding: 10px;
+    font-family: "Fira Code";
+    width: 180px;
+    height: 110px;
+    background: white;
+    border-radius: 4px;
+}
+
+#triangle {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white;
+    margin: auto;
 }
 
 /*******************************

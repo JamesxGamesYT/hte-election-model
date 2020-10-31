@@ -303,6 +303,31 @@ function addMapEventListener() {
     })
 }
 
+
+function showToolTip(e) {
+    var toolTipEl = document.getElementById("el-map-tool-tip");
+    var rect = document.getElementById("tooltip-container").getBoundingClientRect();
+    var x = e.clientX - rect.left - 100;
+    var y = e.clientY - rect.top - 180;
+
+    toolTipEl.style.left = x + "px";
+    toolTipEl.style.top = y + "px";
+}
+
+
+function moveUp(el) {
+    var parent = el.parentNode;
+    parent.appendChild(el);
+}
+
+var paths = document.querySelectorAll("#map path");
+for (var i = 0; i < paths.length; i++) {
+    paths[i].addEventListener("mouseover", function(e) {
+        moveUp(e.target);
+        showToolTip(e);
+    })
+}
+
 function EVTooltip(tooltipModel) {
     let tooltipEl = document.getElementById("ev-tooltip")
 
