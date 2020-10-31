@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>States | sss_election_model</title>
+        <title>States | hte_election_model</title>
         
         <link rel='stylesheet' href='/static/css/index.css'>
         <link rel='stylesheet' href='/static/css/theme.css'>
@@ -21,7 +21,7 @@
     <body>
         <div id='navbar'>     
             <div id='logo'>
-                <p>sss_election_model</p>
+                <p>hte_election_model</p>
             </div>
         </div>
         
@@ -51,8 +51,17 @@
 
         <div id='landingbg'></div>
 
-        <div id='states-heading'>Under Construction! Check back later.</div>
+        <div id='states-heading'>States</div>
+        <div id="add-state-div">
+            <input id="states-enter" type="text" placeholder="Add a state:" list="states"></input>
+        </div>
+        <div id="results-div">
+            <div id="results">
+                <style id="states-style"></style>
+            </div>
+        </div>
         <script type='text/javascript' src='/static/js/ui.js'></script>
         <script type='text/javascript' src='/static/js/load_data.js'></script>
+        <script type='text/javascript' src='/static/js/state_graphs.js'></script>
     </body>
 </html>

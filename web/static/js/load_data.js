@@ -32,6 +32,7 @@ let STATEABBR = {
     "kentucky": "KY",
     "louisiana": "LA",
     "maine": "ME",
+    "maine-2": "ME-2",
     "marshall islands": "MH",
     "maryland": "MD",
     "massachusetts": "MA",
@@ -41,6 +42,8 @@ let STATEABBR = {
     "missouri": "MO",
     "montana": "MT",
     "nebraska": "NE",
+    "nebraska-1": "NE-1",
+    "nebraska-2": "NE-2",
     "nevada": "NV",
     "new hampshire": "NH",
     "new jersey": "NJ",
@@ -70,7 +73,10 @@ let STATEABBR = {
     "wyoming": "WY"
 }
 
-
+let STATEUNABBR = {}
+Object.keys(STATEABBR).forEach(key => {
+    STATEUNABBR[STATEABBR[key]] = key
+})
 
 function DocReady(fn) {
     if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -100,14 +106,19 @@ function parseData(rt) {
     DEM_WIN_CHANCE = GetNthEntry(GLOBAL_DATA["dem_win_chance"], TOTAL_ENTRIES - 1)["dem"]
     DEM_ELECTORAL_VOTES = GetNthEntry(GLOBAL_DATA["percentile_ev"], TOTAL_ENTRIES - 1)["median"]
     DEM_POPULAR_VOTE = GetNthEntry(GLOBAL_DATA["percentile_state_margins"], TOTAL_ENTRIES - 1)["national"][1]
+    STATE_MARGINS = GLOBAL_DATA["percentile_state_margins"]
     SIMULATIONS_BY_EV = GLOBAL_DATA["simulations_by_ev"]
+    STATE_CHANCES = GLOBAL_DATA["state_chances"]
     SIMULATION_DATE = Object.keys(GLOBAL_DATA["dem_win_chance"])[TOTAL_ENTRIES - 1]
     SIMULATION_DATE = SIMULATION_DATE.slice(0, 10) + " " + String(Number(SIMULATION_DATE.slice(-2))) + ":00 UTC"
     TIPPING_POINT_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_data"], TOTAL_ENTRIES - 1)
     TIPPING_POINT_STATE_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_state_data"], TOTAL_ENTRIES-1)
     
-    if (document.title == "Predictions | sss_election_model") {
+    if (document.title == "Predictions | hte_election_model") {
         openPage();
+    }
+    else if (document.title == "States | hte_election_model") {
+        openStatesPage();
     }
 }
 
@@ -255,7 +266,7 @@ function loadLineChart(){
     })
 
     let gridLineColor = Array(11).fill(getCssletiable("--section-bg"))
-    gridLineColor[5] = getCssletiable("--card-bg"),
+    gridLineColor[5] = getCssletiable("--card-bg");
 
     lineConfig = {
         type: 'line',
@@ -322,14 +333,13 @@ function loadLineChart(){
                 }]
             }
         }
-    }
-
+    };
     configuredLineChart = new Chart(chart, lineConfig);
 }
 
 
 let configuredBarChart;
-let barConfig;
+
 function loadHistogram(index=TOTAL_ENTRIES-1) {
     // Chart.defaults.global.animation.duration = 1000
     let histogram = document.getElementById("ev_histogram_chart")
@@ -372,7 +382,6 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
         }
     }
 
-    console.log(EV_HISTOGRAM)
     let gridBarColor = Array(tippingPointIndex).fill(getCssletiable("--rep-bg"))
     gridBarColor.push("rgb(255,255,255)")
     gridBarColor.push.apply(gridBarColor, Array(Object.keys(EV_HISTOGRAM).length - tippingPointIndex - 1).fill(getCssletiable("--dem-bg")))
@@ -382,8 +391,8 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
     let fontColor = "rgb(255,255,255)"
     let ticks = linspace(dataMin, dataMax, 15)
     ticks.push("269")
-    console.log(ticks)
-    barConfig = {
+
+    let barConfig = {
         type: 'bar',
         data: {
             labels: Object.keys(EV_HISTOGRAM),
@@ -471,7 +480,7 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
                                 return;
                             }
                         }
-
+    
                     },
                     gridLines: {
                         color: getCssletiable("--card-bg"),
@@ -479,8 +488,7 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
                 }]
             }
         }
-    }
-
+    };
     configuredBarChart = new Chart(histogram, barConfig);
 }
 
@@ -552,7 +560,7 @@ function getMapCss(data, id_prefix="") {
             cssStr += "rgb(" + rgb.join(", ") + ")}\n";
         }
     })
-    
+    console.log(cssStr)
     return cssStr;
 }
 
@@ -604,15 +612,8 @@ function openPage() {
 
     loadLineChart();
     let mapStyle = document.getElementById("mapStyle");
-    mapStyle.innerHTML = getMapCss(GetNthEntry(GLOBAL_DATA["state_chances"], TOTAL_ENTRIES - 1));
-    // let mapWrapper = document.getElementById("map-wrapper")
-    // console.log(mapWrapper)
-    // let timelineDivs = mapWrapper.childNodes
-    // console.log(timelineDivs)
-    // mapWrapper.innerHTML = US_SVG
-    // mapWrapper.appendChild(timelineDivs[0])
-    // mapWrapper.appendChild(timelineDivs[1])
-    // console.log(mapWrapper.innerHTML)
+    mapStyle.innerHTML = getMapCss(GetNthEntry(STATE_CHANCES, TOTAL_ENTRIES - 1));
+
     let mapTimeline = document.getElementById("map-timeline");
     addMapEventListener();
     mapTimeline.max = TOTAL_ENTRIES - 1;
@@ -643,7 +644,339 @@ function openPage() {
     }
 
     tippingPointStates()
+
+}
+
+function retrieveResults(prefix="") {
+    prefix = prefix.trim()
+    let results = []
+    Object.keys(STATE_SVGS).forEach(key => {
+        let full = STATEUNABBR[key]
+        if (full.startsWith(prefix)) {
+            results.push(STATEABBR[full])
+        }
+    })
+    let resultsDiv = document.getElementById("results")
+    while (resultsDiv.firstChild.nextSibling.nextSibling) {
+        resultsDiv.removeChild(resultsDiv.lastChild);
+    }
+    return results;
+}
+
+function svgSizeChange(state, size) {
+    let svg = STATE_SVGS[state]
+    svg = svg.slice(0, svg.indexOf("id")) + 'id="' + state + '" width="' + size +'" ' + svg.slice(svg.indexOf("height"))
+    return svg
+}
+
+function retrieveStates(prefix="") {
+    let resultsDiv = document.getElementById("results")
+    results = retrieveResults(prefix)
+    if (results.length  > 0) {
+        resultsDiv.style.border = "5px solid white"
+    }
+    else {
+        resultsDiv.style.border = "none"
+    }
+    for (let i = 0; i < results.length; i++) {
+        state = results[i]
+        let stateDiv = document.createElement("div")
+        stateDiv.classList.add("state-results")
+        stateDiv.tabIndex = "0"
+
+        let stateSvg = document.createElement("div")
+        stateSvg.classList.add("state-svgs")
+        stateSvg.innerHTML = svgSizeChange(state, 85);
+        stateDiv.appendChild(stateSvg)
+
+        if (i % 2 == 0) {
+            let stateRow = document.createElement("div")
+            stateRow.style.display = "table-row"
+            stateRow.style.padding = "0px"
+            stateRow.appendChild(stateDiv)
+            resultsDiv.appendChild(stateRow)
+
+            // let rect = stateDiv.getBoundingClientRect()
+            // console.log(rect["left"])
+            // stateSvg.style["left"] = String(rect["left"]+0) + "px"
+            // // stateSvg.style.left = String(rect["left"] + 30) + "px"
+        }
+        else {
+            stateDiv.style["border-left"] = "6px solid white"
+            let stateRow = resultsDiv.lastChild
+            stateRow.appendChild(stateDiv)
+            // let rect = stateDiv.getBoundingClientRect()
+            // stateSvg.style["margin-left"] = String(rect["left"]-880) + "px"
+        }
+        // if (i != 0 || i != 1) {
+        //     stateDiv.style["border-top"] = "3px solid white"
+        // }
+        let stateText = document.createElement("p")
+        stateText.classList.add("state-texts")
+        stateText.innerHTML = state;
+
+        
+        let style = document.getElementById("states-style")
+        let beginning = style.innerText.indexOf(state)
+        let textColor;
+        let fontSize;
+        if (state.length == 4) {
+            textColor = style.innerText.slice(beginning+12, style.innerText.indexOf("}", beginning))
+            fontSize = "50px"
+            stateText.style["margin-right"] = "142px"
+            stateText.style["margin-top"] = "15px"
+        }
+        else {
+            textColor = style.innerText.slice(beginning+10, style.innerText.indexOf("}", beginning))
+            fontSize = "60px"
+        }
+        console.log(state, textColor)
+        stateText.style.color = textColor
+        stateText.style["font-size"] = fontSize
+        stateDiv.appendChild(stateText)
+        
+        stateDiv.addEventListener("click", function() {
+            console.log(stateDiv.lastChild.innerHTML)
+        })
+        stateDiv.addEventListener("mouseenter", function() {
+            stateDiv.style["background-color"] = "black"
+            stateSvg.innerHTML = svgSizeChange(stateDiv.lastChild.innerHTML, 90);
+        })
+        stateDiv.addEventListener("mouseleave", function() {
+            stateDiv.style["background-color"] = "var(--card-bg)"
+            stateSvg.innerHTML = svgSizeChange(stateDiv.lastChild.innerHTML, 85);
+        })
+        stateDiv.addEventListener("click", function() {
+            console.log(stateDiv.lastChild.innerHTML)
+        })
+    }
+    // For some reason this is necessary for the state svgs to be in the right place
+    if (results.length == 1) {
+        let stateSvgs = document.getElementsByClassName("state-svgs")
+        console.log(stateSvgs)
+        for (let i = 0; i < stateSvgs.length; i++) {
+            let stateSvg = stateSvgs[i]
+            console.log(stateSvg)
+            let right = stateSvg.getBoundingClientRect()["right"]
+            stateSvg.style.right = String(right + 0) + "px"
+        }
+    }
+}
+
+function capitalize(text) {
+    let wordsArray = text.toLowerCase().split(' ')
+    let capsArray = []
+
+    wordsArray.forEach(word => {
+        capsArray.push(word[0].toUpperCase() + word.slice(1))
+    });
+
+    return capsArray.join(' ')
+}
+
+let stateResults = ["add"]
+let graphMode = "chance"
+
+function searchRequest(state, mode=undefined) {
+    if (mode == "search") {
+        results = retrieveResults(state)
+        state = results[0]
+    }
+    console.log(state)
+    let resultsDiv = document.getElementById("results")
+    resultsDiv.style.border = "none"
+    if (state != undefined) {
+        stateResults.push(state)
+        let input = document.getElementById("states-enter")
+        input.style["border-top-left-radius"] = "0"
+        input.style["border-top-right-radius"] = "0"
+        let stateResult = document.createElement("div")
+        stateResult.id = state
+        stateResult.style.display = "inline-block"
+        stateResult.style.width = "630px"
+        stateResult.style["margin-left"] = "auto"
+        stateResult.style["margin-right"] = "auto"
+        stateResult.style.height = "100px"
+        stateResult.style["background-color"] = "white"
+        stateResult.style.display = "block"
+        stateResult.style["border-bottom"] = "3px solid grey"
+
+        if (stateResults.length == 2) {
+            // stateResult.style["margin-top"] = "150px"
+            stateResult.style["border-top-left-radius"] = "20px"
+            stateResult.style["border-top-right-radius"] = "20px"
+        }
+
+        let stateSvg = document.createElement("div")
+        stateSvg.style.height = "75px"
+        stateSvg.style.width = "100px"
+        stateSvg.style["margin-top"] = "15px"
+        stateSvg.style["margin-left"] = "15px"
+        stateSvg.style.display = "inline-block"
+        stateSvg.style.float = "left"
+        stateSvg.innerHTML = svgSizeChange(state, 85);
+        stateResult.append(stateSvg)
+
+        let stateText = document.createElement("p")
+        stateText.innerHTML = capitalize(STATEUNABBR[state]);
+        stateText.style.display = "inline"
+        stateText.style.float = "left"
+        stateText.style["margin-left"] = "20px"
+        stateText.style["text-align"] = "left"
+        stateText.style.width = "400px"
+        stateText.style["margin-top"] = "20px"
+        stateText.style["font-size"] = "42px"
+        stateText.style["font-weight"] = "70"
+        stateText.style["font-family"] = "Fira Code"
+        stateText.style.textEmphasis = "none"
+        let style = document.getElementById("states-style")
+        let beginning = style.innerText.indexOf(state)
+        let textColor = style.innerText.slice(beginning+10, style.innerText.indexOf("}", beginning))
+        stateText.style.color = "black"
+        stateResult.append(stateText)
+
+        let stateRemove = document.createElement("img")
+        stateRemove.classList.add(state)
+        stateRemove.src = "/static/media/remove.png"
+        stateRemove.style.width = "60px" 
+        stateRemove.style.height = "60px" 
+        stateRemove.style.float = "right"
+        stateRemove.style["margin-right"] = "20px"
+        stateRemove.style["margin-top"] = "20px"
+        stateRemove.style.opacity = "0.5"
+        stateRemove.addEventListener("click", function() {
+            removeState(stateRemove)
+        })
+        stateRemove.addEventListener("mouseenter", function() {
+            stateRemove.style.opacity = "0.7"
+        })
+        stateRemove.addEventListener("mouseleave", function() {
+            stateRemove.style.opacity = "0.5"
+        })
+        stateResult.appendChild(stateRemove)
+        let statesDiv = document.getElementById("add-state-div")
+        statesDiv.insertBefore(stateResult, input)
+        
+    }
+    if (stateResults.length == 2) {
+        let graphContainer = document.createElement("div")
+        graphContainer.id = "graph-container"
+        let headingsContainer = document.createElement("div")
+        headingsContainer.id = "headings-container"
+
+        let chanceContainer = document.createElement("div")
+        chanceContainer.id = "chance-container"
+        let chance = document.createElement("button")
+        chance.id = "chance"
+        chance.innerHTML = "Chance of Winning"
+        chance.addEventListener("click", function() {stateHeaderSelection("chance")})
+        chanceContainer.appendChild(chance)
+
+        let pvContainer = document.createElement("div")
+        pvContainer.id = "pv-container"
+        pvContainer.style["border-bottom"] = "5px solid white"
+        let pv = document.createElement("button")
+        pv.id = "pv"
+        pv.innerHTML = "Popular Vote Margin"
+        pv.addEventListener("click", function() {stateHeaderSelection("pv")})
+        pvContainer.appendChild(pv)
+
+        headingsContainer.appendChild(chanceContainer)
+        headingsContainer.appendChild(pvContainer)
+        
+        let headingFloatContainer = document.createElement("div")
+        headingFloatContainer.style.width = "100%"
+        headingFloatContainer.appendChild(headingsContainer)
+        headingFloatContainer.classList.add("movein")
+        headingFloatContainer.id = "heading-width-container-container"
+        document.body.appendChild(headingFloatContainer)
+        
+        graphWidthContainer = document.createElement("div")
+        graphWidthContainer.id = "state-chart-container"
+        graph = document.createElement("canvas")
+        graph.id = "state-chart"
+        graphWidthContainer.appendChild(graph)
+        graphContainer.classList.add("movein")
+        graphContainer.appendChild(graphWidthContainer)
+        document.body.appendChild(graphContainer)
+        
+        if (graphMode == "chance") {
+            loadStateLineChart("chance")
+        }
+        else {
+            loadStateLineChart("pv")
+        }
+    }
+    else {
+        if (graphMode == "chance") {
+            addStateLineChart(state, "chance")
+        }
+        else {
+            addStateLineChart(state, "pv")
+        }
+    }
+}
+
+function openStatesPage() {
+    let style = document.getElementById("states-style")
+    style.innerHTML = getMapCss(GetNthEntry(STATE_CHANCES, TOTAL_ENTRIES - 1))
+    let input = document.getElementById("states-enter")
+    input.classList.add('movein')
+    input.addEventListener("click", function() {
+        input.classList.add('bounce')
+    })
+    input.addEventListener("input", function() {
+        retrieveStates(input.value)
+    })
+    input.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            searchRequest(input.value, "search")
+        }
+    })
+    input.addEventListener("focus", function() {
+        retrieveStates(input.value)
+    })
+    input.addEventListener("blur", function(event) {
+        let resultsDiv = document.getElementById("results")
+        resultsDiv.style.border = "none"
+        let newFocus = event.relatedTarget
+        if (newFocus != null) {
+            searchRequest(newFocus.lastChild.innerHTML, "results")
+        }
+        retrieveResults()
+    })
+
+    // window.addEventListener("resize", resize(-30))
+}
+
+function removeState(stateRemove) {
+    let stateDiv = stateRemove.parentNode
+    stateResults.splice(stateResults.indexOf(stateDiv.id), 1)
+    console.log(stateResults)
+    let statesDiv = document.getElementById("add-state-div")
+    statesDiv.removeChild(stateDiv)
+    let firstChild = document.getElementById(stateResults[1])
+    if (firstChild != undefined) {
+        firstChild.style["border-top-left-radius"] = "20px"
+        firstChild.style["border-top-right-radius"] = "20px"
+    }
+    
+    if (stateResults.length == 1) {
+        let input = document.getElementById("states-enter")
+        input.style["border-top-left-radius"] = "20px"
+        input.style["border-top-right-radius"] = "20px"
+        
+        let graphContainer = document.getElementById('graph-container')
+        let headingContainer = document.getElementById("heading-width-container-container")
+        document.body.removeChild(graphContainer)
+        document.body.removeChild(headingContainer)
+    }
+    else {
+    }
+    let state = stateResults.indexOf(stateDiv.id)
+    removeGraphState(state)
 }
 
 
 DocReady(loadData);
+

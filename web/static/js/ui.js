@@ -454,3 +454,39 @@ function tippingPointStates() {
         }
     }
 }
+
+function stateHeaderSelection(header) {
+    let PVContainer = document.getElementById("pv-container")
+    let chanceContainer = document.getElementById("chance-container")
+
+    if (header == "pv") {
+        graphMode = "pv"
+        PVContainer.style["border-left"] = "none"
+        PVContainer.style["border-bottom-left-radius"] = "0px"        
+        PVContainer.style["border-bottom"] = "5px solid transparent"
+        PVContainer.style["background-color"] = "var(--card-bg)"
+
+        chanceContainer.style["border-right"] = "5px solid white"
+        chanceContainer.style["border-bottom"] = "5px solid white"
+        chanceContainer.style["border-bottom-left-radius"] = "0px"
+        chanceContainer.style["border-bottom-right-radius"] = "15px"
+        chanceContainer.style["background-color"] = "rgb(13,16,38)"
+
+        loadStateLineChart("pv")
+    }
+    else {
+        graphMode = "chance"
+        chanceContainer.style["border-right"] = "none"
+        chanceContainer.style["border-bottom-right-radius"] = "0px"        
+        chanceContainer.style["border-bottom"] = "5px solid transparent"
+        chanceContainer.style["background-color"] = "var(--card-bg)"
+        
+        PVContainer.style["border-left"] = "5px solid white"
+        PVContainer.style["border-bottom"] = "5px solid white"
+        PVContainer.style["border-bottom-left-radius"] = "15px"
+        PVContainer.style["border-bottom-right-radius"] = "0px"
+        PVContainer.style["background-color"] = "rgb(13,16,38)"
+
+        loadStateLineChart("chance")
+    }
+}
