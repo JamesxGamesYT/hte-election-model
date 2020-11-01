@@ -70,6 +70,7 @@ h2 {
     width: 100%;
     height: 85px;
     font-size: 30px;
+    font-weight: 500;
     color: white;
 }
 
@@ -83,6 +84,7 @@ h2 {
     line-height: 85px;
     height: 100%;
     transition: height 0.15s, line-height 0.15s;
+    box-shadow: var(--main-shadow);
 }
 
 .headings-container .right {
@@ -95,58 +97,30 @@ h2 {
     line-height: 70px;
 }
 
-.headings-container .non-active:hover {
-    box-shadow: 2px 2px 6px var(--main-shadow);
-}
-
 .mainsection {
     display: block;
     width: 90%;
     max-width: 1000px;
-    border-radius: 10px;
-    overflow: hidden;
     margin: 50px auto;
 }
 
 .mainsection .content {
     background-color: var(--card-bg);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: var(--main-shadow);
 }
 
 
 /***************************
  Graph section styling
 ***************************/
-
-#time-change {
-    display: block;
-}
-
 #time-change .headings-container {
     font-size: 26px;
 }
 
-#time-change .content {
-    background-color: var(--card-bg);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-}
-
-#ev-histogram {
-    display: block;
-    width: 1000px;
-    height: 1100px;
-    background-color: var(--card-bg);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
-    -2px -2px 6px rgba(255,255,255,0.4);
-    margin: 50px auto;
-    margin-top: 0px;
-}
-
 #ev-histogram .heading {
     background-color: var(--dem-bg);
-    height: 80px;
-    font-size: 40px;
-    padding-top: 30px;
-    color: white;
 }
 
 
@@ -213,6 +187,7 @@ path:hover {
 .today-container {
     width: 80%;
     height: 20px;
+    padding-bottom: 20px;
 }
 
 #line-timeline-today {
@@ -357,7 +332,6 @@ input[type="range"]::-moz-range-thumb {
     padding: 10px;
     font-family: "Fira Code";
     width: 180px;
-    height: 110px;
     background: white;
     border-radius: 4px;
     border: 3px solid black;
@@ -370,6 +344,36 @@ input[type="range"]::-moz-range-thumb {
 
 #tool-tip-body p {
     font-size: 15px;
+}
+
+#tool-tip-bar .stats-bar {
+    height: 21px;
+    margin: 4px 0px;
+}
+
+#tool-tip-caption {
+    padding: 5px 5px 0px 5px;
+}
+
+#tool-tip-caption div {
+    width: 50%;
+    display: inline-block;
+}
+
+#tool-tip-caption .biden {
+    text-align: left;
+}
+
+#tool-tip-caption .trump {
+    text-align: right;
+}
+
+#tool-tip-caption p {
+    font-size: 12px;
+}
+
+#tool-tip-caption h5 {
+    font-size: 18px;
 }
 
 #triangle {
@@ -497,7 +501,8 @@ input[type="range"]::-moz-range-thumb {
 
 .stats-segment {
     width: calc(50% - 2px);
-    height: 100%
+    height: 100%;
+    transition: width 0.1s;
 }
 
 .stats-segment.biden {
@@ -552,72 +557,56 @@ input[type="range"]::-moz-range-thumb {
 #chart {
     display: inline-block;
     position: relative;
+    width: 100%;
 }
 
 
-#tipping-points {
-    display: block;
-    width: 1000px;
-    height: 650px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background-color: var(--card-bg);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
-    -2px -2px 6px rgba(255,255,255,0.4);
-    margin: 50px auto;
-    margin-bottom: 0px;
-}
+/*===========================
+  Tipping point content css
+============================*/
 
-#tipping-points .heading, #state-tipping-points .heading {
-    font-size: 35px;
-    font-weight: 1000;
-    color: white;
-    padding-top: 50px;
-    margin-bottom: 40px;
+#tipping-point-margin, #pop-ev-split {
+    display: inline-block;
+    width: 40%;
+    margin: 30px;
+    border-radius: 15px;
+    background-color: var(--dem-bg);
+    min-height: 320px;
+    vertical-align: top;
+    box-shadow: var(--main-shadow);
 }
 
 #tipping-point-margin {
-    float: left;
-    width: 400px;
-    height: 450px;
-    margin-left: 50px;
-    margin-bottom: 50px;
-    border-radius: 20px;
-    background-color: var(--dem-bg);
+    margin-right: 0px;
 }
 
 #pop-ev-split {
-    float: right;
-    width: 400px;
-    height: 450px;
-    margin-right: 50px;
-    margin-bottom: 50px;
-    border-radius: 20px;
     background-color: var(--rep-bg);
 }
 
-#tipping-points p {
-    font-size: 25px;
-    font-weight: 500;
+#tipping-points p, #tipping-points .heading {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 400;
     color: white;
-    padding-top: 60px;
-    margin-bottom: 60px; 
-    margin-left: 30px;
-    margin-right: 30px;
+    padding: 20px;
+}
 
+#tipping-points .heading {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
 }
 
 .tipping-point-data {
-    font-size: 85px;
+    font-size: 4em;
     color: var(--card-bg);
-    bottom: 1000px;
-    margin-left: 100px;
-    margin-bottom: 75px;
-    position: absolute;
+    text-align: center;
+    margin: 0 35px;
 }
 
-#pop-ev-split #favored-text {
-    margin-top: 120px;
+#tipping-point-amount {
+    margin-top: 20px;
 }
 
 #tipping-points b {
@@ -626,32 +615,24 @@ input[type="range"]::-moz-range-thumb {
 }
 
 #state-tipping-points {
-    display: block;
-    width: 1000px;
-    height: 900px;
-    border-top: 6px solid var(--card-bg);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    background-color: var(--card-bg);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-    margin: 50px auto;
-    margin-top: 0px;
+    border-top: 6px solid var(--section-bg);
 }
 
 #likely {
     display: inline-block;
-    width: 900px;
-    height: 300px;
-    /* margin-left: 50px; */
-    /* margin-top: 50px; */
     background-color: var(--card-bg);
 }
 
 #not-so-likely {
     display: inline-block;
-    width: 900px;
-    height: 400px;
-    /* margin-right: 50px; */
     margin-bottom: 50px;
     background-color: var(--card-bg);
+}
+
+#tipping-points .percentage {
+    display: inline-block;
+    font-size: 35px;
+    margin-left: 15px;
+    position: absolute;
+    vertical-align: middle;
 }

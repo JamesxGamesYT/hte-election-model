@@ -122,6 +122,21 @@
                             <h4>State Name</h4>
                             <p>N electoral votes</p>
                         </div>
+                        <div id='tool-tip-bar'>
+                            <div id='tool-tip-caption'>
+                                <div class='biden'>
+                                    <h5 id='tt-biden-chance'>0%</h5>
+                                    <p>Biden</p>
+                                </div><div class='trump'>
+                                    <h5 id='tt-trump-chance'>0%</h5>
+                                    <p>Trump</p>
+                                </div>
+                            </div>
+                            <div class='stats-bar'>
+                                <div class='stats-segment biden'>
+                                </div><div class='stats-segment trump'></div>
+                            </div>
+                        </div>
                     </div>
                     <div id='triangle'></div>
                 </div>
@@ -146,52 +161,61 @@
         </div>
         <div class='content'>
             <div id="chart">
-                <canvas id="win_chance_chart" width="1000" height="600"></canvas>
+                <canvas id="win_chance_chart" width="100%"></canvas>
             </div>
         </div>
     </div>
     
-    <div id="ev-histogram">
-        <div class="heading">Electoral Vote Histogram</div>
-        <canvas id="ev_histogram_chart" width="1000" height="800"></canvas>
-        <h3 class="timeline">Timeline</h3>
-        <input id='bar-timeline' type='range' step=1 value=1 min=0 max=1>
-        <div class="today-container">
-            <div id="bar-timeline-today"></div>
+    <div id="ev-histogram" class='mainsection'>
+        <div class="headings-container">
+            <div class='heading right'>Electoral Vote Histogram</div>
+        </div>
+        <div class='content'>
+            <canvas id="ev_histogram_chart" width="1000" height="800"></canvas>
+            <h3 class="timeline">Timeline</h3>
+            <input id='bar-timeline' type='range' step=1 value=1 min=0 max=1>
+            <div class="today-container">
+                <div id="bar-timeline-today"></div>
+            </div>
         </div>
     </div>
-
-    <div id="tipping-points">
-        <div class="heading">Tipping Points</div>
-        <div id="tipping-point-margin">
-            <p>On average, Biden is leading the tipping point state by:</p>
-            <h2 id="tipping-point-amount" class="tipping-point-data"></h2>
+   
+    <div id="tipping-points" class='mainsection'>
+        <div class="headings-container">
+            <div class='heading right'>Tipping Points</div>
         </div>
-        <div id="pop-ev-split">
-            <p>The difference between Biden's popular vote margin and tipping point state margin is:</p>
-            <h2 id="pop-ev-amount" class="tipping-point-data"></h2>
-            <p id="favored-text">In favor of <b id="favored"></b></p>
-        </div>
-    </div>
-    <div id="state-tipping-points">
-        <style id="states-style"></style>
-        <div class="heading">Chance of Being Tipping Point</div>
-        <div id="likely">
-            <div class="heading">Likely</div>
-            <div class="state-likely-div"></div>
-            <div class="state-likely-div"></div>
-            <div class="state-likely-div"></div>
-            <div class="state-likely-div"></div>
-            <div class="state-likely-div"></div>
-            <div class="state-likely-div"></div>
-        </div>
-        <div id="not-so-likely">
-            <div class="heading">Not Very Likely</div>
-            <div class="state-non-likely-div"></div>
-            <div class="state-non-likely-div"></div>
-            <div class="state-non-likely-div"></div>
-            <div class="state-non-likely-div"></div>
-            <div class="state-non-likely-div"></div>
+        <div class='content'>
+            <div class='separation'>
+                <div id="tipping-point-margin">
+                    <p>On average, Biden is leading the tipping point state by</p>
+                    <h2 id="tipping-point-amount" class="tipping-point-data"></h2>
+                </div>
+                <div id="pop-ev-split">
+                    <p>The difference between Biden's popular vote margin and tipping point state margin is</p>
+                    <h2 id="pop-ev-amount" class="tipping-point-data"></h2>
+                    <p id="favored-text">In favor of <b id="favored"></b></p>
+                </div>
+            </div>
+            <div id="state-tipping-points">
+                <style id="states-style"></style>
+                <div id="likely">
+                    <div class="heading">Likely To Be Tipping Point</div>
+                    <div class="state-likely-div"></div>
+                    <div class="state-likely-div"></div>
+                    <div class="state-likely-div"></div>
+                    <div class="state-likely-div"></div>
+                    <div class="state-likely-div"></div>
+                    <div class="state-likely-div"></div>
+                </div>
+                <div id="not-so-likely">
+                    <div class="heading">Unlikely To Be Tipping Point</div>
+                    <div class="state-non-likely-div"></div>
+                    <div class="state-non-likely-div"></div>
+                    <div class="state-non-likely-div"></div>
+                    <div class="state-non-likely-div"></div>
+                    <div class="state-non-likely-div"></div>
+                </div>
+            </div>
         </div>
     </div>
     
