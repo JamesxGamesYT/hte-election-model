@@ -1,3 +1,8 @@
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}
+
+
 let Ham = document.getElementById("hamburger");
 let Overlay = document.getElementById("menu-overlay");
 
@@ -33,7 +38,6 @@ function closeMenu() {
     Menu.classList.remove("opened");
     Menu.classList.add("closed");
 }
-
 
 function header_selection(heading){
     headers = document.getElementsByClassName("heading")
@@ -103,11 +107,8 @@ function animateMethodology() {
 
 function addMapEventListener() {
     let mapTimeline = document.getElementById("map-timeline");
-
-    
     let currentLength = 0;
-    console.log(Object.keys(GLOBAL_DATA["dem_win_chance"]))
-    console.log(mapTimeline.value)
+
     let simDate = Object.keys(GLOBAL_DATA["dem_win_chance"])[mapTimeline.value]
     simDate = simDate.slice(5, 7) + '/' + simDate.slice(8, 10) + " " + simDate.slice(11, 13) + "H"
     let lastTimelineValues = [simDate, simDate]
@@ -163,22 +164,13 @@ function addMapEventListener() {
         let explainer = document.getElementById("explainer")
         if (!stateHeading) {
             let heading = document.createElement("h3")
-            heading["id"] = "state-heading"
-            heading["class"] = "timeline"
+            heading.id = "state-heading"
+            heading.class = "timeline"
             heading.innerText = "State Changes"
-            heading.style.color = "white";
-            heading.style["font-size"] = "35px";
-            heading.style["margin-top"] = "40px"
-            heading.style["margin-bottom"] = "30px"
-            // heading.style.width = "1000px"
             document.getElementById("map-wrapper").insertBefore(heading, stateChangeContainer)
             
             explainer = document.createElement("p")
-            explainer["id"] = "explainer"
-            explainer.style.color = "white";
-            explainer.style["margin-top"] = "30px"
-            explainer.style["margin-bottom"] = "50px"
-            explainer.style["font-size"] = "25px";
+            explainer.id = "explainer"
             explainer.innerText = "From " + beforeTime + " to " + afterTime + ", how did Democrats' state chances change?"
             document.getElementById("map-wrapper").insertBefore(explainer, stateChangeContainer)
         }
@@ -186,11 +178,7 @@ function addMapEventListener() {
         if (explainer) {
             explainer.remove()
             explainer = document.createElement("p")
-            explainer["id"] = "explainer"
-            explainer.style.color = "white";
-            explainer.style["margin-top"] = "30px"
-            explainer.style["margin-bottom"] = "50px"
-            explainer.style["font-size"] = "25px";
+            explainer.id = "explainer"
             explainer.innerText = "From " + beforeTime + " to " + afterTime + ", how did Democrats' state chances change?"
             document.getElementById("map-wrapper").insertBefore(explainer, stateChangeContainer)
         }
@@ -199,24 +187,18 @@ function addMapEventListener() {
         let noChanges = document.getElementById("no-changes")
         if (!noChanges && !stateHeading) {
             let noChanges = document.createElement("h4")
-            noChanges["id"] = "no-changes"
+            noChanges.id = "no-changes"
             noChanges.innerText = "No signficant changes"
-            noChanges.style.color = "white";
-            noChanges.style["font-size"] = "25px";
-            noChanges.style["margin-top"] = "15px"
             stateChangeContainer.appendChild(noChanges)
         }
         else if (Object.keys(changes).length == 0){
             while (stateChangeContainer.firstChild.nextSibling) {
                 stateChangeContainer.removeChild(stateChangeContainer.lastChild);
             }
-            // noChanges.remove()
+
             noChanges = document.createElement("h4")
-            noChanges["id"] = "no-changes"
+            noChanges.id = "no-changes"
             noChanges.innerText = "No signficant changes"
-            noChanges.style.color = "white";
-            noChanges.style["font-size"] = "25px";
-            noChanges.style["margin-top"] = "20px"
             stateChangeContainer.appendChild(noChanges)
         }
         else {
@@ -231,7 +213,6 @@ function addMapEventListener() {
                 stateDiv.style.height = "75px";
                 let width = String(Math.abs((Number(changes[state]) * 1000).toFixed(2)))
                 stateDiv.style.width = width;
-                console.log(top)
                 // stateDiv.style.position = "absolute"
                 stateDiv.style.display = "block"
                 stateDiv.style["margin-bottom"] = "20px"
@@ -260,7 +241,7 @@ function addMapEventListener() {
                         lerp(parseInt(demC[1]), 255, 1-(changes[state])),
                         lerp(parseInt(demC[2]), 255, 1-(changes[state]))
                     ]
-                    console.log(rgb)
+
                     let rgbString = "rgb(" + rgb.join(",") + ")"
                     stateImage.style.fill = rgbString;
                     
@@ -274,13 +255,12 @@ function addMapEventListener() {
                     stateDiv.appendChild(stateAmount)
                 }
                 else {
-                    console.log(1+changes[state])
                     rgb = [
                         lerp(255, parseInt(repC[0]), Math.abs(changes[state])),
                         lerp(255, parseInt(repC[1]), Math.abs(changes[state])),
                         lerp(255, parseInt(repC[2]), Math.abs(changes[state])),
                     ]
-                    console.log(rgb)
+
                     let rgbString = "rgb(" + rgb.join(",") + ")"
                     stateImage.style.fill = rgbString;
 
@@ -292,7 +272,6 @@ function addMapEventListener() {
                     stateDiv.appendChild(stateAmount)
                     stateDiv.appendChild(stateName)
                     stateDiv.appendChild(stateImage)
-                    console.log(stateImage.style)
                 }
                 stateChangeContainer.appendChild(stateDiv)
             }
@@ -304,16 +283,44 @@ function addMapEventListener() {
 }
 
 
-function showToolTip(e) {
-    var toolTipEl = document.getElementById("el-map-tool-tip");
-    var rect = document.getElementById("tooltip-container").getBoundingClientRect();
-    var x = e.clientX - rect.left - 100;
-    var y = e.clientY - rect.top - 180;
+var toolTipEl = document.getElementById("el-map-tool-tip");
+var ttHeader = toolTipEl.getElementsByClassName("header")[0];
 
-    toolTipEl.style.left = x + "px";
-    toolTipEl.style.top = y + "px";
+function titleCase(str) {
+    return str.toLowerCase().split(' ').map(function(word) {
+        return word.replace(word[0], word[0].toUpperCase());
+    }).join(' ');
 }
 
+function showToolTip(e) {
+    toolTipEl.style.opacity = "1";
+    var parentRect = document.getElementById("tooltip-container").getBoundingClientRect();
+    var pathRect = e.target.getBoundingClientRect();
+
+    var state = getKeyByValue(STATEABBR, e.target.id);
+    ttHeader.getElementsByTagName("h4")[0].innerHTML = titleCase(state);
+    ttHeader.getElementsByTagName("p")[0].innerHTML = EVNUMBERS[state] + " Electoral Votes"
+
+    // Calculate the top and left positions
+    var top = pathRect.top - parentRect.top;
+    var left = pathRect.left - parentRect.left;
+
+    left -= 0.5 * toolTipEl.scrollWidth;
+    top -= toolTipEl.scrollHeight;
+
+    left += pathRect["width"] / 2;
+    top += 15;
+
+    toolTipEl.style.left = left + "px";
+    toolTipEl.style.top = top + "px";
+}
+
+
+document.addEventListener("mouseover", function(e) {
+    if (e.target.tagName != "path") {
+        toolTipEl.style.opacity = "0";
+    }
+})
 
 function moveUp(el) {
     var parent = el.parentNode;
@@ -412,7 +419,7 @@ function tippingPointStates() {
         let color = string.slice(11, -1)
         colorsDict[key] = color
     })
-    console.log(colorsDict)
+
     let stateTippingLikelyList = document.getElementsByClassName("state-likely-div")
     let stateTippingNonLikelyList = document.getElementsByClassName("state-non-likely-div")
     for (var i = 0; i < 11; i++){
@@ -424,7 +431,7 @@ function tippingPointStates() {
             else {
                 stateTipping = stateTippingNonLikelyList[i-6]
             }
-            console.log(i-6)
+
             stateTipping.style.display = "inline-block";
             stateTipping.style["margin-right"] = "150px"
             stateTipping.style["margin-left"] = "50px"
