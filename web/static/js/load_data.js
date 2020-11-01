@@ -6,7 +6,12 @@ let WinChanceDict;
 Chart.defaults.global.defaultFontSize = 20;
 Chart.defaults.global.defaultFontFamily = "Fira Code";
 Chart.defaults.global.elements.point.radius = 1.5;
-Chart.defaults.global.animation.duration = 1
+Chart.defaults.global.animation.duration = 1;
+
+// Add some much needed padding between chart and legend
+Chart.Legend.prototype.afterFit = function() {
+    this.height = this.height + 10;
+};
 
 const STATEABBR = {
     "alabama": "AL",
@@ -246,11 +251,11 @@ function loadEV() {
     lineConfig.data.datasets.push(newDemDataset, newRepDataset)
 
     let muteColor = "rgb(40, 60, 70)";
-    let gridLineColor = Array(19).fill(muteColor);
-    gridLineColor[9] = getCssletiable("--section-bg");
+    let gridLineColor = Array(11).fill(muteColor);
+    gridLineColor[5] = getCssletiable("--section-bg");
 
     lineConfig.options.scales.yAxes[0].ticks.max = 538;
-    lineConfig.options.scales.yAxes[0].ticks.stepSize = 30;
+    lineConfig.options.scales.yAxes[0].ticks.stepSize = 54;
     lineConfig.options.scales.yAxes[0].gridLines.color = gridLineColor;
     lineConfig.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
         return value;
@@ -353,10 +358,13 @@ function loadLineChart(){
         options: {
             responsive: true,
             tooltips: {
-                intersect: false,
+                intersect: false
             },
             legend: {
-                fontColor: getCssletiable("--card-bg"),
+                fontColor: getCssletiable("--section-bg"),
+                labels: {
+                    padding: 20
+                }
             },
             scales: {
                 yAxes: [{
@@ -375,7 +383,7 @@ function loadLineChart(){
                 }],
                 xAxes: [{
                     ticks: {
-                        fontColor: getCssletiable("--card-bg"),
+                        fontColor: getCssletiable("--section-bg"),
                         minRotation: 45
                     },
                     gridLines: {
@@ -437,8 +445,8 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
     let gridBarColor = Array(tippingPointIndex).fill(getCssletiable("--rep-bg"))
     gridBarColor.push("rgb(255,255,255)")
     gridBarColor.push.apply(gridBarColor, Array(Object.keys(EV_HISTOGRAM).length - tippingPointIndex - 1).fill(getCssletiable("--dem-bg")))
-    gridBarColor[0] = getCssletiable("--card-bg")
-    gridBarColor[gridBarColor.length - 1] = getCssletiable("--card-bg")
+    gridBarColor[0] = getCssletiable("--section-bg")
+    gridBarColor[gridBarColor.length - 1] = getCssletiable("--section-bg")
 
     let fontColor = "rgb(255,255,255)"
     let ticks = linspace(dataMin, dataMax, 15)
@@ -475,8 +483,7 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
                 fontColor: fontColor
             },
             legend: {
-                fontColor: fontColor,
-                display: false,
+                display: false
             },
             layout: {
                 padding: {

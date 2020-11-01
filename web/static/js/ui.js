@@ -65,7 +65,7 @@ function header_selection(heading){
     let chart = document.getElementById('win_chance_chart');
 }
 
-function setStatsBarSize(statsBar, width, dVal, rVal) {
+function setStatsBarSize(statsBar, width) {
     statsBar.getElementsByClassName("biden")[0].style.width = "calc(" + width + "% - 2px)"
     statsBar.getElementsByClassName("trump")[0].style.width = "calc(" + (100 - width) + "% - 2px";
 }
@@ -301,6 +301,14 @@ function showToolTip(e) {
     ttHeader.getElementsByTagName("h4")[0].innerHTML = titleCase(state);
     ttHeader.getElementsByTagName("p")[0].innerHTML = EVNUMBERS[state] + " Electoral Votes"
 
+    var bidenChance = GetNthEntry(STATE_CHANCES, TOTAL_ENTRIES - 1)[state];
+
+    document.getElementById("tt-biden-chance").innerHTML = (Math.round(1000 * bidenChance) / 10) + "%";
+    document.getElementById("tt-trump-chance").innerHTML = (Math.round(1000 * (1-bidenChance)) / 10) + "%";
+    
+    var statsBar = toolTipEl.getElementsByClassName("stats-bar")[0];
+    setStatsBarSize(statsBar, bidenChance * 100)
+
     // Calculate the top and left positions
     var top = pathRect.top - parentRect.top;
     var left = pathRect.left - parentRect.left;
@@ -443,11 +451,7 @@ function tippingPointStates() {
             let percentage = document.createElement("p")
             percentageText = (data_arr[1]*100).toFixed(1)
             percentage.innerHTML = String(percentageText) + "%"
-            percentage.style.display = "inline-block"
-            percentage.style["font-size"] = "50px"
-            percentage.style["margin-top"] = "20px"
-            percentage.style["margin-left"] = "15px"
-            percentage.style.position = "absolute"
+            percentage.className = "percentage"
             percentage.style.color = colorsDict[STATEABBR[data_arr[0]]]
 
             stateTippingDiv.style.display = "inline-block"
