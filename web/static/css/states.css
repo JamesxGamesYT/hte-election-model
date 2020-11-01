@@ -95,7 +95,7 @@ input[type="text"] {
     /* border-radius: 15px; */
     z-index: 1;
     table-layout: relative;
-    height: 118px;
+    height: 100px;
 }
 
 .state-results {

@@ -136,7 +136,7 @@ function loadStateLineChart(mode){
         stateLineConfig.options.scales.xAxes[0].gridLines.zeroLineColor = "rgb(255,255,255)"
     }
     console.log(stateLineConfig)
-    for (let state of stateResults.slice(1)) {
+    for (let state of stateResults) {
         addGraphState(state, mode)
     }
     configuredStateLineChart = new Chart(graph, stateLineConfig);
@@ -144,10 +144,49 @@ function loadStateLineChart(mode){
 }
 
 function addGraphState(state, mode) {
+    console.log(stateColors)
+    if (state == "ES") {
+        addGraphState("SC", mode)
+        addGraphState("GA", mode)
+        addGraphState("FL", mode)
+        addGraphState("NC", mode)
+        addGraphState("VA", mode)
+        addGraphState("NH", mode)
+        addGraphState("ME-2", mode)
+        return;
+    }
+    else if (state == "GP") {
+        addGraphState("MO", mode)
+        addGraphState("KS", mode)
+        addGraphState("NE-1", mode)
+        addGraphState("NE-2", mode)
+        addGraphState("TX", mode)
+        addGraphState("IA", mode)
+        return;
+    }
+    else if (state == "WS") {
+        addGraphState("AK", mode)
+        addGraphState("MT", mode)
+        addGraphState("NV", mode)
+        addGraphState("AZ", mode)
+        addGraphState("CO", mode)
+        addGraphState("NM", mode)
+        return;
+    }
+    else if (state == "MW") {
+        addGraphState("MN", mode)
+        addGraphState("WI", mode)
+        addGraphState("MI", mode)
+        addGraphState("PA", mode)
+        addGraphState("OH", mode)
+        addGraphState("IN", mode)
+        return;
+    }
     let data = {}
     let currentDataColors = []
-    let dataColor = dataColors[(stateResults.indexOf(state)-1) % dataColors.length]
-
+    let dataColor = dataColors[(stateColors.indexOf(state)) % dataColors.length]
+    
+    console.log(STATEUNABBR[state])
     if (mode == "pv") {
         Object.keys(STATE_MARGINS).forEach(time => {
             let value = STATE_MARGINS[time][STATEUNABBR[state]][1]
@@ -175,12 +214,15 @@ function addGraphState(state, mode) {
 
 function removeGraphState(state) {
     let dataset = configuredStateLineChart["data"]["datasets"]
-    dataset.splice(stateResults.indexOf(state)-1,1);
+    console.log(stateColors, state)
+    dataset.splice(stateColors.indexOf(state),1);
+    console.log(dataset)
     for (let i = 0; i < dataset.length; i++) {
         dataset[i]["pointBackgroundColor"] = dataColors[i % DATA_COLORS_LEN]
         dataset[i]["pointBorderColor"] = dataColors[i % DATA_COLORS_LEN]
         dataset[i]["borderColor"] = dataColors[i % DATA_COLORS_LEN]
     }
+    console.log(stateResults)
     configuredStateLineChart.update(); 
 }
 

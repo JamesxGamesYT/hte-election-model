@@ -24,9 +24,11 @@ const STATEABBR = {
     "connecticut": "CT",
     "delaware": "DE",
     "district of columbia": "DC",
+    "east coast": "ES",
     "federated states of micronesia": "FM",
     "florida": "FL",
     "georgia": "GA",
+    "great plains": "GP",
     "guam": "GU",
     "hawaii": "HI",
     "idaho": "ID",
@@ -42,6 +44,7 @@ const STATEABBR = {
     "maryland": "MD",
     "massachusetts": "MA",
     "michigan": "MI",
+    "midwest": "MW",
     "minnesota": "MN",
     "mississippi": "MS",
     "missouri": "MO",
@@ -73,6 +76,7 @@ const STATEABBR = {
     "virgin islands": "VI",
     "virginia": "VA",
     "washington": "WA",
+    "west": "WS",
     "west virginia": "WV",
     "wisconsin": "WI",
     "wyoming": "WY"
@@ -619,7 +623,6 @@ function getMapCss(data, id_prefix="") {
             cssStr += "rgb(" + rgb.join(", ") + ")}\n";
         }
     })
-
     return cssStr;
 }
 
@@ -719,6 +722,7 @@ function retrieveResults(prefix="") {
     while (resultsDiv.firstChild.nextSibling.nextSibling) {
         resultsDiv.removeChild(resultsDiv.lastChild);
     }
+    console.log(results)
     return results;
 }
 
@@ -785,18 +789,18 @@ function retrieveStates(prefix="") {
             stateText.style["margin-right"] = "142px"
             stateText.style["margin-top"] = "15px"
         }
+        else if (["GP", "MW", "WS", "ES"].includes(state)) {
+            textColor = "rgb(255,255,255)"
+            fontSize = "60px"
+        }
         else {
             textColor = style.innerText.slice(beginning+10, style.innerText.indexOf("}", beginning))
             fontSize = "60px"
         }
-
         stateText.style.color = textColor
         stateText.style["font-size"] = fontSize
         stateDiv.appendChild(stateText)
         
-        stateDiv.addEventListener("click", function() {
-            console.log(stateDiv.lastChild.innerHTML)
-        })
         stateDiv.addEventListener("mouseenter", function() {
             stateDiv.style["background-color"] = "black"
             stateSvg.innerHTML = svgSizeChange(stateDiv.lastChild.innerHTML, 90);
@@ -805,18 +809,24 @@ function retrieveStates(prefix="") {
             stateDiv.style["background-color"] = "var(--card-bg)"
             stateSvg.innerHTML = svgSizeChange(stateDiv.lastChild.innerHTML, 85);
         })
-        stateDiv.addEventListener("click", function() {
-            console.log(stateDiv.lastChild.innerHTML)
-        })
     }
     // For some reason this is necessary for the state svgs to be in the right place
     if (results.length == 1) {
+        resultsDiv.style["width"] = "290px"
+        resultsDiv.style["height"] = "100px"
         let stateSvgs = document.getElementsByClassName("state-svgs")
         for (let i = 0; i < stateSvgs.length; i++) {
             let stateSvg = stateSvgs[i]
             let right = stateSvg.getBoundingClientRect()["right"]
             stateSvg.style.right = String(right + 0) + "px"
         }
+    }
+    // else if (results.length == 2) {
+    //     resultsDiv.style["height"] = "100px"
+    // }
+    else {
+        resultsDiv.style["width"] = "600px"
+        resultsDiv.style["height"] = "100px"
     }
 }
 
@@ -831,7 +841,8 @@ function capitalize(text) {
     return capsArray.join(' ')
 }
 
-let stateResults = ["add"]
+let stateResults = []
+let stateColors = []
 let graphMode = "chance"
 
 function searchRequest(state, mode=undefined) {
@@ -844,6 +855,42 @@ function searchRequest(state, mode=undefined) {
     resultsDiv.style.border = "none"
     if (state != undefined) {
         stateResults.push(state)
+        if (state == "ES") {
+            stateColors.push("ME-2")
+            stateColors.push("FL")
+            stateColors.push("NC")
+            stateColors.push("VA")
+            stateColors.push("SC")
+            stateColors.push("NH")
+            stateColors.push("GA")
+        }
+        else if (state == "GP") {
+            stateColors.push("MO")
+            stateColors.push("KS")
+            stateColors.push("NE-1")
+            stateColors.push("NE-2")
+            stateColors.push("TX")
+            stateColors.push("IA")
+        }
+        else if (state == "WS") {
+            stateColors.push("AK")
+            stateColors.push("MT")
+            stateColors.push("NV")
+            stateColors.push("AZ")
+            stateColors.push("CO")
+            stateColors.push("NM")
+        }
+        else if (state == "MW") {
+            stateColors.push("MN")
+            stateColors.push("WI")
+            stateColors.push("MI")
+            stateColors.push("PA")
+            stateColors.push("OH")
+            stateColors.push("IN")
+        }
+        else {
+            stateColors.push(state)
+        }
         let input = document.getElementById("states-enter")
         input.style["border-top-left-radius"] = "0"
         input.style["border-top-right-radius"] = "0"
@@ -858,7 +905,7 @@ function searchRequest(state, mode=undefined) {
         stateResult.style.display = "block"
         stateResult.style["border-bottom"] = "3px solid grey"
 
-        if (stateResults.length == 2) {
+        if (stateResults.length == 1) {
             // stateResult.style["margin-top"] = "150px"
             stateResult.style["border-top-left-radius"] = "20px"
             stateResult.style["border-top-right-radius"] = "20px"
@@ -867,7 +914,12 @@ function searchRequest(state, mode=undefined) {
         let stateSvg = document.createElement("div")
         stateSvg.style.height = "75px"
         stateSvg.style.width = "100px"
-        stateSvg.style["margin-top"] = "15px"
+        if (["ES", "GP", "MW"].includes(state)) {
+            stateSvg.style["margin-top"] = "7px"
+        }
+        else {
+            stateSvg.style["margin-top"] = "15px"
+        }
         stateSvg.style["margin-left"] = "15px"
         stateSvg.style.display = "inline-block"
         stateSvg.style.float = "left"
@@ -915,7 +967,7 @@ function searchRequest(state, mode=undefined) {
         statesDiv.insertBefore(stateResult, input)
         
     }
-    if (stateResults.length == 2) {
+    if (stateResults.length == 1) {
         let graphContainer = document.createElement("div")
         graphContainer.id = "graph-container"
         let headingsContainer = document.createElement("div")
@@ -958,6 +1010,7 @@ function searchRequest(state, mode=undefined) {
         document.body.appendChild(graphContainer)
         
         if (graphMode == "chance") {
+            console.log(state)
             loadStateLineChart("chance")
         }
         else {
@@ -1008,8 +1061,9 @@ function openStatesPage() {
 
 function removeState(stateRemove) {
     let stateDiv = stateRemove.parentNode
-    stateResults.splice(stateResults.indexOf(stateDiv.id), 1)
+    console.log(stateDiv)
     console.log(stateResults)
+    console.log(stateColors)
     let statesDiv = document.getElementById("add-state-div")
     statesDiv.removeChild(stateDiv)
     let firstChild = document.getElementById(stateResults[1])
@@ -1031,7 +1085,35 @@ function removeState(stateRemove) {
     else {
     }
     let state = stateResults.indexOf(stateDiv.id)
-    removeGraphState(state)
+    console.log(state)
+    if (stateDiv.id == "ES") {
+        for(let removeState of ["SC", "GA", "FL", "NC", "VA", "NH", "ME-2"]) {
+            stateColors.splice(stateColors.indexOf(removeState), 1)
+            removeGraphState(removeState)
+        }
+    }
+    else if (state == "GP") {
+        for(let removeState of ["MO", "KS", "NE-1", "NE-2", "TX", "IA"]) {
+            stateColors.splice(stateColors.indexOf(removeState), 1)
+            removeGraphState(removeState)
+        }
+    }
+    else if (state == "WS") {
+        for(let removeState of ["AK", "MT", "NV", "AZ", "CO", "NM"]) {
+            stateColors.splice(stateColors.indexOf(removeState), 1)
+            removeGraphState(removeState)
+        }
+    }
+    else if (state == "MW") {
+        for(let removeState of ["MN", "WI", "MI", "PA", "OH", "IN"]) {
+            stateColors.splice(stateColors.indexOf(removeState), 1)
+            removeGraphState(removeState)
+        }
+    }
+    else {
+        removeGraphState(state)
+    }
+    stateResults.splice(stateResults.indexOf(stateDiv.id), 1)
 }
 
 
