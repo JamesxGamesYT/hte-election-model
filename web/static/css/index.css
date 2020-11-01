@@ -62,6 +62,56 @@ h2 {
 
 
 
+.headings-container {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 100%;
+    height: 85px;
+    font-size: 30px;
+    color: white;
+}
+
+.headings-container .heading {
+    flex-grow: 1;
+    text-align: center;
+    margin-right: 8px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background-color: var(--rep-bg);
+    line-height: 85px;
+    height: 100%;
+    transition: height 0.15s, line-height 0.15s;
+}
+
+.headings-container .right {
+    margin-right: 0px;
+}
+
+.headings-container .non-active {
+    cursor: pointer;
+    height: 70px;
+    line-height: 70px;
+}
+
+.headings-container .non-active:hover {
+    box-shadow: 2px 2px 6px var(--main-shadow);
+}
+
+.mainsection {
+    display: block;
+    width: 90%;
+    max-width: 1000px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 50px auto;
+}
+
+.mainsection .content {
+    background-color: var(--card-bg);
+}
+
 
 /***************************
  Graph section styling
@@ -69,13 +119,15 @@ h2 {
 
 #time-change {
     display: block;
-    width: 1000px;
-    height: 600px;
-    background-color: var(--section-bg);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
-    -2px -2px 6px rgba(255,255,255,0.4);
-    margin: 100px auto;
-    margin-top: 0px;
+}
+
+#time-change .headings-container {
+    font-size: 26px;
+}
+
+#time-change .content {
+    background-color: var(--card-bg);
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
 }
 
 #ev-histogram {
@@ -95,66 +147,6 @@ h2 {
     font-size: 40px;
     padding-top: 30px;
     color: white;
-    /* font-size: 35px;
-    font-weight: 1000;
-    color: white;
-    padding-top: 50px;
-    margin-bottom: 40px; */
-}
-
-.tabs {
-    display: block;
-    width: 100%;
-    height: 100px;
-    background-color: white;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
-    -2px -2px 6px rgba(255,255,255,0.4);
-}
-
-#headings-container {
-    display: inline-table;
-    width: 1000px;
-    margin: 0px;
-    background-color: #d7edff;
-    border-radius: 10px;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
-    -2px -2px 6px rgba(255,255,255,0.4);
-}
-
-#headings {
-    display: table-row;
-    height: 100px;
-    font-size: 25px;
-    border-color: #d7edff;
-    background-color: var(--rep-bg);
-    color: white;
-}
-
-#headings .heading {
-    padding-top: 30px;
-    text-align: center;
-    display: table-cell;
-    width: 800px;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-}
-
-#headings .spaces {
-    display: table-cell;
-    width: 30px;
-    background-color: #d7edff;
-}
-
-#headings .non-active {
-    cursor: pointer;
-    border-bottom: 6px solid #d7edff;
-    border-top: 10px solid #d7edff;
-}
-
-#headings .non-active:hover {
-    background-color: rgba(131, 131, 131, 0.1);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
-    -2px -2px 20px rgba(255,255,255,0.4);
 }
 
 
@@ -162,26 +154,11 @@ h2 {
  Electoral map and svg styling
 ******************************/
 
-#electoral-map {
-    display: block;
-    width: 1000px;
-    border-radius: 10px;
-    background-color: var(--card-bg);
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1),
-    -2px -2px 6px rgba(255,255,255,0.4);
-    margin: 50px auto;
-}
-
 #electoral-map .heading {
     background-color: var(--dem-bg);
-    height: 80px;
-    font-size: 40px;
-    padding-top: 30px;
-    color: white;
 }
 
 #map-wrapper {
-    padding: 50px;
     position: relative;
 }
 
@@ -201,7 +178,7 @@ path:hover {
 #map-timeline {
     -webkit-appearance: none;
     margin-right: 10px;
-    height: 12px;
+    height: 10px;
     background: transparent;
     outline: none;
     -webkit-transition: .2s;
@@ -216,7 +193,7 @@ path:hover {
 #bar-timeline {
     -webkit-appearance: none;
     margin-right: 10px;
-    height: 12px;
+    height: 10px;
     background: transparent;
     outline: none;
     -webkit-transition: .2s;
@@ -256,8 +233,8 @@ path:hover {
 
 input[type="range"]::-webkit-slider-thumb {
     appearance: none;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     background: white;
     border: 3px solid white;
     border-radius: 100%;
@@ -267,8 +244,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 input[type="range"]::-moz-range-thumb {
     -webkit-appearance: none;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     background: white;
     border: 3px solid white;
     border-radius: 100%;
@@ -277,12 +254,37 @@ input[type="range"]::-moz-range-thumb {
 
 #state-changes {
     display: inline-block;
-    width: 900px;
+    font-size: 20px;
+    padding: 10px 0px;
 }
 
 .state-image {
     position: absolute;
     left: 45%
+}
+
+#state-heading {
+    color: white;
+    font-size: 28px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+#explainer {
+    color: white;
+    margin: 15px auto;
+    margin-bottom: 0px;
+    font-size: 17px;
+    font-style: italic;
+    width: 80%;
+}
+
+#no-changes {
+    color: white;
+    font-size: 22px;
+    font-weight: 400;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .state-name.dem {
@@ -345,9 +347,10 @@ input[type="range"]::-moz-range-thumb {
 }
 
 #el-map-tool-tip {
+    opacity: 0;
     left: 20px;
     position: absolute;
-    transition: left 0.2s, top 0.2s;
+    transition: left 0.2s, top 0.2s, opacity 0.2s;
 }
 
 #tool-tip-body {
@@ -357,15 +360,39 @@ input[type="range"]::-moz-range-thumb {
     height: 110px;
     background: white;
     border-radius: 4px;
+    border: 3px solid black;
+    text-align: left;
+}
+
+#tool-tip-body h4 {
+    font-size: 20px;
+}
+
+#tool-tip-body p {
+    font-size: 15px;
 }
 
 #triangle {
     width: 0;
     height: 0;
+    border-left: 13px solid transparent;
+    border-right: 13px solid transparent;
+    border-top: 13px solid rgb(0, 0, 0);
+    margin: auto;
+    position: relative;
+    top: -3px;
+}
+  
+#triangle:after {
+    content: '';
+    width: 0;
+    height: 0;
+    position: absolute;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-top: 10px solid white;
-    margin: auto;
+    border-top: 10px solid rgb(255, 255, 255);
+    top: -14px;
+    left: -10px;
 }
 
 /*******************************
@@ -602,7 +629,7 @@ input[type="range"]::-moz-range-thumb {
     display: block;
     width: 1000px;
     height: 900px;
-    border-top: 6px solid var(--section-bg);
+    border-top: 6px solid var(--card-bg);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     background-color: var(--card-bg);
