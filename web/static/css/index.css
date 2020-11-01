@@ -584,7 +584,7 @@ input[type="range"]::-moz-range-thumb {
     background-color: var(--rep-bg);
 }
 
-#tipping-points p, #tipping-points .heading {
+#tipping-points p  {
     font-size: 18px;
     font-style: italic;
     font-weight: 400;
@@ -592,7 +592,7 @@ input[type="range"]::-moz-range-thumb {
     padding: 20px;
 }
 
-#tipping-points .heading {
+#likely .heading, #not-so-likely .heading {
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
