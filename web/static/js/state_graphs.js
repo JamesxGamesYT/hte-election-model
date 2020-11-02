@@ -64,6 +64,9 @@ function loadStateLineChart(mode){
             tooltips: {
                 intersect: false,
                 // mode: "index"
+                callback: function(value, index, values) {
+                    return Math.abs(value) + '%';
+                },
             },
             legend: {
                 fontColor: getCssletiable("--section-bg"),
@@ -143,62 +146,60 @@ function loadStateLineChart(mode){
     configuredStateLineChart.update(); 
 }
 
-function addGraphState(state, mode) {
-    console.log(stateColors)
-    if (state == "ES") {
-        addGraphState("SC", mode)
-        addGraphState("GA", mode)
-        addGraphState("FL", mode)
-        addGraphState("NC", mode)
-        addGraphState("VA", mode)
-        addGraphState("NH", mode)
-        addGraphState("ME-2", mode)
-        return;
-    }
-    else if (state == "GP") {
-        addGraphState("MO", mode)
-        addGraphState("KS", mode)
-        addGraphState("NE-1", mode)
-        addGraphState("NE-2", mode)
-        addGraphState("TX", mode)
-        addGraphState("IA", mode)
-        return;
-    }
-    else if (state == "WS") {
-        addGraphState("AK", mode)
-        addGraphState("MT", mode)
-        addGraphState("NV", mode)
-        addGraphState("AZ", mode)
-        addGraphState("CO", mode)
-        addGraphState("NM", mode)
-        return;
-    }
-    else if (state == "MW") {
-        addGraphState("MN", mode)
-        addGraphState("WI", mode)
-        addGraphState("MI", mode)
-        addGraphState("PA", mode)
-        addGraphState("OH", mode)
-        addGraphState("IN", mode)
-        return;
-    }
+function retrieveData(states, mode) {
+    /*
+    states is an array of strings that represent state abbreviations
+    mode is an argument that either takes "pv" or doesn't depending on which mode
+    to set the graph to
+    */
+   console.log(states)
     let data = {}
-    let currentDataColors = []
-    let dataColor = dataColors[(stateColors.indexOf(state)) % dataColors.length]
-    
-    console.log(STATEUNABBR[state])
     if (mode == "pv") {
         Object.keys(STATE_MARGINS).forEach(time => {
-            let value = STATE_MARGINS[time][STATEUNABBR[state]][1]
-            data[time] = (value).toFixed(3);
+            let sum = 0;
+            states.forEach(state => {
+                let value = STATE_MARGINS[time][STATEUNABBR[state]][1]
+                sum += value;
+            })
+            
+            data[time] = (sum/states.length).toFixed(3);
         })
     }
     else {
         Object.keys(STATE_CHANCES).forEach(time => {
-            let value = STATE_CHANCES[time][STATEUNABBR[state]]
-            data[time] = (value*100).toFixed(3);
+            let sum = 0
+            states.forEach(state => {
+                let value = STATE_CHANCES[time][STATEUNABBR[state]]
+                sum += value;
+            })
+            data[time] = (100 * sum/states.length).toFixed(3);
         })
     }
+    console.log(data)
+    return data;
+}
+
+function addGraphState(state, mode) {
+    let data;
+    if (state == "SE") {
+        data = retrieveData(["SC", "GA", "FL", "NC", "VA",], mode)
+    }
+    else if (state == "GP") {
+        data = retrieveData(["MO", "KS", "NE-1", "NE-2", "IA", "AK", "MT", "IN"], mode)
+    }
+    else if (state == "SW") {
+        data = retrieveData(["NV", "AZ", "CO", "NM", "TX"], mode)
+    }
+    else if (state == "NO") {
+        data = retrieveData(["MN", "WI", "MI", "PA", "OH", "NE", "ME-2"], mode)
+    }
+    else {
+        data = retrieveData([state], mode)
+    }
+    let currentDataColors = []
+    let dataColor = dataColors[(stateResults.indexOf(state)) % dataColors.length]
+    
+    console.log(STATEUNABBR[state])
     let dataDict = {
         label: capitalize(STATEUNABBR[state]),
         data: Object.values(data),
@@ -215,7 +216,7 @@ function addGraphState(state, mode) {
 function removeGraphState(state) {
     let dataset = configuredStateLineChart["data"]["datasets"]
     console.log(stateColors, state)
-    dataset.splice(stateColors.indexOf(state),1);
+    dataset.splice(stateResults.indexOf(state),1);
     console.log(dataset)
     for (let i = 0; i < dataset.length; i++) {
         dataset[i]["pointBackgroundColor"] = dataColors[i % DATA_COLORS_LEN]

@@ -19,7 +19,7 @@ let STATEABBR = {
     "connecticut": "CT",
     "delaware": "DE",
     "district of columbia": "DC",
-    "east coast": "ES",
+    "southeast": "SE",
     "federated states of micronesia": "FM",
     "florida": "FL",
     "georgia": "GA",
@@ -39,7 +39,7 @@ let STATEABBR = {
     "maryland": "MD",
     "massachusetts": "MA",
     "michigan": "MI",
-    "midwest": "MW",
+    "north+Northeast": "NO",
     "minnesota": "MN",
     "mississippi": "MS",
     "missouri": "MO",
@@ -71,7 +71,7 @@ let STATEABBR = {
     "virgin islands": "VI",
     "virginia": "VA",
     "washington": "WA",
-    "west": "WS",
+    "southwest": "SW",
     "west virginia": "WV",
     "wisconsin": "WI",
     "wyoming": "WY"
@@ -730,7 +730,7 @@ function retrieveStates(prefix="") {
             stateText.style["margin-right"] = "142px"
             stateText.style["margin-top"] = "15px"
         }
-        else if (["GP", "MW", "WS", "ES"].includes(state)) {
+        else if (["GP", "NO", "SW", "SE"].includes(state)) {
             textColor = "rgb(255,255,255)"
             fontSize = "60px"
         }
@@ -773,7 +773,7 @@ function retrieveStates(prefix="") {
 }
 
 function capitalize(text) {
-    let wordsArray = text.toLowerCase().split(' ')
+    let wordsArray = text.split(' ')
     let capsArray = []
 
     wordsArray.forEach(word => {
@@ -797,42 +797,42 @@ function searchRequest(state, mode=undefined) {
     resultsDiv.style.border = "none"
     if (state != undefined) {
         stateResults.push(state)
-        if (state == "ES") {
-            stateColors.push("ME-2")
-            stateColors.push("FL")
-            stateColors.push("NC")
-            stateColors.push("VA")
-            stateColors.push("SC")
-            stateColors.push("NH")
-            stateColors.push("GA")
-        }
-        else if (state == "GP") {
-            stateColors.push("MO")
-            stateColors.push("KS")
-            stateColors.push("NE-1")
-            stateColors.push("NE-2")
-            stateColors.push("TX")
-            stateColors.push("IA")
-        }
-        else if (state == "WS") {
-            stateColors.push("AK")
-            stateColors.push("MT")
-            stateColors.push("NV")
-            stateColors.push("AZ")
-            stateColors.push("CO")
-            stateColors.push("NM")
-        }
-        else if (state == "MW") {
-            stateColors.push("MN")
-            stateColors.push("WI")
-            stateColors.push("MI")
-            stateColors.push("PA")
-            stateColors.push("OH")
-            stateColors.push("IN")
-        }
-        else {
-            stateColors.push(state)
-        }
+        // if (state == "ES") {
+        //     stateColors.push("ME-2")
+        //     stateColors.push("FL")
+        //     stateColors.push("NC")
+        //     stateColors.push("VA")
+        //     stateColors.push("SC")
+        //     stateColors.push("NH")
+        //     stateColors.push("GA")
+        // }
+        // else if (state == "GP") {
+        //     stateColors.push("MO")
+        //     stateColors.push("KS")
+        //     stateColors.push("NE-1")
+        //     stateColors.push("NE-2")
+        //     stateColors.push("TX")
+        //     stateColors.push("IA")
+        // }
+        // else if (state == "WS") {
+        //     stateColors.push("AK")
+        //     stateColors.push("MT")
+        //     stateColors.push("NV")
+        //     stateColors.push("AZ")
+        //     stateColors.push("CO")
+        //     stateColors.push("NM")
+        // }
+        // else if (state == "MW") {
+        //     stateColors.push("MN")
+        //     stateColors.push("WI")
+        //     stateColors.push("MI")
+        //     stateColors.push("PA")
+        //     stateColors.push("OH")
+        //     stateColors.push("IN")
+        // }
+        // else {
+        //     stateColors.push(state)
+        // }
         let input = document.getElementById("states-enter")
         input.style["border-top-left-radius"] = "0"
         input.style["border-top-right-radius"] = "0"
@@ -856,7 +856,7 @@ function searchRequest(state, mode=undefined) {
         let stateSvg = document.createElement("div")
         stateSvg.style.height = "75px"
         stateSvg.style.width = "100px"
-        if (["ES", "GP", "MW"].includes(state)) {
+        if (["SE", "GP", "NO"].includes(state)) {
             stateSvg.style["margin-top"] = "7px"
         }
         else {
@@ -1005,7 +1005,7 @@ function removeState(stateRemove) {
     let stateDiv = stateRemove.parentNode
     console.log(stateDiv)
     console.log(stateResults)
-    console.log(stateColors)
+    // console.log(stateColors)
     let statesDiv = document.getElementById("add-state-div")
     statesDiv.removeChild(stateDiv)
     let firstChild = document.getElementById(stateResults[1])
@@ -1028,33 +1028,35 @@ function removeState(stateRemove) {
     }
     let state = stateResults.indexOf(stateDiv.id)
     console.log(state)
-    if (stateDiv.id == "ES") {
-        for(let removeState of ["SC", "GA", "FL", "NC", "VA", "NH", "ME-2"]) {
-            stateColors.splice(stateColors.indexOf(removeState), 1)
-            removeGraphState(removeState)
-        }
-    }
-    else if (state == "GP") {
-        for(let removeState of ["MO", "KS", "NE-1", "NE-2", "TX", "IA"]) {
-            stateColors.splice(stateColors.indexOf(removeState), 1)
-            removeGraphState(removeState)
-        }
-    }
-    else if (state == "WS") {
-        for(let removeState of ["AK", "MT", "NV", "AZ", "CO", "NM"]) {
-            stateColors.splice(stateColors.indexOf(removeState), 1)
-            removeGraphState(removeState)
-        }
-    }
-    else if (state == "MW") {
-        for(let removeState of ["MN", "WI", "MI", "PA", "OH", "IN"]) {
-            stateColors.splice(stateColors.indexOf(removeState), 1)
-            removeGraphState(removeState)
-        }
-    }
-    else {
-        removeGraphState(state)
-    }
+    // if (stateDiv.id == "ES") {
+    //     for(let removeState of ["SC", "GA", "FL", "NC", "VA", "NH", "ME-2"]) {
+    //         stateColors.splice(stateColors.indexOf(removeState), 1)
+    //         removeGraphState(removeState)
+    //     }
+    // }
+    // else if (state == "GP") {
+    //     for(let removeState of ["MO", "KS", "NE-1", "NE-2", "TX", "IA"]) {
+    //         stateColors.splice(stateColors.indexOf(removeState), 1)
+    //         removeGraphState(removeState)
+    //     }
+    // }
+    // else if (state == "WS") {
+    //     for(let removeState of ["AK", "MT", "NV", "AZ", "CO", "NM"]) {
+    //         console.log("yes")
+    //         stateColors.splice(stateColors.indexOf(removeState), 1)
+    //         removeGraphState(removeState)
+    //     }
+    // }
+    // else if (state == "MW") {
+    //     for(let removeState of ["MN", "WI", "MI", "PA", "OH", "IN"]) {
+    //         stateColors.splice(stateColors.indexOf(removeState), 1)
+    //         removeGraphState(removeState)
+    //     }
+    // }
+    // else {
+    //     console.log(state)
+    removeGraphState(state)
+    // }
     stateResults.splice(stateResults.indexOf(stateDiv.id), 1)
 }
 
