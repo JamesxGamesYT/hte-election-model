@@ -5,10 +5,15 @@ let WinChanceDict;
 
 Chart.defaults.global.defaultFontSize = 20;
 Chart.defaults.global.defaultFontFamily = "Fira Code";
-Chart.defaults.global.elements.point.radius = 4;
-Chart.defaults.global.animation.duration = 1
+Chart.defaults.global.elements.point.radius = 1.5;
+Chart.defaults.global.animation.duration = 1;
 
-let STATEABBR = {
+// Add some much needed padding between chart and legend
+Chart.Legend.prototype.afterFit = function() {
+    this.height = this.height + 10;
+};
+
+const STATEABBR = {
     "alabama": "AL",
     "alaska": "AK",
     "american samoa": "AS",
@@ -76,6 +81,61 @@ let STATEABBR = {
     "wisconsin": "WI",
     "wyoming": "WY"
 }
+
+var EVNUMBERS = {
+    "california": 55,
+    "texas": 38,
+    "new york": 29,
+    "florida": 29,
+    "pennsylvania": 20,
+    "illinois": 20,
+    "ohio": 18,
+    "michigan": 16,
+    "georgia": 16,
+    "north carolina": 15,
+    "new jersey": 14,
+    "virginia": 13,
+    "washington": 12,
+    "tennessee": 11,
+    "massachusetts": 11,
+    "indiana": 11,
+    "arizona": 11,
+    "wisconsin": 10,
+    "missouri": 10,
+    "minnesota": 10,
+    "maryland": 10,
+    "south carolina": 9,
+    "colorado": 9,
+    "alabama": 9,
+    "louisiana": 8,
+    "kentucky": 8,
+    "oregon": 7,
+    "oklahoma": 7,
+    "connecticut": 7,
+    "utah": 6,
+    "nevada": 6,
+    "mississippi": 6,
+    "kansas": 6,
+    "iowa": 6,
+    "arkansas": 6,
+    "west virginia": 5,
+    "new mexico": 5,
+    "nebraska": 5,
+    "rhode island": 4,
+    "new hampshire": 4,
+    "maine": 4,
+    "idaho": 4,
+    "hawaii": 4,
+    "wyoming": 3,
+    "vermont": 3,
+    "south dakota": 3,
+    "north dakota": 3,
+    "montana": 3,
+    "delaware": 3,
+    "alaska": 3
+}
+
+
 
 let STATEUNABBR = {}
 Object.keys(STATEABBR).forEach(key => {
@@ -151,8 +211,9 @@ function loadWinChance() {
         newRepDataset.data.push((100-val*100).toFixed(3))
     })
 
-    let gridLineColor = Array(11).fill(getCssletiable("--section-bg"))
-    gridLineColor[5] = "rgb(0,0,0)"
+    let muteColor = "rgb(40, 60, 70)";
+    let gridLineColor = Array(11).fill(muteColor);
+    gridLineColor[5] = getCssletiable("--section-bg");
 
     lineConfig.data.datasets.splice(0,2);
     lineConfig.data.datasets.push(newDemDataset, newRepDataset)
@@ -193,15 +254,17 @@ function loadEV() {
     lineConfig.data.datasets.splice(0,2)
     lineConfig.data.datasets.push(newDemDataset, newRepDataset)
 
-    let gridLineColor = Array(11).fill(getCssletiable("--section-bg"))
-    gridLineColor[9] = "rgb(0,0,0)"
+    let muteColor = "rgb(40, 60, 70)";
+    let gridLineColor = Array(11).fill(muteColor);
+    gridLineColor[5] = getCssletiable("--section-bg");
 
     lineConfig.options.scales.yAxes[0].ticks.max = 538;
-    lineConfig.options.scales.yAxes[0].ticks.stepSize = 30;
+    lineConfig.options.scales.yAxes[0].ticks.stepSize = 54;
     lineConfig.options.scales.yAxes[0].gridLines.color = gridLineColor;
     lineConfig.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
         return value;
     };
+
     configuredLineChart.update()
 }
 
@@ -230,9 +293,9 @@ function loadPV() {
         newRepDataset.data.push((50-(val/2)).toFixed(3))
     })
 
-
-    let gridLineColor = Array(11).fill(getCssletiable("--section-bg"))
-    gridLineColor[5] = "rgb(0,0,0)"
+    let muteColor = "rgb(40, 60, 70)";
+    let gridLineColor = Array(11).fill(muteColor);
+    gridLineColor[5] = getCssletiable("--section-bg");
 
     lineConfig.data.datasets.splice(0,2)
     lineConfig.data.datasets.push(newDemDataset, newRepDataset)
@@ -269,8 +332,11 @@ function loadLineChart(){
         repWinChance.push((100-val*100).toFixed(3))
     })
 
-    let gridLineColor = Array(11).fill(getCssletiable("--section-bg"))
-    gridLineColor[5] = getCssletiable("--card-bg");
+    let muteColor = "rgb(40, 60, 70)";
+    let brightColor = getCssletiable("--section-bg");
+
+    let gridLineColor = Array(11).fill(muteColor)
+    gridLineColor[5] = brightColor;
 
     lineConfig = {
         type: 'line',
@@ -294,50 +360,44 @@ function loadLineChart(){
             }]
         },
         options: {
-            // padding: "50",
             responsive: true,
             tooltips: {
-                intersect: false,
+                intersect: false
             },
             legend: {
-                fontColor: getCssletiable("--card-bg"),
-                // display: false,
-            },
-            layout: {
-                padding: {
-                    left: 75,
-                    right: 75,
-                    // top: 30,
-                    bottom: 10,
+                fontColor: getCssletiable("--section-bg"),
+                labels: {
+                    padding: 20
                 }
             },
             scales: {
                 yAxes: [{
                     ticks: {
-                        min: -0.0,
+                        min: 0.0,
                         max: 100,
-                        fontColor: getCssletiable("--card-bg"),
+                        fontColor: getCssletiable("--section-bg"),
                         stepSize: 10,
                         callback: function(value, index, values) {
                             return value + '%';
                         }
                     },
                     gridLines: {
-                        color: gridLineColor,
+                        color: gridLineColor
                     }
                 }],
                 xAxes: [{
                     ticks: {
-                        fontColor: getCssletiable("--card-bg"),
-                        minRotation: 45,
+                        fontColor: getCssletiable("--section-bg"),
+                        minRotation: 45
                     },
                     gridLines: {
-                        color: getCssletiable("--section-bg"),
+                        color: muteColor
                     }
                 }]
             }
         }
     };
+
     configuredLineChart = new Chart(chart, lineConfig);
 }
 
@@ -389,8 +449,8 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
     let gridBarColor = Array(tippingPointIndex).fill(getCssletiable("--rep-bg"))
     gridBarColor.push("rgb(255,255,255)")
     gridBarColor.push.apply(gridBarColor, Array(Object.keys(EV_HISTOGRAM).length - tippingPointIndex - 1).fill(getCssletiable("--dem-bg")))
-    gridBarColor[0] = getCssletiable("--card-bg")
-    gridBarColor[gridBarColor.length - 1] = getCssletiable("--card-bg")
+    gridBarColor[0] = getCssletiable("--section-bg")
+    gridBarColor[gridBarColor.length - 1] = getCssletiable("--section-bg")
 
     let fontColor = "rgb(255,255,255)"
     let ticks = linspace(dataMin, dataMax, 15)
@@ -427,8 +487,7 @@ function loadHistogram(index=TOTAL_ENTRIES-1) {
                 fontColor: fontColor
             },
             legend: {
-                fontColor: fontColor,
-                display: false,
+                display: false
             },
             layout: {
                 padding: {
@@ -758,7 +817,6 @@ function retrieveStates(prefix="") {
         let stateSvgs = document.getElementsByClassName("state-svgs")
         for (let i = 0; i < stateSvgs.length; i++) {
             let stateSvg = stateSvgs[i]
-            console.log(stateSvg)
             let right = stateSvg.getBoundingClientRect()["right"]
             stateSvg.style.right = String(right + 0) + "px"
         }
