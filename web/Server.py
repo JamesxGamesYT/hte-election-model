@@ -3,10 +3,15 @@
 import sys
 import flask
 import json
+import pandas as pd
 from os import listdir
 
 from flask import Flask, render_template, url_for, request
+sys.path.insert(0, "..")
+from election_simulator import analyze_simulations
 
+
+print(type(analyze_simulations))
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "593dc3612430f9a1c1aa214821623db2"
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -59,6 +64,16 @@ def load_data():
     with open("static/media/us.svg", "r") as f:
         us_svg = f.read()
     return json.dumps([contents, state_svgs, us_svg])
+
+@app.route('/what_if/<state_conditionals>', methods=["GET"])
+def whatif(state_conditionals):
+    simulations = pd.read_csv("../data/simulations.csv")
+    state_conditionals = eval(state_conditionals)
+    print(type(state_conditionals))
+    state_conditionals.pop("isTrusted", None)
+    dem_win_chance, state_chances = analyze_simulations(simulations, state_conditionals)
+    print(state_chances, 'YO')
+    return json.dumps([dem_win_chance, state_chances])
 
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port="8080", debug=True)

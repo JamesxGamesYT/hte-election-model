@@ -1,4 +1,6 @@
 let GLOBAL_DATA = {}
+let CONDITIONAL_STATE_CHANCES;
+let CONDITIONAl_DEM_WIN_CHANCE;
 let TOTAL_ENTRIES = -1;
 let MAX_VOTES = 538;
 let WinChanceDict;
@@ -82,7 +84,7 @@ const STATEABBR = {
     "wyoming": "WY"
 }
 
-var EVNUMBERS = {
+let EVNUMBERS = {
     "california": 55,
     "texas": 38,
     "new york": 29,
@@ -168,11 +170,14 @@ function parseData(rt) {
 
     // Load specific data entries into useful lets
     DEM_WIN_CHANCE = GetNthEntry(GLOBAL_DATA["dem_win_chance"], TOTAL_ENTRIES - 1)["dem"]
+    CONDITIONAL_DEM_WIN_CHANCE = GetNthEntry(GLOBAL_DATA["dem_win_chance"], TOTAL_ENTRIES - 1)["dem"]
     DEM_ELECTORAL_VOTES = GetNthEntry(GLOBAL_DATA["percentile_ev"], TOTAL_ENTRIES - 1)["median"]
     DEM_POPULAR_VOTE = GetNthEntry(GLOBAL_DATA["percentile_state_margins"], TOTAL_ENTRIES - 1)["national"][1]
     STATE_MARGINS = GLOBAL_DATA["percentile_state_margins"]
     SIMULATIONS_BY_EV = GLOBAL_DATA["simulations_by_ev"]
     STATE_CHANCES = GLOBAL_DATA["state_chances"]
+    CONDITIONAL_STATE_CHANCES =  GetNthEntry(GLOBAL_DATA["state_chances"], TOTAL_ENTRIES - 1)
+    console.log(CONDITIONAL_STATE_CHANCES)
     SIMULATION_DATE = Object.keys(GLOBAL_DATA["dem_win_chance"])[TOTAL_ENTRIES - 1]
     SIMULATION_DATE = SIMULATION_DATE.slice(0, 10) + " " + String(Number(SIMULATION_DATE.slice(-2))) + ":00 UTC"
     TIPPING_POINT_DATA = GetNthEntry(GLOBAL_DATA["tipping_point_data"], TOTAL_ENTRIES - 1)
@@ -186,373 +191,46 @@ function parseData(rt) {
     }
 }
 
-function loadWinChance() {
-    newDemDataset = {
-        label: "Biden",
-        data: [],
-        fill: false,
-        borderColor: getCssletiable("--dem-bg"),
-        borderWidth: 5,
-        backgroundColor: getCssletiable("--dem-bg"),
-    }
+function reparseData(rt) {
+    let mapWrapper = document.getElementById("map-wrapper")
+    let noResultsDiv = document.getElementById("what-if-no-results")
+    let loadingDiv = document.getElementById("what-if-loading")
+    if(JSON.parse(rt)[0] == null) {
+        let map = document.getElementById("map")
 
-    newRepDataset ={
-        label: "Trump",
-        data: [],
-        fill: false,
-        borderColor: getCssletiable("--rep-bg"),
-        borderWidth: 5,
-        backgroundColor: getCssletiable("--rep-bg"),
-    }
-
-    Object.values(GLOBAL_DATA["dem_win_chance"]).forEach(key => {
-        val = key["dem"]
-        newDemDataset.data.push((val*100).toFixed(3))
-        newRepDataset.data.push((100-val*100).toFixed(3))
-    })
-
-    let muteColor = "rgb(40, 60, 70)";
-    let gridLineColor = Array(11).fill(muteColor);
-    gridLineColor[5] = getCssletiable("--section-bg");
-
-    lineConfig.data.datasets.splice(0,2);
-    lineConfig.data.datasets.push(newDemDataset, newRepDataset)
-    lineConfig.options.scales.yAxes[0].ticks.max = 100;
-    lineConfig.options.scales.yAxes[0].ticks.stepSize = 10;
-    lineConfig.options.scales.yAxes[0].gridLines.color = gridLineColor;
-    lineConfig.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
-        return value + '%';
-    };
-    configuredLineChart.update()
-}
-
-function loadEV() {
-    newDemDataset = {
-        label: "Biden",
-        data: [],
-        fill: false,
-        borderColor: getCssletiable("--dem-bg"),
-        borderWidth: 5,
-        backgroundColor: getCssletiable("--dem-bg"),
-    }
-
-    newRepDataset = {
-        label: "Trump",
-        data: [],
-        fill: false,
-        borderColor: getCssletiable("--rep-bg"),
-        borderWidth: 5,
-        backgroundColor: getCssletiable("--rep-bg"),
-    }
-
-    Object.values(GLOBAL_DATA["percentile_ev"]).forEach(key => {
-        val = key["median"]
-        newDemDataset.data.push((val))
-        newRepDataset.data.push((538-val))
-    })
-
-    lineConfig.data.datasets.splice(0,2)
-    lineConfig.data.datasets.push(newDemDataset, newRepDataset)
-
-    let muteColor = "rgb(40, 60, 70)";
-    let gridLineColor = Array(11).fill(muteColor);
-    gridLineColor[5] = getCssletiable("--section-bg");
-
-    lineConfig.options.scales.yAxes[0].ticks.max = 538;
-    lineConfig.options.scales.yAxes[0].ticks.stepSize = 54;
-    lineConfig.options.scales.yAxes[0].gridLines.color = gridLineColor;
-    lineConfig.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
-        return value;
-    };
-
-    configuredLineChart.update()
-}
-
-function loadPV() {
-    newDemDataset = {
-        label: "Biden",
-        data: [],
-        fill: false,
-        borderColor: getCssletiable("--dem-bg"),
-        borderWidth: 5,
-        backgroundColor: getCssletiable("--dem-bg"),
-    }
-
-    newRepDataset = {
-        label: "Trump",
-        data: [],
-        fill: false,
-        borderColor: getCssletiable("--rep-bg"),
-        borderWidth: 5,
-        backgroundColor: getCssletiable("--rep-bg"),
-    }
-
-    Object.values(GLOBAL_DATA["percentile_state_margins"]).forEach(key => {
-        val = key["national"][1]
-        newDemDataset.data.push((50+(val/2)).toFixed(3))
-        newRepDataset.data.push((50-(val/2)).toFixed(3))
-    })
-
-    let muteColor = "rgb(40, 60, 70)";
-    let gridLineColor = Array(11).fill(muteColor);
-    gridLineColor[5] = getCssletiable("--section-bg");
-
-    lineConfig.data.datasets.splice(0,2)
-    lineConfig.data.datasets.push(newDemDataset, newRepDataset)
-    lineConfig.options.scales.yAxes[0].ticks.max = 100;
-    lineConfig.options.scales.yAxes[0].ticks.stepSize = 10;
-    lineConfig.options.scales.yAxes[0].gridLines.color = gridLineColor;
-    lineConfig.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
-        return value + '%';
-    };
-    
-    configuredLineChart.update()
-}
-
-let configuredLineChart;
-let lineConfig;
-function loadLineChart(){
-    let chart = document.getElementById('win_chance_chart');
-
-    WinChanceDict = {};
-    Object.keys(GLOBAL_DATA["dem_win_chance"]).forEach(key => {
-        let value = GLOBAL_DATA["dem_win_chance"][key]["dem"]
-        WinChanceDict[key] = value;
-    })
-
-    let labels = []
-    let demWinChance = []
-    let repWinChance = []
-    
-    Object.keys(WinChanceDict).forEach(key => {
-        newKey = key.slice(5, 7) + '/' + key.slice(8, 10) + ' ' + key.slice(-2) + 'H'
-        labels.push(newKey)
-        val = WinChanceDict[key]
-        demWinChance.push((val*100).toFixed(3))
-        repWinChance.push((100-val*100).toFixed(3))
-    })
-
-    let muteColor = "rgb(40, 60, 70)";
-    let brightColor = getCssletiable("--section-bg");
-
-    let gridLineColor = Array(11).fill(muteColor)
-    gridLineColor[5] = brightColor;
-
-    lineConfig = {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: "Biden",
-                data: demWinChance,
-                fill: false,
-                borderColor: getCssletiable("--dem-bg"),
-                borderWidth: 5,
-                backgroundColor: getCssletiable("--dem-bg")
-            },
-            {
-                label: "Trump",
-                data: repWinChance,
-                fill: false,
-                borderColor: getCssletiable("--rep-bg"),
-                borderWidth: 5,
-                backgroundColor: getCssletiable("--rep-bg")
-            }]
-        },
-        options: {
-            responsive: true,
-            tooltips: {
-                intersect: false
-            },
-            legend: {
-                fontColor: getCssletiable("--section-bg"),
-                labels: {
-                    padding: 20
-                }
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        min: 0.0,
-                        max: 100,
-                        fontColor: getCssletiable("--section-bg"),
-                        stepSize: 10,
-                        callback: function(value, index, values) {
-                            return value + '%';
-                        }
-                    },
-                    gridLines: {
-                        color: gridLineColor
-                    }
-                }],
-                xAxes: [{
-                    ticks: {
-                        fontColor: getCssletiable("--section-bg"),
-                        minRotation: 45
-                    },
-                    gridLines: {
-                        color: muteColor
-                    }
-                }]
+        if (noResultsDiv  == undefined) {
+            let noResultsDiv = document.createElement("div")
+            noResultsDiv.id = "what-if-no-results"
+            noResultsDiv.innerHTML = "There aren't enough simulations for this result. Try a different scenario!"
+            mapWrapper.insertBefore(noResultsDiv, map)
+            if (loadingDiv != undefined) {
+                mapWrapper.removeChild(loadingDiv)
             }
         }
-    };
-
-    configuredLineChart = new Chart(chart, lineConfig);
-}
-
-
-let configuredBarChart;
-
-function loadHistogram(index=TOTAL_ENTRIES-1) {
-    // Chart.defaults.global.animation.duration = 1000
-    let histogram = document.getElementById("ev_histogram_chart")
-    if(configuredBarChart) {
-        configuredBarChart.destroy();
     }
+    else {
+        CONDITIONAL_STATE_CHANCES = JSON.parse(rt)[1]
+        CONDITIONAL_DEM_WIN_CHANCE = JSON.parse(rt)[0]
+        let mapStyle = document.getElementById("mapStyle");
+        mapStyle.innerHTML = getMapCss(CONDITIONAL_STATE_CHANCES);
 
-    let dataMin = 538;
-    let dataMax = 0;
-
-    for (let i = 0; i <= TOTAL_ENTRIES-1; i++) {
-        evHistogramData = GetNthEntry(GLOBAL_DATA["ev_histogram"], i)
-        let min = Object.keys(evHistogramData)[0]
-        let max = Object.keys(evHistogramData)[Object.keys(evHistogramData).length - 1]
-        if (min < dataMin) {
-            dataMin = min;
+        if (noResultsDiv != undefined) {
+            mapWrapper.removeChild(noResultsDiv)
         }
-        if (max > dataMax) {
-            dataMax = max;
+        if (loadingDiv != undefined) {
+            mapWrapper.removeChild(loadingDiv)
+        }
+
+        let demWinChance = document.getElementById("what-if-win-chance-chance")
+        let newWinChance = (CONDITIONAL_DEM_WIN_CHANCE * 100).toFixed(1)
+        demWinChance.innerHTML = String((CONDITIONAL_DEM_WIN_CHANCE * 100).toFixed(1)) + "%"
+        if (newWinChance > 50) {
+            demWinChance.style.color = "var(--dem-bg)"
+        }
+        else {
+            demWinChance.style.color = "var(--rep-bg)"
         }
     }
-    dataMin = 0;
-    dataMax = 538;
-    EV_HISTOGRAM = GetNthEntry(GLOBAL_DATA["ev_histogram"], index)
-    
-    let indexBeginning = Object.keys(EV_HISTOGRAM)[0]
-    for (let i = dataMin; i < indexBeginning; i++){
-        EV_HISTOGRAM[i] = 0;
-    }
-    
-    let indexEnd = Number(Object.keys(EV_HISTOGRAM)[Object.keys(EV_HISTOGRAM).length - 1])+1
-    for (let i = indexEnd; i <= dataMax; i++){
-        EV_HISTOGRAM[i] = 0;
-    }
-    
-    let tippingPointIndex;
-    for (let i = 0; i < Object.keys(EV_HISTOGRAM).length; i++){
-        if (Object.keys(EV_HISTOGRAM)[i] == 269) {
-            tippingPointIndex = i;
-        }
-    }
-
-    let gridBarColor = Array(tippingPointIndex).fill(getCssletiable("--rep-bg"))
-    gridBarColor.push("rgb(255,255,255)")
-    gridBarColor.push.apply(gridBarColor, Array(Object.keys(EV_HISTOGRAM).length - tippingPointIndex - 1).fill(getCssletiable("--dem-bg")))
-    gridBarColor[0] = getCssletiable("--section-bg")
-    gridBarColor[gridBarColor.length - 1] = getCssletiable("--section-bg")
-
-    let fontColor = "rgb(255,255,255)"
-    let ticks = linspace(dataMin, dataMax, 15)
-    ticks.push("269")
-
-    let barConfig = {
-        type: 'bar',
-        data: {
-            labels: Object.keys(EV_HISTOGRAM),
-            datasets: [{
-                label: "Number of Simulations",
-                data: Object.values(EV_HISTOGRAM),
-                fill: false,
-                borderColor: gridBarColor,
-                borderWidth: 5,
-                backgroundColor: gridBarColor,
-                barPercentage: 1,
-                categoryPercentage: 1,
-                barThickness: 'flex',
-            }, ]
-        },
-        options: {
-            // padding: "50",
-            responsive: true,
-            tooltips: {
-                intersect: false,
-                mode: "index",
-                enabled: false,
-                custom: EVTooltip,
-            },
-            title: {
-                text: "Democratic EVs",
-                display: true,
-                fontColor: fontColor
-            },
-            legend: {
-                display: false
-            },
-            layout: {
-                padding: {
-                    left: 75,
-                    right: 75,
-                    top: 30,
-                    bottom: 10,
-                }
-            },
-            scales: {
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: "% of Simulations",
-                        fontColor: fontColor,
-                        padding: 20,
-                    },
-                    ticks: {
-                        min: -0.0,
-                        max: 2000,
-                        fontColor: fontColor,
-                        callback: function(value, index, values) {
-                            return String((value/500).toFixed(2)) + "%";
-                        }
-                    },
-                    gridLines: {
-                        // color: fontColor,
-                    }
-                }],
-                xAxes: [{
-                    ticks: {
-                        fontColor: fontColor,
-                        minRotation: 0,
-                        maxRotation: 45,
-                        // stepSize: dataMax-dataMin,
-                        // maxTicksLimit: 20,
-                        min: 0,
-                        max: 538,
-                        autoSkip: false,
-                        beginAtZero: true,
-                        // afterBuildTicks: function(setTicks) {
-                        //     setTicks = ticks;
-                        //     return;
-                        // },
-                        // beforeUpdate: function(oScale) {
-                        //     return;
-                        // },
-                        callback: function(value, index, values) {
-                            if (ticks.includes(value)) {
-                                return value;
-                            }
-                            else {
-                                return;
-                            }
-                        }
-    
-                    },
-                    gridLines: {
-                        color: getCssletiable("--card-bg"),
-                    }
-                }]
-            }
-        }
-    };
-    configuredBarChart = new Chart(histogram, barConfig);
 }
 
 function linspace(start, end, length) {
@@ -627,16 +305,34 @@ function getMapCss(data, id_prefix="") {
 }
 
 
-function loadData() {
+function loadData(yes, state_conditional=undefined) {
     let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() { 
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            parseData(xhr.responseText);
+    // state_conditional = undefined
+    console.log(state_conditional)
+    if (state_conditional != undefined) {
+        xhr.onreadystatechange = function() { 
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                reparseData(xhr.responseText);
+            }
         }
+        stateConditionalStr = "/what_if/{"
+        Object.keys(state_conditional).forEach(key => {
+            stateConditionalStr += '"' + key + '":"' + state_conditional[key] + '", '
+        })
+        stateConditionalStr += "}"
+        xhr.open("GET", stateConditionalStr, true)
+        xhr.send(null);
     }
-
-    xhr.open("GET", "/load_data", true);
-    xhr.send(null);
+    else {
+        console.log("yes!")
+        xhr.onreadystatechange = function() { 
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                parseData(xhr.responseText);
+            }
+        }
+        xhr.open("GET", "/load_data", true);
+        xhr.send(null);
+    }
 }
 
 
@@ -656,7 +352,6 @@ function hexToRgb(hex) {
 
 
 function openPage() {
-
     let bars = document.getElementsByClassName("stats-bar");
     document.querySelectorAll(".win-prob.biden")[0].innerHTML = Math.round(DEM_WIN_CHANCE * 1000) / 10 + "%"
     document.querySelectorAll(".win-prob.trump")[0].innerHTML = Math.round((100.0 - (DEM_WIN_CHANCE * 100.0)) * 10) / 10 + "%"
@@ -708,6 +403,150 @@ function openPage() {
     tippingPointStates()
 
 }
+
+function addButtons() {
+    let mapWrapper = document.getElementById("map-wrapper")
+    let mapTimeline = document.getElementsByClassName("timeline")[0]
+    let buttonsDiv = document.createElement("div")
+    buttonsDiv.id = "what-if-buttons-div"
+    mapWrapper.insertBefore(buttonsDiv, mapTimeline)
+
+    let createButton = document.createElement("button")
+    buttonsDiv.appendChild(createButton)
+    createButton.classList.add("what-if-buttons")
+    createButton.style["background-color"] = "var(--rep-bg)"
+    createButton.innerHTML = "Run"
+    createButton.addEventListener("click", function() {
+        let loadingDiv = document.getElementById("what-if-loading")
+        let noResultsDiv = document.getElementById("what-if-no-results")
+        if (noResultsDiv == undefined) {
+            if (loadingDiv == undefined) {
+                loadingDiv = document.createElement("div")
+                loadingDiv.id = "what-if-loading"
+                loadingDiv.innerHTML = "Loading..."
+                mapWrapper.insertBefore(loadingDiv, buttonsDiv)
+            }
+        }
+        loadData("placeholder", state_conditionals)
+        // console.log(mapStyle.innerHTML)
+    })
+
+    let resetButton = document.createElement("button")
+    buttonsDiv.appendChild(resetButton)
+    resetButton.classList.add("what-if-buttons")
+    resetButton.style["background-color"] = "var(--dem-bg)"
+    resetButton.innerHTML = "Reset"
+    resetButton.addEventListener("click", function() {
+        resetConditionals()
+    })
+}
+
+function resetConditionals() {
+    let mapWrapper = document.getElementById("map-wrapper")
+    mapWrapper.removeChild(document.getElementById("what-if-buttons-div"))
+    let loading = document.getElementById("what-if-loading")
+    if (loading != undefined) {
+        mapWrapper.removeChild(document.getElementById("what-if-loading"))
+    }
+    CONDITIONAL_STATE_CHANCES = GetNthEntry(STATE_CHANCES, TOTAL_ENTRIES - 1)
+    CONDITIONAl_DEM_WIN_CHANCE = DEM_WIN_CHANCE
+    let mapStyle = document.getElementById("mapStyle");
+    mapStyle.innerHTML = getMapCss(CONDITIONAL_STATE_CHANCES);
+    Object.keys(STATEUNABBR).forEach(state => {
+        let path = document.getElementById(state)
+        if (path != null) {
+            path.style["stroke-width"] = "3"
+            path.style.stroke = "black"
+            path.style.fill = ""
+        }
+    })
+    state_conditionals = {}
+    
+    let noResultsDiv = document.getElementById("what-if-no-results")
+    if (noResultsDiv != undefined) {
+        mapWrapper.removeChild(noResultsDiv)
+    }
+
+    let demWinChance = document.getElementById("what-if-win-chance-chance")
+    demWinChance.innerHTML = String((DEM_WIN_CHANCE * 100).toFixed(1)) + "%"
+    if ((DEM_WIN_CHANCE * 100).toFixed(1) > 50) {
+        demWinChance.style.color = "var(--dem-bg)"
+    }
+    else {
+        demWinChance.style.color = "var(--rep-bg)"
+    }
+}
+
+let state_conditionals = {};
+function loadWhatif() {
+    let mapWrapper = document.getElementById("map-wrapper")
+    let tooltips = document.getElementById("tooltip-container")
+    let info = document.createElement("div")
+    info.id = "what-if-info"
+    info.innerHTML = "Explore various scenarios and see how our model interacts! \
+    Click on states and then press the run button. "
+    mapWrapper.insertBefore(info, tooltips)
+
+    let winChance = document.createElement("div")
+    winChance.id = "what-if-win-chance"
+    let winChanceText = document.createElement("p")
+    winChanceText.id = "what-if-win-chance-text"
+    winChanceText.innerHTML = "Chance of Biden win:"
+    let winChanceChance = document.createElement("p")
+    winChanceChance.id = "what-if-win-chance-chance"
+    winChanceChance.innerHTML = String((DEM_WIN_CHANCE * 100).toFixed(1)) + "%"
+    if (String((DEM_WIN_CHANCE * 100).toFixed(3)) > 50) {
+        winChanceChance.style.color = "var(--dem-bg)"
+    }
+    else {
+        winChanceChance.style.color = "var(--rep-bg)"
+    }
+    winChance.appendChild(winChanceText)
+    winChance.appendChild(winChanceChance)
+    mapWrapper.insertBefore(winChance, tooltips)
+
+    Object.keys(STATEUNABBR).forEach(state => {
+        let path = document.getElementById(state)
+        if (path != null) {
+            path.addEventListener("click", function() {
+                if (whatifMode != false) {
+                    fullState = STATEUNABBR[path.id]
+                    if (state_conditionals[fullState] === undefined) {
+                        state_conditionals[fullState] = 0
+                        path.style.fill = "var(--rep-bg)"
+                        path.style["stroke-width"] = "6"
+                        path.style["stroke"] = "rgb(255,255,255)"
+                        if (Object.keys(state_conditionals).length == 1 && Object.values(state_conditionals)[0] == 0) {
+                            addButtons()
+                        }
+                    }
+                    else if (state_conditionals[fullState] === 0) {
+                        state_conditionals[fullState] = 1
+                        path.style.fill = "var(--dem-bg)"
+                    }
+                    else {
+                         delete state_conditionals[fullState]
+                         path.removeAttribute("style")
+                         delete path.style.fill
+                    }
+                    if (Object.keys(state_conditionals).length == 0) {
+                        resetConditionals()
+                    }
+                }
+            })
+        }
+    })
+}
+
+function unloadWhatIf() {
+    let mapWrapper = document.getElementById("map-wrapper")
+    let whatifInfo = document.getElementById("what-if-info")
+    let whatifWinChance = document.getElementById("what-if-win-chance")
+    mapWrapper.removeChild(whatifInfo)
+    mapWrapper.removeChild(whatifWinChance)
+    resetConditionals()
+}
+
 
 function retrieveResults(prefix="") {
     prefix = prefix.trim()
@@ -855,42 +694,6 @@ function searchRequest(state, mode=undefined) {
     resultsDiv.style.border = "none"
     if (state != undefined) {
         stateResults.push(state)
-        // if (state == "ES") {
-        //     stateColors.push("ME-2")
-        //     stateColors.push("FL")
-        //     stateColors.push("NC")
-        //     stateColors.push("VA")
-        //     stateColors.push("SC")
-        //     stateColors.push("NH")
-        //     stateColors.push("GA")
-        // }
-        // else if (state == "GP") {
-        //     stateColors.push("MO")
-        //     stateColors.push("KS")
-        //     stateColors.push("NE-1")
-        //     stateColors.push("NE-2")
-        //     stateColors.push("TX")
-        //     stateColors.push("IA")
-        // }
-        // else if (state == "WS") {
-        //     stateColors.push("AK")
-        //     stateColors.push("MT")
-        //     stateColors.push("NV")
-        //     stateColors.push("AZ")
-        //     stateColors.push("CO")
-        //     stateColors.push("NM")
-        // }
-        // else if (state == "MW") {
-        //     stateColors.push("MN")
-        //     stateColors.push("WI")
-        //     stateColors.push("MI")
-        //     stateColors.push("PA")
-        //     stateColors.push("OH")
-        //     stateColors.push("IN")
-        // }
-        // else {
-        //     stateColors.push(state)
-        // }
         let input = document.getElementById("states-enter")
         input.style["border-top-left-radius"] = "0"
         input.style["border-top-right-radius"] = "0"
@@ -1085,36 +888,7 @@ function removeState(stateRemove) {
     else {
     }
     let state = stateResults.indexOf(stateDiv.id)
-    console.log(state)
-    // if (stateDiv.id == "ES") {
-    //     for(let removeState of ["SC", "GA", "FL", "NC", "VA", "NH", "ME-2"]) {
-    //         stateColors.splice(stateColors.indexOf(removeState), 1)
-    //         removeGraphState(removeState)
-    //     }
-    // }
-    // else if (state == "GP") {
-    //     for(let removeState of ["MO", "KS", "NE-1", "NE-2", "TX", "IA"]) {
-    //         stateColors.splice(stateColors.indexOf(removeState), 1)
-    //         removeGraphState(removeState)
-    //     }
-    // }
-    // else if (state == "WS") {
-    //     for(let removeState of ["AK", "MT", "NV", "AZ", "CO", "NM"]) {
-    //         console.log("yes")
-    //         stateColors.splice(stateColors.indexOf(removeState), 1)
-    //         removeGraphState(removeState)
-    //     }
-    // }
-    // else if (state == "MW") {
-    //     for(let removeState of ["MN", "WI", "MI", "PA", "OH", "IN"]) {
-    //         stateColors.splice(stateColors.indexOf(removeState), 1)
-    //         removeGraphState(removeState)
-    //     }
-    // }
-    // else {
-    //     console.log(state)
     removeGraphState(state)
-    // }
     stateResults.splice(stateResults.indexOf(stateDiv.id), 1)
 }
 

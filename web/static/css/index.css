@@ -138,14 +138,14 @@ h2 {
 
 path {
     stroke-width: 3;
-    stroke: var(--card-bg);
+    stroke: black;
     stroke-linecap: round;
     stroke-miterlimit: 1;
     transition: 0.05s;
 }
 
 path:hover {
-    stroke: white;
+    stroke: rgb(138, 184, 138);
 }
 
 
@@ -309,6 +309,78 @@ input[type="range"]::-moz-range-thumb {
 .state-name {
     display: inline;
     font-size: 50px;
+}
+
+#what-if-info {
+    font-size: 25px;
+    color: white;
+    display: block;
+    width: 90%;
+    display: inline-block;
+    padding-top: 40px;
+}
+
+#what-if-buttons-div {
+    width: 50%;
+    display: inline-block;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.what-if-buttons {
+    width: 40%;
+    margin: 5px;
+    display: inline-block;
+    height: 50px;
+    color: white;
+    font-size: 20px;
+    font-family: "Fira Code";
+    border: none;
+}
+
+.what-if-buttons:hover {
+    width: 50%;
+    height: 60px;
+}
+
+#what-if-loading {
+    width: 50%;
+    display: inline-block;
+    height: 55px;
+    margin: 20px;
+    font-size: 30px;
+    color: white;
+}
+
+#what-if-no-results {
+    width: 50%;
+    color: red;
+    font-size: 25px;
+    height: 75px;
+    margin: 20px;
+    display: inline-block;
+}
+
+#what-if-win-chance {
+    width: 90%;
+    background-color: white;
+    display: inline-block;
+    height: 50px;
+    margin-top: 40px;
+    margin-bottom: 25px;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+#what-if-win-chance-text {
+    float: left;
+    color: black;
+    font-size: 35px;
+}
+
+#what-if-win-chance-chance {
+    float: right;
+    font-size: 35px;
 }
 
 
@@ -596,6 +668,8 @@ input[type="range"]::-moz-range-thumb {
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
+    margin-top: 25px;
+    color: white;
 }
 
 .tipping-point-data {

@@ -39,9 +39,31 @@ function closeMenu() {
     Menu.classList.add("closed");
 }
 
-function header_selection(heading){
+
+let whatifMode = false
+function mapHeaderSelection(heading) {
+    let evMapHeading = document.getElementsByClassName("headings-container")[0].firstElementChild
+    let whatifHeading = document.getElementsByClassName("headings-container")[0].lastElementChild
+    if (heading.classList.contains("non-active")) {
+        heading.classList.remove("non-active")
+        if(heading == evMapHeading) {
+            whatifMode = false
+            whatifHeading.classList.add("non-active")
+            unloadWhatIf()
+        }
+        else {
+            whatifMode = true
+            evMapHeading.classList.add("non-active")
+            loadWhatif()
+        }
+    }
+    console.log(heading)
+}
+
+function headerSelection(heading){
     headers = document.getElementsByClassName("heading")
-    for (let event_index=0; event_index < 4; event_index++){
+    console.log(headers)
+    for (let event_index=2; event_index < 5; event_index++){
         if (headers[event_index].classList.contains("non-active")){
             if (heading == headers[event_index]){
                 headers[event_index].classList.remove("non-active")
@@ -301,7 +323,7 @@ function showToolTip(e) {
     ttHeader.getElementsByTagName("h4")[0].innerHTML = titleCase(state);
     ttHeader.getElementsByTagName("p")[0].innerHTML = EVNUMBERS[state] + " Electoral Votes"
 
-    var bidenChance = GetNthEntry(STATE_CHANCES, TOTAL_ENTRIES - 1)[state];
+    var bidenChance = CONDITIONAL_STATE_CHANCES[state];
 
     document.getElementById("tt-biden-chance").innerHTML = (Math.round(1000 * bidenChance) / 10) + "%";
     document.getElementById("tt-trump-chance").innerHTML = (Math.round(1000 * (1-bidenChance)) / 10) + "%";

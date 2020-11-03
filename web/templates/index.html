@@ -112,7 +112,8 @@
     <style id='mapStyle'></style>
     <div id="electoral-map" class='mainsection'>
         <div class="headings-container">
-            <div class='heading right active'>Electoral Map</div>
+            <div class='heading left' onclick="mapHeaderSelection(this)">Electoral Map</div>
+            <div class='heading right non-active' onclick="mapHeaderSelection(this)">What if...</div>
         </div>
         <div class='content' id='map-wrapper'>
             <div id='tooltip-container'>
@@ -155,9 +156,9 @@
 
     <div id="time-change" class='mainsection'>
         <div class="headings-container">
-            <div class="heading left" onClick="header_selection(this)">Chance of Winning</div>
-            <div class="heading non-active middle" onClick="header_selection(this)">Electoral Votes</div>
-            <div class="heading non-active right" onClick="header_selection(this)">Popular Vote</div>
+            <div class="heading left" onClick="headerSelection(this)">Chance of Winning</div>
+            <div class="heading non-active middle" onClick="headerSelection(this)">Electoral Votes</div>
+            <div class="heading non-active right" onClick="headerSelection(this)">Popular Vote</div>
         </div>
         <div class='content'>
             <div id="chart">
@@ -220,6 +221,7 @@
     </div>
     
     <script type='text/javascript' src='/static/js/load_data.js'></script>
+    <script type='text/javascript' src='/static/js/index_graphs.js'></script>
     <script type='text/javascript' src='/static/js/ui.js'></script>
 </body>
 </html>

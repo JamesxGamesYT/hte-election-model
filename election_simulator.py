@@ -3,6 +3,7 @@ import numpy as np
 from time import time
 import json
 import os
+import os.path
 import numpy.polynomial.polynomial as poly
 from polling_error import polling_error_coeffs
 
@@ -48,12 +49,17 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
             and 1 indicates Joe Biden wins that state. If applicable, 
             calculates results based on the conditional wins in this argument.
     """
-    electoral_votes = pd.read_csv("data/electoral_votes.csv", header=0)["ev"]
+    electoral_votes = pd.read_csv(os.path.dirname(os.path.abspath(__file__)) + "/data/electoral_votes.csv", header=0)["ev"]
     modified_simulations = simulations
     binary_matrix = (modified_simulations > 0).astype(int)
+    print(modified_simulations.columns)
     if state_conditionals:
         for state, win in state_conditionals.items():
-            modified_simulations = modified_simulations[binary_matrix[state] == win]
+            # print(type(binary_matrix[state][0]), type(win))
+            modified_simulations = modified_simulations[binary_matrix[state] == int(win)]
+            print(binary_matrix[state])
+            if len(modified_simulations) == 0:
+                return None, None
             binary_matrix = (modified_simulations > 0).astype(int)
         pass
     
@@ -80,7 +86,9 @@ def analyze_simulations(simulations, state_conditionals=None, write=False):
 
     dem_win_chance = len(sim_ev[sim_ev > 270])/len(modified_simulations)    
     state_chances = [sum(binary_matrix.iloc[:,x])/len(binary_matrix) for x in range(57)]
-
+    if write == False:
+        state_chances_dict = {modified_simulations.columns[i]:state_chances[i] for i in range(len(state_chances))}
+        return dem_win_chance, state_chances_dict
     twentytiles = [pd.qcut(modified_simulations.iloc[:,x], 20).value_counts().index.to_list() for x in range(57)]
     five_percentile = [min([twentytiles[y][x].right for x in range(len(twentytiles[0]))]) for y in range(len(twentytiles))]
     medians = modified_simulations.median().to_list()
