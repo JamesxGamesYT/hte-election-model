@@ -1,5 +1,5 @@
-/web/results/*
-
+/web/__pycache__/*
+__pycache__/*
 
 /data/polling_averages.csv
 /data/simulations.csv
